@@ -21,7 +21,7 @@ int main()
     collectData(temperatures);
 //    printVector(temperatures);
     sort(temperatures.begin(), temperatures.end());
-    printVector(temperatures);
+//    printVector(temperatures);
     showMediana(temperatures);
 
     return 0;
