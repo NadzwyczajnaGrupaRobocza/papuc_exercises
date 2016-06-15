@@ -8,7 +8,7 @@ using std::endl;
 using std::vector;
 using std::sort;
 
-void collectData(vector<double>&);
+vector<double> collectData();
 void printVector(const vector<double>&);
 void showMediana(const vector<double>&);
 
@@ -18,7 +18,7 @@ int main()
     cout << "= wpisanie wartości innej niż double kończy zbieranie danych" << endl;
     vector<double> temperatures;
 
-    collectData(temperatures);
+    temperatures = collectData();
 //    printVector(temperatures);
     sort(temperatures.begin(), temperatures.end());
 //    printVector(temperatures);
@@ -27,8 +27,9 @@ int main()
     return 0;
 }
 
-void collectData(vector<double>& dataContainer)
+vector<double> collectData()
 {
+    vector<double> dataContainer;
     double singleData;
     cout << "Podaj temperaturę: ";
     while(cin >> singleData)
@@ -36,6 +37,8 @@ void collectData(vector<double>& dataContainer)
         dataContainer.push_back(singleData);
         cout << "Podaj temperaturę: ";
     }
+
+    return dataContainer;
 }
 
 void printVector(const vector<double>& vect)
@@ -55,16 +58,18 @@ void printVector(const vector<double>& vect)
 void showMediana(const vector<double>& data)
 {
     int numberOfData = data.size();
-    if(numberOfData==0)
+    int middleIndex = data.size() / 2;
+
+    if(numberOfData == 0)
     {
         cout << "Brak danych => Brak mediany" << endl;
     }
-    else if(numberOfData%2)
+    else if(numberOfData % 2 == 1)
     {
-        cout << "Mediana : " << data[data.size()/2] << endl;
+        cout << "Mediana : " << data[middleIndex] << endl;
     }
     else
     {
-        cout << "Mediana : " << (data[data.size()/2 - 1] + data[data.size()/2]) / 2 << endl;
+        cout << "Mediana : " << (data[middleIndex - 1] / 2) + (data[middleIndex] / 2) << endl;
     }
 }
