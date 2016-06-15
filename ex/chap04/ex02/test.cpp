@@ -18,12 +18,12 @@ public:
 
         auto middleIndex = values.size() / 2;
 
-        std::nth_element(values.begin(), values.begin() + values.size()/2,
+        std::nth_element(values.begin(), values.begin() + values.size() / 2,
                          values.end());
 
         if (values.size() % 2 == 0)
         {
-            return values[middleIndex - 1]/2 + values[middleIndex]/2;
+            return values[middleIndex - 1] / 2 + values[middleIndex] / 2;
         }
         else
         {
@@ -37,7 +37,7 @@ private:
 int main()
 {
     std::vector<double> temps;
-    for (double temp ; std::cin >> temp; )
+    for (double temp; std::cin >> temp; )
     {
         temps.push_back(temp);
     }
