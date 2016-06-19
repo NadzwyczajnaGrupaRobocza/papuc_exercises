@@ -12,10 +12,12 @@ In the root directory of the project:
     ``` bash
     git remote add upstream https://github.com/NadzwyczajnaGrupaRobocza/papuc_exercises.git
     ```
+
 2. pull common repository changes to local cache
     ``` bash
     git fetch upstream
     ```
+
 3. make sure you're at your main brach
     ``` bash
     git checkout master
@@ -50,10 +52,12 @@ In the root directory of the project do the following:
     ``` bash
     mkdir build; cd build
     ```
+
 2. run cmake and point it ot the root dir
     ``` bash
     cmake ..
     ```
+
 3. run make (point it to the desired target binary) e.g.
     ``` bash
     make ch04-<user-prefix>
