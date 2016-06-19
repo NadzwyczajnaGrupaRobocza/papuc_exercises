@@ -4,6 +4,44 @@ Programming: Principles and Practice Using C++ - Exercises
 User prefix will be written as <user-prefix>. User prefix
 can be one of "lm", "ib", "mb".
 
+## Update your fork with changes from the common repository
+
+In the root directory of the project:
+
+1. add common repository as a git remote:
+``` bash
+git remote add upstream https://github.com/NadzwyczajnaGrupaRobocza/papuc_exercises.git
+```
+2. pull common repository changes to local cache
+``` bash
+git fetch upstream
+```
+3. make sure you're at your main brach
+``` bash
+git checkout master
+```
+
+4. merge upstream changes to your checkout
+``` bash
+git merge upstream/master
+```
+
+## Initialize gtest submodule
+
+In the root directory of the project:
+
+1. Make git aware of the fact we have submodule
+``` bash
+git submodule init
+```
+
+2. Actually pull the submodules
+``` bash
+git submodule update
+```
+
+You're now ready to compile stuff.
+
 ## Build instructions
 
 In the root directory of the project do the following:
