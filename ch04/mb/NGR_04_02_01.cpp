@@ -29,14 +29,14 @@ std::string showVector(const std::vector<double>& vect)
         }
     }
     stringedVector +=  "]";
-    
-    return stringedVector;	
+
+    return stringedVector;
 }
 
 double getMediana(const std::vector<double>& data)
 {
-	std::vector<double> temp(data);
-	std::sort(temp.begin(), temp.end());
+    std::vector<double> temp(data);
+    std::sort(temp.begin(), temp.end());
     int numberOfData = temp.size();
     int middleIndex = temp.size() / 2;
     double mediana = 0.0;
@@ -49,6 +49,6 @@ double getMediana(const std::vector<double>& data)
     {
         mediana = (temp[middleIndex - 1] / 2) + (temp[middleIndex] / 2);
     }
-    
+
     return mediana;
 }

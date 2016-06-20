@@ -13,7 +13,7 @@ int main()
     {
         std::cout << "Brak danych => Brak mediany" << std::endl;
         return 1;
-	}
+    }
 
     std::cout << "Mediana : " << getMediana(temperatures) << std::endl;
 
