@@ -1,16 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include "NGR_04_02_01.hpp"
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::vector;
 using std::sort;
-
-vector<double> collectData();
-void printVector(const vector<double>&);
-void showMediana(const vector<double>&);
 
 int main()
 {
@@ -19,9 +16,7 @@ int main()
     vector<double> temperatures;
 
     temperatures = collectData();
-//    printVector(temperatures);
     sort(temperatures.begin(), temperatures.end());
-//    printVector(temperatures);
     showMediana(temperatures);
 
     return 0;
@@ -53,6 +48,22 @@ void printVector(const vector<double>& vect)
         }
     }
     cout << " ]" << endl;
+}
+
+std::string vectorToString(const std::vector<double>& vect)
+{
+    std::string stringedVector = "[ ";
+    for(int i=0; i<vect.size(); ++i)
+    {
+        stringedVector += vect[i];
+        if(i!=vect.size()-1)
+        {
+            stringedVector +=  ", ";
+        }
+    }
+    stringedVector +=  " ]";
+    
+    return stringedVector;	
 }
 
 void showMediana(const vector<double>& data)
