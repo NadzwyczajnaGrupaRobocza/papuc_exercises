@@ -32,21 +32,20 @@ std::string showVector(const std::vector<double>& vect)
     return stringedVector;	
 }
 
-void showMediana(const std::vector<double>& data)
+double getMediana(const std::vector<double>& data)
 {
     int numberOfData = data.size();
     int middleIndex = data.size() / 2;
+    double mediana = 0.0;
 
-    if(numberOfData == 0)
+    if(numberOfData % 2 == 1)
     {
-        std::cout << "Brak danych => Brak mediany" << std::endl;
-    }
-    else if(numberOfData % 2 == 1)
-    {
-        std::cout << "Mediana : " << data[middleIndex] << std::endl;
+        mediana = data[middleIndex];
     }
     else
     {
-        std::cout << "Mediana : " << (data[middleIndex - 1] / 2) + (data[middleIndex] / 2) << std::endl;
+        mediana = (data[middleIndex - 1] / 2) + (data[middleIndex] / 2);
     }
+    
+    return mediana;
 }

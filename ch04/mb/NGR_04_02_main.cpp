@@ -10,8 +10,13 @@ int main()
     std::vector<double> temperatures;
 
     temperatures = collectData();
+    if(temperatures.size() == 0)
+    {
+        std::cout << "Brak danych => Brak mediany" << std::endl;
+        return 1;
+	}
     std::sort(temperatures.begin(), temperatures.end());
-    showMediana(temperatures);
+    std::cout << "Mediana : " << getMediana(temperatures) << std::endl;
 
     return 0;
 }
