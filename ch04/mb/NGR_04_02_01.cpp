@@ -2,15 +2,15 @@
 #include <vector>
 #include "NGR_04_02_01.hpp"
 
-vector<double> collectData()
+std::vector<double> collectData()
 {
-    vector<double> dataContainer;
+    std::vector<double> dataContainer;
     double singleData;
-    cout << "Podaj temperaturę: ";
-    while(cin >> singleData)
+    std::cout << "Podaj temperaturę: ";
+    while(std::cin >> singleData)
     {
         dataContainer.push_back(singleData);
-        cout << "Podaj temperaturę: ";
+        std::cout << "Podaj temperaturę: ";
     }
 
     return dataContainer;
@@ -18,8 +18,8 @@ vector<double> collectData()
 
 std::string showVector(const std::vector<double>& vect)
 {
-    std::string stringedVector = "[ ";
-    for(int i=0; i<vect.size(); ++i)
+    std::string stringedVector = "[";
+    for(unsigned i=0; i<vect.size(); ++i)
     {
         stringedVector += vect[i];
         if(i!=vect.size()-1)
@@ -27,26 +27,26 @@ std::string showVector(const std::vector<double>& vect)
             stringedVector +=  ", ";
         }
     }
-    stringedVector +=  " ]";
+    stringedVector +=  "]";
     
     return stringedVector;	
 }
 
-void showMediana(const vector<double>& data)
+void showMediana(const std::vector<double>& data)
 {
     int numberOfData = data.size();
     int middleIndex = data.size() / 2;
 
     if(numberOfData == 0)
     {
-        cout << "Brak danych => Brak mediany" << endl;
+        std::cout << "Brak danych => Brak mediany" << std::endl;
     }
     else if(numberOfData % 2 == 1)
     {
-        cout << "Mediana : " << data[middleIndex] << endl;
+        std::cout << "Mediana : " << data[middleIndex] << std::endl;
     }
     else
     {
-        cout << "Mediana : " << (data[middleIndex - 1] / 2) + (data[middleIndex] / 2) << endl;
+        std::cout << "Mediana : " << (data[middleIndex - 1] / 2) + (data[middleIndex] / 2) << std::endl;
     }
 }
