@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "NGR_04_02_01.hpp"
 
 std::vector<double> collectData()
@@ -34,17 +35,19 @@ std::string showVector(const std::vector<double>& vect)
 
 double getMediana(const std::vector<double>& data)
 {
-    int numberOfData = data.size();
-    int middleIndex = data.size() / 2;
+	std::vector<double> temp(data);
+	std::sort(temp.begin(), temp.end());
+    int numberOfData = temp.size();
+    int middleIndex = temp.size() / 2;
     double mediana = 0.0;
 
     if(numberOfData % 2 == 1)
     {
-        mediana = data[middleIndex];
+        mediana = temp[middleIndex];
     }
     else
     {
-        mediana = (data[middleIndex - 1] / 2) + (data[middleIndex] / 2);
+        mediana = (temp[middleIndex - 1] / 2) + (temp[middleIndex] / 2);
     }
     
     return mediana;

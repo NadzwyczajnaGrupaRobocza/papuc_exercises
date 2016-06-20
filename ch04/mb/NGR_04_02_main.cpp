@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include "NGR_04_02_01.hpp"
 
 int main()
@@ -15,7 +14,7 @@ int main()
         std::cout << "Brak danych => Brak mediany" << std::endl;
         return 1;
 	}
-    std::sort(temperatures.begin(), temperatures.end());
+
     std::cout << "Mediana : " << getMediana(temperatures) << std::endl;
 
     return 0;
