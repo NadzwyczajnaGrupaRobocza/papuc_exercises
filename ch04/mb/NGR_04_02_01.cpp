@@ -1,26 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include "NGR_04_02_01.hpp"
-
-using std::cout;
-using std::cin;
-using std::endl;
-using std::vector;
-using std::sort;
-
-int main()
-{
-    cout << "=== Program liczący medianę ===" << endl;
-    cout << "= wpisanie wartości innej niż double kończy zbieranie danych" << endl;
-    vector<double> temperatures;
-
-    temperatures = collectData();
-    sort(temperatures.begin(), temperatures.end());
-    showMediana(temperatures);
-
-    return 0;
-}
 
 vector<double> collectData()
 {
@@ -36,21 +16,7 @@ vector<double> collectData()
     return dataContainer;
 }
 
-void printVector(const vector<double>& vect)
-{
-    cout << "[ ";
-    for(int i=0; i<vect.size(); ++i)
-    {
-        cout << vect[i];
-        if(i!=vect.size()-1)
-        {
-            cout << ", ";
-        }
-    }
-    cout << " ]" << endl;
-}
-
-std::string vectorToString(const std::vector<double>& vect)
+std::string showVector(const std::vector<double>& vect)
 {
     std::string stringedVector = "[ ";
     for(int i=0; i<vect.size(); ++i)
