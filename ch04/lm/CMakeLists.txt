@@ -1,14 +1,6 @@
-cmake_minimum_required (VERSION 2.8.11)
-project("PaPuC")
+include_directories(${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
 
-#add_subdirectory(googletest)
+add_executable(ch04-lm ../../gtest_main.cc ex02.cpp)
+target_link_libraries(ch04-lm gtest)
 
-# add_executable(gtesttest gtest_main.cc sample1_unittest.cc sample1.cc)
 
-# target_link_libraries(gtesttest LINK_PUBLIC gtest)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++14")
-
-#add_executable(exercise1 training.cpp exercise2.cpp gtest_main.cc)
-#target_link_libraries(exercise1 LINK_PUBLIC gtest)
-
-add_executable(ex04 test.cpp)
