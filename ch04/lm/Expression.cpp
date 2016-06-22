@@ -29,7 +29,10 @@ double Expression::getResult()
     case '*':
         return val1 * val2;
     case '/':
-          return val1 / val2;
+        if (val2 < epsilon)
+            throw std::runtime_error("division by zero");
+
+        return val1 / val2;
     default:
         throw std::runtime_error("unknown operation");
     }
