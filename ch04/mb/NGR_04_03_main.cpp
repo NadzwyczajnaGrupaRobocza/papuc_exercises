@@ -8,12 +8,6 @@ int main()
     std::cout << "=== Exercise 03 from Chapter 04 ===" << std::endl;
 
     std::vector<double> distances = collectData();
-//    if(distances.size() == 0)
-//    {
-//        std::cout << "There aren't any data to analyze..." << std::endl;
-//	  std::cout << "Terminating program" << std::endl;
-//        return 1;
-//    }
 
     std::cout << "Total distance: " << getTotalDistance(distances) << std::endl;
     std::cout << "Smallest distance: " << getSmallestDistance(distances) << std::endl;
