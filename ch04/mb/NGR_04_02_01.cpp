@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 #include "NGR_04_02_01.hpp"
 
 std::vector<double> collectData()
@@ -19,18 +20,19 @@ std::vector<double> collectData()
 
 std::string showVector(const std::vector<double>& vect)
 {
-    std::string stringedVector = "[";
+    std::stringstream stringedVector;
+    stringedVector << "[";
     for(unsigned i=0; i<vect.size(); ++i)
     {
-        stringedVector += vect[i];
+      stringedVector << vect[i];
         if(i!=vect.size()-1)
         {
-            stringedVector +=  ", ";
+	  stringedVector << ", ";
         }
     }
-    stringedVector +=  "]";
+    stringedVector << "]";
 
-    return stringedVector;
+    return stringedVector.str();
 }
 
 double getMediana(const std::vector<double>& data)
