@@ -2,6 +2,8 @@
 #include <vector>
 #include <algorithm>
 
+namespace lm
+{
 template<typename T>
 class Median
 {
@@ -33,3 +35,4 @@ public:
 private:
     std::vector<T> values;
 };
+}
