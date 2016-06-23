@@ -1,5 +1,6 @@
 #include "NGR_04_05_01.hpp"
 #include <iostream>
+#include <sstream>
 
 Calculator::Calculator(const Data& data)
     : first(data.first),
@@ -13,14 +14,19 @@ void Calculator::runCalculator()
 {
     validateData();
     result = calculate();
-    printResult();
+    std::cout << getResult() << std::endl;
 }
 
 void Calculator::validateData()
 {
+    if(operation == "")
+    {
+        std::string reason = "Wrong input data";
+        throw reason;
+    }
     if(operationIsNotAcceptable(operation))
     {
-        std::string reason = "Operation '" + operation + "' not acceptable ";
+        std::string reason = "Operation '" + operation + "' not acceptable";
         throw reason;
     }
     if(operation == "/" && secondIsAlmostZero())
@@ -28,6 +34,20 @@ void Calculator::validateData()
         std::string reason = "Cannot divide by 0";
         throw reason;
     }
+}
+
+bool Calculator::operationIsNotAcceptable(const std::string& aOperation)
+{
+    bool operationNotAcceptable = false;
+    if(aOperation != "+" and
+       aOperation != "-" and
+       aOperation != "*" and
+       aOperation != "/")
+    {
+        operationNotAcceptable = true;
+    }
+
+    return operationNotAcceptable;
 }
 
 bool Calculator::secondIsAlmostZero()
@@ -67,42 +87,31 @@ double Calculator::calculate()
     return operationResult;
 }
 
-void Calculator::printResult()
+std::string Calculator::getResult()
 {
+    std::stringstream result;
     char cOperation = *(operation.c_str());
     switch(cOperation)
     {
         case '+':
-            std::cout << "Sum of "<< first << " and " << second
-                      << " is equal to " << result << std::endl;
+            result << "Sum of "<< first << " and " << second
+                      << " is equal to " << result;
             break;
         case '-':
-            std::cout << "Difference of "<< first << " and " << second
-                      << " is equal to " << result << std::endl;
+            result << "Difference of "<< first << " and " << second
+                      << " is equal to " << result;
             break;
         case '*':
-            std::cout << "Product of "<< first << " and " << second
-                      << " is equal to " << result << std::endl;
+            result << "Product of "<< first << " and " << second
+                      << " is equal to " << result;
             break;
         case '/':
-            std::cout << "Quotient of "<< first << " and " << second
-                      << " is equal to " << result << std::endl;
+            result << "Quotient of "<< first << " and " << second
+                      << " is equal to " << result;
             break;
         default: // ????
-            std::cout << "There isn't any data to calculate!" << std::endl;
-    }
-}
-
-bool Calculator::operationIsNotAcceptable(const std::string& aOperation)
-{
-    bool operationNotAcceptable = false;
-    if(aOperation != "+" and
-       aOperation != "-" and
-       aOperation != "*" and
-       aOperation != "/")
-    {
-        operationNotAcceptable = true;
+            result << "There isn't any data to calculate!";
     }
 
-    return operationNotAcceptable;
+    return result.str();
 }

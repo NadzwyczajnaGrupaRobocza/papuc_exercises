@@ -67,14 +67,30 @@ TEST(MBB_04_03, getMeanDistanceFromVector)
 }
 
 // Excercise 05
-TEST(MBB_04_05, simpleTest)
-{
-    Calculator calc = Calculator(12.0, 2.3, "+");
-    EXPECT_EQ(0.0, 0.0);
-}
-
 TEST(MBB_04_05, calculateTest)
 {
-    Calculator calc = Calculator(12.0, 2.3, "+");
+    Data data = {12.0, 2.3, "+"};
+    Calculator calc = Calculator(data);
     EXPECT_EQ(14.3, calc.calculate());
+}
+
+TEST(MBB_04_05, throwingError1)
+{
+    Data data = {0, 0, ""};
+    Calculator calc = Calculator(data);
+    EXPECT_THROW(calc.runCalculator(), std::string);
+}
+
+TEST(MBB_04_05, throwingError2)
+{
+    Data data = {12.0, 3.0, "%"};
+    Calculator calc = Calculator(data);
+    EXPECT_THROW(calc.runCalculator(), std::string);
+}
+
+TEST(MBB_04_05, throwingError3)
+{
+    Data data = {12.0, 0, "/"};
+    Calculator calc = Calculator(data);
+    EXPECT_THROW(calc.runCalculator(), std::string);
 }

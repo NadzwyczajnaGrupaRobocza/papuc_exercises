@@ -9,6 +9,8 @@ int main()
     std::cout << "Type 'number' 'number' 'operation'" << std::endl;
     std::cin >> data.first >> data.second >> data.operation;
 
+std::cout << data.first <<" "<< data.second <<" "<< data.operation<< std::endl;
+
     Calculator calculator(data);
     try
     {

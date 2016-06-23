@@ -24,10 +24,10 @@ private:
     double result;
 
     void validateData();
-    bool secondIsAlmostZero();
-    void printResult();
-    double calculate();
     bool operationIsNotAcceptable(const std::string&);
+    bool secondIsAlmostZero();
+    double calculate();
+    std::string getResult();
 
 //    FRIEND_TEST(MBB_04_05, printResultTest);
     FRIEND_TEST(MBB_04_05, calculateTest);
