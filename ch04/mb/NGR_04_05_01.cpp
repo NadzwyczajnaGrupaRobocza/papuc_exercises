@@ -1,39 +1,45 @@
 #include "NGR_04_05_01.hpp"
 #include <iostream>
 
-Calculator::Calculator() : first(0.0),
-                           second(0.0),
-                           operation(""),
-                           result(0.0)
+Calculator::Calculator(const Data& data)
+    : first(data.first),
+      second(data.second),
+      operation(data.operation),
+      result(0.0)
 {
 }
 
-Calculator::Calculator(const double& aFirst,
-                       const double& aSecond,
-                       const std::string& aOperation)
-    : first(aFirst),
-    second(aSecond),
-    operation(aOperation),
-    result(0.0)
+void Calculator::runCalculator()
 {
-}
-
-void Calculator::runCalculator(const Data& data)
-{
-    gatherData(data);
+    validateData();
     result = calculate();
     printResult();
 }
 
-void Calculator::gatherData(const Data& data)
+void Calculator::validateData()
 {
-    first = data.first;
-    second = data.second;
-    operation = data.operation;
     if(operationIsNotAcceptable(operation))
     {
         std::string reason = "Operation '" + operation + "' not acceptable ";
         throw reason;
+    }
+    if(operation == "/" && secondIsAlmostZero())
+    {
+        std::string reason = "Cannot divide by 0";
+        throw reason;
+    }
+}
+
+bool Calculator::secondIsAlmostZero()
+{
+    const double ReallySmallNumber = 0.00000001;
+    if (second < ReallySmallNumber and second > -ReallySmallNumber)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
@@ -53,11 +59,6 @@ double Calculator::calculate()
             operationResult = first * second;
             break;
         case '/':
-            if(second == 0.0)
-            {
-                std::string reason = "Cannot divide by 0";
-                throw reason;
-            }
             operationResult = first / second;
             break;
         default: // ????

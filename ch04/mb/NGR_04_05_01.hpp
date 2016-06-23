@@ -13,12 +13,9 @@ struct Data
 class Calculator
 {
 public:
-    Calculator();
-    Calculator(const double& aFirst,
-               const double& aSecond,
-               const std::string& aOperation);
+    Calculator(const Data&);
 
-    void runCalculator(const Data&);
+    void runCalculator();
 
 private:
     double first;
@@ -26,7 +23,8 @@ private:
     std::string operation;
     double result;
 
-    void gatherData(const Data&);
+    void validateData();
+    bool secondIsAlmostZero();
     void printResult();
     double calculate();
     bool operationIsNotAcceptable(const std::string&);

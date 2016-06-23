@@ -9,10 +9,10 @@ int main()
     std::cout << "Type 'number' 'number' 'operation'" << std::endl;
     std::cin >> data.first >> data.second >> data.operation;
 
-    Calculator calculator = Calculator();
+    Calculator calculator(data);
     try
     {
-        calculator.runCalculator(data);
+        calculator.runCalculator();
     }
     catch(std::string error)
     {
