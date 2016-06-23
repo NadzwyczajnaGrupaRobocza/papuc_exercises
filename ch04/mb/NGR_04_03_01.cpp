@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "NGR_04_03_01.hpp"
 
-std::vector<double> collectData()
+std::vector<double> collectDistances()
 {
     std::vector<double> dataCollection;
     double singleData;
@@ -18,7 +18,7 @@ std::vector<double> collectData()
         {
             std::cout << "Distance should be a positive value, data refused" << std::endl;
         }
-	std::cout << "Input distance: ";
+    std::cout << "Input distance: ";
     }
     return dataCollection;
 }
@@ -40,11 +40,11 @@ double getSmallestDistance(const std::vector<double>& distances)
     {
         smallestDistance = distances[0];
         for(auto i = 1ul; i < distances.size(); ++i)
-	{
-	    if(distances[i] < smallestDistance)
-	    {
-	        smallestDistance = distances[i];
-	    }
+    {
+        if(distances[i] < smallestDistance)
+        {
+            smallestDistance = distances[i];
+        }
         }
     }
 
@@ -58,12 +58,12 @@ double getLargestDistance(const std::vector<double>& distances)
     {
         largestDistance = distances[0];
         for(auto i = 1ul; i < distances.size(); ++i)
-	{
-	    if(distances[i] > largestDistance)
-	    {
-	        largestDistance = distances[i];
-	    }
-	}
+    {
+        if(distances[i] > largestDistance)
+        {
+            largestDistance = distances[i];
+        }
+    }
     }
 
     return largestDistance;

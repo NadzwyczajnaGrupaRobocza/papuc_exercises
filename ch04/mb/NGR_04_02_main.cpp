@@ -8,7 +8,7 @@ int main()
     std::cout << "= wpisanie wartości innej niż double kończy zbieranie danych" << std::endl;
     std::vector<double> temperatures;
 
-    temperatures = collectData();
+    temperatures = collectTemperatures();
     if(temperatures.size() == 0)
     {
         std::cout << "Brak danych => Brak mediany" << std::endl;

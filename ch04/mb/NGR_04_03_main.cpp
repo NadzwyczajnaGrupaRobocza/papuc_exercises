@@ -7,7 +7,7 @@ int main()
 {
     std::cout << "=== Exercise 03 from Chapter 04 ===" << std::endl;
 
-    std::vector<double> distances = collectData();
+    std::vector<double> distances = collectDistances();
 
     std::cout << "Total distance: " << getTotalDistance(distances) << std::endl;
     std::cout << "Smallest distance: " << getSmallestDistance(distances) << std::endl;

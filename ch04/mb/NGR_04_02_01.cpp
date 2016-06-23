@@ -4,7 +4,7 @@
 #include <sstream>
 #include "NGR_04_02_01.hpp"
 
-std::vector<double> collectData()
+std::vector<double> collectTemperatures()
 {
     std::vector<double> dataContainer;
     double singleData;
@@ -27,7 +27,7 @@ std::string showVector(const std::vector<double>& vect)
       stringedVector << vect[i];
         if(i!=vect.size()-1)
         {
-	  stringedVector << ", ";
+      stringedVector << ", ";
         }
     }
     stringedVector << "]";
