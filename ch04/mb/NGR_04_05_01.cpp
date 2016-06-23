@@ -3,7 +3,7 @@
 
 Calculator::Calculator() : first(0.0),
                            second(0.0),
-                           operation("%"),
+                           operation(""),
                            result(0.0)
 {
 }
@@ -18,25 +18,18 @@ Calculator::Calculator(const double& aFirst,
 {
 }
 
-void Calculator::runCalculator()
+void Calculator::runCalculator(const Data& data)
 {
-    gatherData();
+    gatherData(data);
     result = calculate();
     printResult();
 }
 
-void Calculator::gatherData()
+void Calculator::gatherData(const Data& data)
 {
-    double first;
-    double second;
-    std::string operation;
-
-    std::cout << "Type 'number' 'number' 'operation'" << std::endl;
-    std::cin >> first >> second >> operation;
-
-    this->first = first;
-    this->second = second;
-    this->operation = operation;
+    first = data.first;
+    second = data.second;
+    operation = data.operation;
     if(operationIsNotAcceptable(operation))
     {
         std::string reason = "Operation '" + operation + "' not acceptable ";

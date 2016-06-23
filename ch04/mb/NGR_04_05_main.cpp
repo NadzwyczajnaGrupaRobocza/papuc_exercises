@@ -5,10 +5,14 @@ int main()
 {
     std::cout << "=== Exercise 05 from Chapter 04 ===" << std::endl;
 
+    Data data = {0.0, 0.0, ""};
+    std::cout << "Type 'number' 'number' 'operation'" << std::endl;
+    std::cin >> data.first >> data.second >> data.operation;
+
     Calculator calculator = Calculator();
     try
     {
-        calculator.runCalculator();
+        calculator.runCalculator(data);
     }
     catch(std::string error)
     {

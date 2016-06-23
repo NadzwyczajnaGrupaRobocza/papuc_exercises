@@ -3,6 +3,13 @@
 #include <string>
 #include "gtest/gtest_prod.h"
 
+struct Data
+{
+    double first;
+    double second;
+    std::string operation;
+};
+
 class Calculator
 {
 public:
@@ -11,7 +18,7 @@ public:
                const double& aSecond,
                const std::string& aOperation);
 
-    void runCalculator();
+    void runCalculator(const Data&);
 
 private:
     double first;
@@ -19,7 +26,7 @@ private:
     std::string operation;
     double result;
 
-    void gatherData();
+    void gatherData(const Data&);
     void printResult();
     double calculate();
     bool operationIsNotAcceptable(const std::string&);
