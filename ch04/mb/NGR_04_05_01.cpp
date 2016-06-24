@@ -81,37 +81,37 @@ double Calculator::calculate()
         case '/':
             operationResult = first / second;
             break;
-        default: // ????
-            std::cout << "There isn't any data to calculate!" << std::endl;
+//        default: // ????
+//            std::cout << "There isn't any data to calculate!" << std::endl;
     }
     return operationResult;
 }
 
 std::string Calculator::getResult()
 {
-    std::stringstream result;
+    std::stringstream output;
     char cOperation = *(operation.c_str());
     switch(cOperation)
     {
         case '+':
-            result << "Sum of "<< first << " and " << second
+            output << "Sum of " << first << " and " << second
                       << " is equal to " << result;
             break;
         case '-':
-            result << "Difference of "<< first << " and " << second
+            output << "Difference of " << first << " and " << second
                       << " is equal to " << result;
             break;
         case '*':
-            result << "Product of "<< first << " and " << second
+            output << "Product of " << first << " and " << second
                       << " is equal to " << result;
             break;
         case '/':
-            result << "Quotient of "<< first << " and " << second
+            output << "Quotient of " << first << " and " << second
                       << " is equal to " << result;
             break;
-        default: // ????
-            result << "There isn't any data to calculate!";
+//        default:
+//            output << "There isn't any data to calculate!";
     }
 
-    return result.str();
+    return output.str();
 }
