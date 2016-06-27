@@ -7,3 +7,4 @@ add_executable(ch04-lm ../../gtest_main.cc ex02.cpp ex05.cpp
 target_link_libraries(ch04-lm gtest)
 
 
+add_executable(ch04-05-UI Expression.cpp ex05-UI.cpp)
