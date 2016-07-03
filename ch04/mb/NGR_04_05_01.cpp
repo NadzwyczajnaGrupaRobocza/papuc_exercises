@@ -1,6 +1,7 @@
 #include "NGR_04_05_01.hpp"
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 Calculator::Calculator(const Data& data)
     : first(data.first),
@@ -52,8 +53,8 @@ bool Calculator::operationIsNotAcceptable(const std::string& aOperation)
 
 bool Calculator::secondIsAlmostZero()
 {
-    const double ReallySmallNumber = 0.00000001;
-    if (second < ReallySmallNumber and second > -ReallySmallNumber)
+    constexpr double ReallySmallNumber = 0.00000001;
+    if (second < std::abs(ReallySmallNumber))
     {
         return true;
     }
@@ -81,8 +82,10 @@ double Calculator::calculate()
         case '/':
             operationResult = first / second;
             break;
-//        default: // ????
-//            std::cout << "There isn't any data to calculate!" << std::endl;
+        default:
+            std::string error = "Unexpected error!";
+            throw error;
+            break;
     }
     return operationResult;
 }
@@ -109,8 +112,10 @@ std::string Calculator::getResult()
             output << "Quotient of " << first << " and " << second
                       << " is equal to " << result;
             break;
-//        default:
-//            output << "There isn't any data to calculate!";
+        default:
+            std::string error = "Unexpected error!";
+            throw error;
+            break;
     }
 
     return output.str();

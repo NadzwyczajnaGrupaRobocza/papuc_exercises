@@ -3,6 +3,7 @@
 #include "NGR_04_02_01.hpp"
 #include "NGR_04_03_01.hpp"
 #include "NGR_04_05_01.hpp"
+#include "NGR_04_08_01.hpp"
 
 std::vector<double> emptyData = {};
 std::vector<double> someData1 = {12.0, 33.5, 11.5, 24.45};
@@ -17,13 +18,13 @@ TEST(MBB_04_02, showVector)
 
 TEST(MBB_04_02, getMedianaFromOddVector)
 {
-    EXPECT_EQ(13.1, getMediana(someData2));
+    EXPECT_EQ(13.1, getMedian(someData2));
 }
 
 
 TEST(MBB_04_02, getMedianaFromEvenVector)
 {
-    EXPECT_EQ(18.225, getMediana(someData1));
+    EXPECT_EQ(18.225, getMedian(someData1));
 }
 
 // Excercise 03
@@ -225,3 +226,42 @@ TEST(MBB_04_05, runCalculator)
     //~ UtCalculator temp;
     //~ EXPECT_TRUE(temp.testOperationIsNotAcceptable(calc, "+"));
 //~ }
+
+// Excercise 08
+//==============
+
+TEST(MBB_04_08, throwingError)
+{
+	RiceFromChessboard riceCalculator = RiceFromChessboard();
+	EXPECT_THROW(riceCalculator.getNumberOfSquares(-10), std::string);
+}
+
+TEST(MBB_04_08, squaresFor0RiceGrains)
+{
+	RiceFromChessboard riceCalculator = RiceFromChessboard();
+	EXPECT_EQ(0, riceCalculator.getNumberOfSquares(0));
+}
+
+TEST(MBB_04_08, squaresFor15RiceGrains)
+{
+	RiceFromChessboard riceCalculator = RiceFromChessboard();
+	EXPECT_EQ(4, riceCalculator.getNumberOfSquares(15));
+}
+
+TEST(MBB_04_08, squaresFor1000RiceGrains)
+{
+	RiceFromChessboard riceCalculator = RiceFromChessboard();
+	EXPECT_EQ(9, riceCalculator.getNumberOfSquares(1000));
+}
+
+TEST(MBB_04_08, squaresFor1000000RiceGrains)
+{
+	RiceFromChessboard riceCalculator = RiceFromChessboard();
+	EXPECT_EQ(19, riceCalculator.getNumberOfSquares(1000000));
+}
+
+TEST(MBB_04_08, squaresFor1000000000RiceGrains)
+{
+	RiceFromChessboard riceCalculator = RiceFromChessboard();
+	EXPECT_EQ(29, riceCalculator.getNumberOfSquares(1000000000));
+}

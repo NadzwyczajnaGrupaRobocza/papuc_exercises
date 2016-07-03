@@ -35,7 +35,7 @@ std::string showVector(const std::vector<double>& vect)
     return stringedVector.str();
 }
 
-double getMediana(const std::vector<double>& data)
+double getMedian(const std::vector<double>& data)
 {
     std::vector<double> temp(data);
     std::sort(temp.begin(), temp.end());

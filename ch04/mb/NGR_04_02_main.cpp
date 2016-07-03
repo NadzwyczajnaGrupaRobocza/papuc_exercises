@@ -15,7 +15,7 @@ int main()
         return 1;
     }
 
-    std::cout << "Mediana : " << getMediana(temperatures) << std::endl;
+    std::cout << "Mediana : " << getMedian(temperatures) << std::endl;
 
     return 0;
 }
