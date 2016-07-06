@@ -1,5 +1,6 @@
 #include "NGR_04_08_01.hpp"
 #include <iostream>
+#include <stdexcept>
 
 int main()
 {
@@ -15,9 +16,9 @@ int main()
 		std::cout << "Aby otrzymać " << riceGrains << " ziarenek ryżu należy zapełnić "
 		          << squares << " pól szachownicy." << std::endl;
 	}
-	catch(std::string error)
+    catch(const std::runtime_error& error)
     {
-        std::cerr << "Error: " << error << "\n";
+        std::cerr << "Error: " << error.what() << std::endl;
         return 1;
     }
 	

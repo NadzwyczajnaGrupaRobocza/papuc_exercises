@@ -19,8 +19,6 @@ public:
 
     void runCalculator();
 
-//    friend class UtCalculator;
-
 private:
     double first;
     double second;

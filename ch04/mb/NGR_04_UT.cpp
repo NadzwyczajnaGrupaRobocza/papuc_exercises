@@ -1,4 +1,5 @@
 #include <vector>
+#include <stdexcept>
 #include "gtest/gtest.h"
 #include "NGR_04_02_01.hpp"
 #include "NGR_04_03_01.hpp"
@@ -71,32 +72,6 @@ TEST(MBB_04_03, getMeanDistanceFromVector)
 
 // Excercise 05
 //==============
-
-//~ class UtCalculator : public ::testing::Test
-//~ {
-//~ public:
-    //~ bool testOperationIsNotAcceptable(Calculator& calc,
-                                                //~ std::string operation)
-    //~ {
-        //~ return calc.operationIsNotAcceptable(operation);
-    //~ }
-//~
-    //~ bool testSecondIsAlmostZero(Calculator* calc)
-    //~ {
-        //~ return calc-> secondIsAlmostZero();
-    //~ }
-//~
-    //~ double testCalculate(Calculator* calc)
-    //~ {
-        //~ return calc-> calculate();
-    //~ }
-//~
-    //~ std::string testGetResult(Calculator* calc)
-    //~ {
-        //~ return calc-> getResult();
-    //~ }
-//~ };
-
 TEST(MBB_04_05, throwingErrorAfterGettingEmptyData)
 {
     Data data = {0, 0, ""};
@@ -219,21 +194,14 @@ TEST(MBB_04_05, runCalculator)
     EXPECT_TRUE(true);
 }
 
-//~ TEST(MBB_04_05, tempTest)
-//~ {
-    //~ Data data = {12.0, 0, "/"};
-    //~ Calculator calc = Calculator(data);
-    //~ UtCalculator temp;
-    //~ EXPECT_TRUE(temp.testOperationIsNotAcceptable(calc, "+"));
-//~ }
-
 // Excercise 08
 //==============
 
 TEST(MBB_04_08, throwingError)
 {
 	RiceFromChessboard riceCalculator = RiceFromChessboard();
-	EXPECT_THROW(riceCalculator.getNumberOfSquares(-10), std::string);
+//	EXPECT_THROW(riceCalculator.getNumberOfSquares(-10), negativeRiceException);
+	EXPECT_THROW(riceCalculator.getNumberOfSquares(-10), std::runtime_error);
 }
 
 TEST(MBB_04_08, squaresFor0RiceGrains)

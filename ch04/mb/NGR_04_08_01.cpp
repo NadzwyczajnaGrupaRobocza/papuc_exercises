@@ -1,12 +1,13 @@
 #include "NGR_04_08_01.hpp"
 #include <iostream>
 #include <cmath>
+#include <stdexcept>
 
 int RiceFromChessboard::getNumberOfSquares(long long riceGrains)
 {
 	if(riceGrains < 0)
 	{
-		std::string error = "Number of grains should be positive!";
+		std::runtime_error error("Number of rice grains shouldn't be negative");
 		throw error;
 	}
 	

@@ -14,7 +14,7 @@ int main()
     {
         calculator.runCalculator();
     }
-    catch(std::string error)
+    catch(const std::string& error)
     {
         std::cerr << "Error: " << error << "\n";
         return 1;
