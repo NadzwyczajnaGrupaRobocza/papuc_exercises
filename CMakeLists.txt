@@ -10,3 +10,4 @@ set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
 
 add_subdirectory(ch04)
 add_subdirectory(lm)
+add_subdirectory(ib)
