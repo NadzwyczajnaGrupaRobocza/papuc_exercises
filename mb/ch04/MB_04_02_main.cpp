@@ -1,15 +1,15 @@
+#include "MB_04_02.hpp"
 #include <iostream>
-#include <vector>
-#include "NGR_04_02_01.hpp"
 
 int main()
 {
     std::cout << "=== Program liczący medianę ===" << std::endl;
-    std::cout << "= wpisanie wartości innej niż double kończy zbieranie danych" << std::endl;
+    std::cout << "= wpisanie wartości innej niż double kończy zbieranie danych"
+              << std::endl;
     std::vector<double> temperatures;
 
     temperatures = collectTemperatures();
-    if(temperatures.size() == 0)
+    if (temperatures.size() == 0)
     {
         std::cout << "Brak danych => Brak mediany" << std::endl;
         return 1;

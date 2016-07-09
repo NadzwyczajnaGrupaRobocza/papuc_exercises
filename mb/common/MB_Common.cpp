@@ -5,7 +5,8 @@
 namespace mbcommon
 {
 
-bool doublesAreEqual(const double& first, const double& second, const double& epsilon)
+bool doublesAreEqual(const double& first, const double& second,
+                     const double& epsilon)
 {
     if (std::fabs(first - second) < epsilon)
     {
@@ -17,5 +18,4 @@ bool doublesAreEqual(const double& first, const double& second, const double& ep
     }
 }
 
-
-} //namespace mbcommon
+} // namespace mbcommon

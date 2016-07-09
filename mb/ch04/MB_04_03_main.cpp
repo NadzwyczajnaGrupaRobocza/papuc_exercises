@@ -1,7 +1,6 @@
-#include <iostream>
-#include <vector>
+#include "MB_04_03.hpp"
 #include <algorithm>
-#include "NGR_04_03_01.hpp"
+#include <iostream>
 
 int main()
 {
@@ -10,8 +9,10 @@ int main()
     std::vector<double> distances = collectDistances();
 
     std::cout << "Total distance: " << getTotalDistance(distances) << std::endl;
-    std::cout << "Smallest distance: " << getSmallestDistance(distances) << std::endl;
-    std::cout << "Largest distance: " << getLargestDistance(distances) << std::endl;
+    std::cout << "Smallest distance: " << getSmallestDistance(distances)
+              << std::endl;
+    std::cout << "Largest distance: " << getLargestDistance(distances)
+              << std::endl;
     std::cout << "Mean distance: " << getMeanDistance(distances) << std::endl;
 
     return 0;

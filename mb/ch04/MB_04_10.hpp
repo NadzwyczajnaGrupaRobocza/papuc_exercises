@@ -41,7 +41,7 @@ class Game
 {
 public:
     void playOneRound(const Player&, const Opponent&);
-    
+
 private:
     Result getResult(Gesture, Gesture);
 };

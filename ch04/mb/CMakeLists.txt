@@ -29,8 +29,3 @@ add_executable(ch04-mb-05-bin NGR_04_05_01.cpp NGR_04_05_main.cpp)
 add_executable(ch04-mb-08-bin NGR_04_08_01.cpp NGR_04_08_main.cpp)
 #target_link_libraries(ch04-mb-XX gtest)
 
-## Chapter 04 Excercise XX
-##add_executable(ch04-mb-XX ../../gtest_main.cc NGR_04_XX_01.cpp NGR_04_XX_UT.cpp)
-#add_executable(ch04-mb-XX-bin NGR_04_XX_01.cpp NGR_04_XX_main.cpp)
-##target_link_libraries(ch04-mb-XX gtest)
-

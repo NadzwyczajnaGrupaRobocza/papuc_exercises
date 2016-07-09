@@ -6,9 +6,9 @@ int main()
 {
     Player player = Player();
     Opponent opponent = Opponent();
-    
+
     Game game = Game();
     game.playOneRound(player, opponent);
-        
+
     return 0;
 }

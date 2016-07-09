@@ -8,4 +8,4 @@ add_executable(mb-common ../../gtest_main.cc
 target_link_libraries(mb-common gtest)
 
 # Common
-add_executable(mb-common-bin MB_Common.cpp)
+#add_executable(mb-common-bin MB_Common.cpp)

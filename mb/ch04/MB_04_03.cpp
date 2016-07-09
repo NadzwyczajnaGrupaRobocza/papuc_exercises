@@ -1,24 +1,24 @@
-#include <iostream>
-#include <vector>
+#include "MB_04_03.hpp"
 #include <algorithm>
-#include "NGR_04_03_01.hpp"
+#include <iostream>
 
 std::vector<double> collectDistances()
 {
     std::vector<double> dataCollection;
     double singleData;
     std::cout << "Input distance: ";
-    while(std::cin >> singleData)
+    while (std::cin >> singleData)
     {
-        if(singleData>0)
+        if (singleData > 0)
         {
             dataCollection.push_back(singleData);
         }
         else
         {
-            std::cout << "Distance should be a positive value, data refused" << std::endl;
+            std::cout << "Distance should be a positive value, data refused"
+                      << std::endl;
         }
-    std::cout << "Input distance: ";
+        std::cout << "Input distance: ";
     }
     return dataCollection;
 }
@@ -26,7 +26,7 @@ std::vector<double> collectDistances()
 double getTotalDistance(const std::vector<double>& distances)
 {
     double totalDistance = 0.0;
-    for(auto i = 0ul; i < distances.size(); ++i)
+    for (auto i = 0ul; i < distances.size(); ++i)
     {
         totalDistance += distances[i];
     }
@@ -36,15 +36,15 @@ double getTotalDistance(const std::vector<double>& distances)
 double getSmallestDistance(const std::vector<double>& distances)
 {
     double smallestDistance = 0.0;
-    if(distances.size() != 0)
+    if (distances.size() != 0)
     {
         smallestDistance = distances[0];
-        for(auto i = 1ul; i < distances.size(); ++i)
-    {
-        if(distances[i] < smallestDistance)
+        for (auto i = 1ul; i < distances.size(); ++i)
         {
-            smallestDistance = distances[i];
-        }
+            if (distances[i] < smallestDistance)
+            {
+                smallestDistance = distances[i];
+            }
         }
     }
 
@@ -54,16 +54,16 @@ double getSmallestDistance(const std::vector<double>& distances)
 double getLargestDistance(const std::vector<double>& distances)
 {
     double largestDistance = 0.0;
-    if(distances.size() != 0)
+    if (distances.size() != 0)
     {
         largestDistance = distances[0];
-        for(auto i = 1ul; i < distances.size(); ++i)
-    {
-        if(distances[i] > largestDistance)
+        for (auto i = 1ul; i < distances.size(); ++i)
         {
-            largestDistance = distances[i];
+            if (distances[i] > largestDistance)
+            {
+                largestDistance = distances[i];
+            }
         }
-    }
     }
 
     return largestDistance;
@@ -72,7 +72,7 @@ double getLargestDistance(const std::vector<double>& distances)
 double getMeanDistance(const std::vector<double>& distances)
 {
     double meanDistance = 0.0;
-    if(distances.size() != 0)
+    if (distances.size() != 0)
     {
         meanDistance = getTotalDistance(distances) / distances.size();
     }

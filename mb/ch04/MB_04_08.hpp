@@ -3,7 +3,7 @@
 class RiceFromChessboard
 {
 public:
-	int getNumberOfSquares(long long);
+    int getNumberOfSquares(long long);
+
 private:
 };
-
