@@ -195,6 +195,11 @@ std::unique_ptr<AST_Poly::Number> Parser_Poly::Impl::testInputForNumber()
     else
     {
         auto tmpIt = inputIt;
+        if (*tmpIt == '-')
+        {
+            ++tmpIt;
+        }
+
         while (tmpIt != input.end() and std::isdigit(*tmpIt))
         {
             ++tmpIt;

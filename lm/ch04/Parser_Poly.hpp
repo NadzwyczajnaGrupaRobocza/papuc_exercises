@@ -4,6 +4,7 @@
 #include <ostream>
 #include <ostream>
 #include <string>
+#include <vector>
 
 namespace AST_Poly
 {
@@ -214,5 +215,67 @@ public:
 
 private:
     std::ostream& out;
+};
+
+class PolyBuilder : AstVisitor
+{
+public:
+    void visit(const Mono& m) override
+    {
+        m.getCoeff().accept(*this);
+        m.getCoeffIdx().accept(*this);
+        addMonomial(currentCoeff, currentCoeffIdx);
+    }
+
+    void visit(const Poly& p) override
+    {
+        p.getHead().accept(*this);
+        auto tailPtr = p.getTailPtr();
+        if (tailPtr != nullptr)
+        {
+            tailPtr->accept(*this);
+        }
+    }
+
+    void visit(const Coeff& c) override
+    {
+        c.getValue().accept(*this);
+        currentCoeff = currentNumber;
+    }
+
+    void visit(const CoeffIdx& c) override
+    {
+        c.getValue().accept(*this);
+        currentCoeffIdx = currentNumber;
+    }
+
+    void visit(const Number& n) override
+    {
+        currentNumber = n.getValue();
+    }
+
+    std::vector<int> getPolyCoeffsFromAst(const Node& n)
+    {
+        polyCoeffs.clear();
+        n.accept(*this);
+        return polyCoeffs;
+    }
+
+private:
+    void addMonomial(int cf, int cfIdx)
+    {
+        if (polyCoeffs.size() <
+            static_cast<std::vector<int>::size_type>(cfIdx) + 1)
+        {
+            polyCoeffs.resize(cfIdx + 1);
+        }
+
+        polyCoeffs[cfIdx] += cf;
+    }
+    int currentCoeff = 0;
+    int currentCoeffIdx = 0;
+    int currentNumber = 0;
+
+    std::vector<int> polyCoeffs;
 };
 }

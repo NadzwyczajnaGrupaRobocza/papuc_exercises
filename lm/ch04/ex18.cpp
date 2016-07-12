@@ -34,11 +34,22 @@ TEST(LMCh04Ex18, willParsePolyWithNegativeCoeff)
 
 }
 
-TEST(LMCh04Ex18, willParsePolyWithNegativeLeadCoeff)
+TEST(LMCh04Ex18, willParsePolyAndBuildCorrectVector)
 {
-    Parser_Poly p{"- 2 * x ^ 2 + 3 * x - 1"};
+    Parser_Poly p{"-2 * x ^ 2 + 3 * x - 1"};
     auto ast = p.parse();
-    AST_Poly::AstPrintingVisitor pv{std::cout};
-    pv.visit(*ast);
+    AST_Poly::PolyBuilder pb;
+    auto polyCoeffs = pb.getPolyCoeffsFromAst(*ast);
+    auto expectedCoeffs = std::vector<int>{-1, 3, -2};
+    ASSERT_EQ(expectedCoeffs, polyCoeffs);
+}
 
+TEST(LMCh04Ex18, willParsePolyOfFifthDegree)
+{
+    Parser_Poly p{"10 x ^ 5 + -2 * x ^ 2 + 3 * x - 1"};
+    auto ast = p.parse();
+    AST_Poly::PolyBuilder pb;
+    auto polyCoeffs = pb.getPolyCoeffsFromAst(*ast);
+    auto expectedCoeffs = std::vector<int>{-1, 3, -2, 0, 0, 10};
+    ASSERT_EQ(expectedCoeffs, polyCoeffs);
 }
