@@ -3,30 +3,40 @@
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
+#include <algorithm>
 
-SquareEquation::SquareEquation():a(1), b(0), c(0)
-{
+Polynomial::Polynomial(std::vector<double> pol)
+{	
+	auto nonZero = std::find_if( pol.rbegin(), pol.rend(), [](double val){ return val != 0;});
+	std::copy( pol.begin(), nonZero.base(), std::back_inserter( polynom));
 }
 
-SquareEquation::SquareEquation(float aA, float bB, float cC):a(aA), b(bB), c(cC)
+Polynomial::Polynomial()
 {
+	polynom.push_back(0);
 }
 
-void SquareEquation::setEquationEntries(float aA, float bB, float cC)
+int Polynomial::getDegree() const
 {
-	a = aA;
-	b = bB;
-	c = cC;
+	return polynom.size() -1;
 }
 
-float SquareEquation::delta()
+
+SquareEquation::SquareEquation(const Polynomial &sqr)
 {
-	return b*b-4.*a*c;
+	square = sqr;
+}
+
+
+
+double SquareEquation::delta()
+{
+	return square[1]*square[1]-4.*square[2]*square[0];
 }
 
 bool SquareEquation::isSquare()
 {
-	if(a != 0)
+	if(square[2] != 0)
 	{
 		return true;	
 	}
@@ -36,16 +46,16 @@ bool SquareEquation::isSquare()
 	}
 }
 
-std::vector<float> SquareEquation::solveEquation()
+std::vector<double> SquareEquation::solveEquation()
 {
-	std::vector<float> result; 
-	float D =delta();	
+	std::vector<double> result; 
+	double D = delta();	
 	if(isSquare())
 	{
 		if(D >= 0)
 		{
-			result.push_back((-b + std::sqrt(D))/(2.*a));
-			result.push_back((-b - std::sqrt(D))/(2.*a));				
+			result.push_back((-square[1] + std::sqrt(D))/(2.*square[2]));
+			result.push_back((-square[1] - std::sqrt(D))/(2.*square[2]));				
 			return result;		
 		}
 		else

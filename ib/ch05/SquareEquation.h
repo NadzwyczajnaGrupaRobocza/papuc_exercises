@@ -1,19 +1,30 @@
 #include <vector>
 
+class Polynomial
+{
+	public:
+	Polynomial(std::vector<double>);
+	Polynomial();
+	int getDegree()const;
+	
+double& operator[](int i)
+	{
+	return polynom[i];	
+	}
+
+	private:
+	std::vector<double> polynom;
+};
+
 class SquareEquation
 {
 	public:
-	void setEquationEntries(float aA, float bB, float cC);
-	std::vector<float> solveEquation();
-	
-	SquareEquation();
-	SquareEquation(float, float, float);		
+	SquareEquation(const Polynomial &sqr);
+	std::vector<double> solveEquation();		
 		
 	private:
-	float delta();
+	double delta();
 	bool isSquare();
-	float a;
-	float b;
-	float c;
+	Polynomial square;
 
 };
