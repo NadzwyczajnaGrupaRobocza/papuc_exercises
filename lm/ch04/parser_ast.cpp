@@ -6,7 +6,7 @@
 class Parser_Ast::Impl
 {
 public:
-    Impl(const std::string &);
+    Impl(const std::string&);
     std::unique_ptr<AST::Node> parse();
 
 private:
@@ -27,7 +27,7 @@ private:
     std::string::iterator inputIt;
 };
 
-Parser_Ast::Parser_Ast(const std::string &inputInitializer)
+Parser_Ast::Parser_Ast(const std::string& inputInitializer)
     : impl{std::make_unique<Impl>(inputInitializer)}
 {
 }
@@ -41,7 +41,7 @@ std::unique_ptr<AST::Node> Parser_Ast::parse()
     return impl->parse();
 }
 
-Parser_Ast::Impl::Impl(const std::string &inputInitializer)
+Parser_Ast::Impl::Impl(const std::string& inputInitializer)
     : input{inputInitializer}, inputIt{input.begin()}
 {
 }

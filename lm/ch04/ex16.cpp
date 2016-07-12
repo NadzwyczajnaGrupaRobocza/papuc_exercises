@@ -1,6 +1,6 @@
 #include "MinMaxMode.hpp"
-#include "gtest/gtest.h"
 #include "gmock/gmock.h"
+#include "gtest/gtest.h"
 
 TEST(LMCh04Ex16, willReturnMinForSmallData)
 {

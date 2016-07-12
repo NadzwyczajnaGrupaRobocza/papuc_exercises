@@ -5,8 +5,7 @@
 
 namespace lm
 {
-Expression::Expression(const std::string& inputInit)
-    : input{inputInit}
+Expression::Expression(const std::string& inputInit) : input{inputInit}
 {
 }
 
@@ -23,19 +22,15 @@ double Expression::getResult()
 
     switch (op)
     {
-    case '+':
-        return val1 + val2;
-    case '-':
-        return val1 - val2;
-    case '*':
-        return val1 * val2;
+    case '+': return val1 + val2;
+    case '-': return val1 - val2;
+    case '*': return val1 * val2;
     case '/':
         if (std::fabs(val2) < epsilon)
             throw std::runtime_error("division by zero");
 
         return val1 / val2;
-    default:
-        throw std::runtime_error("unknown operation");
+    default: throw std::runtime_error("unknown operation");
     }
 }
 }

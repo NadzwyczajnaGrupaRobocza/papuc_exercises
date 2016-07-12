@@ -1,15 +1,15 @@
 #include "parser.hpp"
 
-#include <stdexcept>
 #include <cctype>
+#include <stdexcept>
 
 class Parser::Impl
 {
-  public:
-    Impl(const std::string &);
+public:
+    Impl(const std::string&);
     bool parse();
 
-  private:
+private:
     bool parseGoal();
     bool parseAsignment();
     bool parseLHS();
@@ -27,23 +27,34 @@ class Parser::Impl
     std::string::iterator inputIt;
 };
 
-Parser::Parser(const std::string &inputInitializer)
+Parser::Parser(const std::string& inputInitializer)
     : impl{std::make_unique<Impl>(inputInitializer)}
 {
 }
 
-Parser::~Parser() {}
+Parser::~Parser()
+{
+}
 
-bool Parser::parse() { return impl->parse(); }
+bool Parser::parse()
+{
+    return impl->parse();
+}
 
-Parser::Impl::Impl(const std::string &inputInitializer)
+Parser::Impl::Impl(const std::string& inputInitializer)
     : input{inputInitializer}, inputIt{input.begin()}
 {
 }
 
-bool Parser::Impl::parse() { return parseGoal(); }
+bool Parser::Impl::parse()
+{
+    return parseGoal();
+}
 
-bool Parser::Impl::parseGoal() { return parseAsignment(); }
+bool Parser::Impl::parseGoal()
+{
+    return parseAsignment();
+}
 
 bool Parser::Impl::parseAsignment()
 {
@@ -69,7 +80,10 @@ bool Parser::Impl::parseAsignment()
     return true;
 }
 
-bool Parser::Impl::parseLHS() { return parseIdentifier(); }
+bool Parser::Impl::parseLHS()
+{
+    return parseIdentifier();
+}
 
 bool Parser::Impl::parseRHS()
 {
@@ -81,13 +95,25 @@ bool Parser::Impl::parseRHS()
     return parseNumber();
 }
 
-bool Parser::Impl::parseEqualsign() { return testInputAndAdvance('='); }
+bool Parser::Impl::parseEqualsign()
+{
+    return testInputAndAdvance('=');
+}
 
-bool Parser::Impl::parseSemicolon() { return testInputAndAdvance(';'); }
+bool Parser::Impl::parseSemicolon()
+{
+    return testInputAndAdvance(';');
+}
 
-bool Parser::Impl::parseIdentifier() { return testInputForIdentifier(); }
+bool Parser::Impl::parseIdentifier()
+{
+    return testInputForIdentifier();
+}
 
-bool Parser::Impl::parseNumber() { return testInputForNumber(); }
+bool Parser::Impl::parseNumber()
+{
+    return testInputForNumber();
+}
 
 bool Parser::Impl::testInputAndAdvance(char expected)
 {
@@ -112,7 +138,8 @@ bool Parser::Impl::testInputForIdentifier()
     else
     {
         auto tmpPos = inputIt;
-        while (tmpPos != input.end() and std::isalpha(*tmpPos)) {
+        while (tmpPos != input.end() and std::isalpha(*tmpPos))
+        {
             ++tmpPos;
         }
 
@@ -138,7 +165,8 @@ bool Parser::Impl::testInputForNumber()
     else
     {
         auto tmpPos = inputIt;
-        while (tmpPos != input.end() and std::isdigit(*tmpPos)) {
+        while (tmpPos != input.end() and std::isdigit(*tmpPos))
+        {
             ++tmpPos;
         }
 
@@ -156,7 +184,8 @@ bool Parser::Impl::testInputForNumber()
 
 void Parser::Impl::skipWhitespace()
 {
-    while (inputIt != input.end() and std::isspace(*inputIt)) {
+    while (inputIt != input.end() and std::isspace(*inputIt))
+    {
         ++inputIt;
     }
 }

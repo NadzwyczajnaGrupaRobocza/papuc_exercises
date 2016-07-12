@@ -84,8 +84,7 @@ int main()
                   << "May your bravery and sacrifice by an inspiration"
                   << " to the next champion.\n";
         break;
-    default:
-        std::cout << "ERROR!!!";
+    default: std::cout << "ERROR!!!";
     }
 
     return 0;

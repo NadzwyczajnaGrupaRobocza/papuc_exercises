@@ -6,10 +6,11 @@ namespace lm
 class Expression
 {
 public:
-    Expression(const std::string &);
+    Expression(const std::string&);
     double getResult();
+
 private:
-    const std::string &input;
+    const std::string& input;
     static constexpr double epsilon = 0.00000001;
 };
 }

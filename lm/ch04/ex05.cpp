@@ -10,7 +10,7 @@ TEST(LMCh04Ex05, willAddNumbers)
 TEST(LMCh04Ex05, willSubtractNumbers)
 {
     auto expression = lm::Expression("3.1 - 5.3");
-    ASSERT_DOUBLE_EQ(-2.2 , expression.getResult());
+    ASSERT_DOUBLE_EQ(-2.2, expression.getResult());
 }
 
 TEST(LMCh04Ex05, willMultiplyNumbers)

@@ -1,5 +1,5 @@
-#include <iostream>
 #include "Expression.hpp"
+#include <iostream>
 
 int main()
 {
@@ -7,12 +7,14 @@ int main()
 
     try
     {
-        while(true)
+        while (true)
         {
             std::string line;
             std::getline(std::cin, line);
-            std::cout << "Result is: " << lm::Expression(line).getResult() << "\n";
-            std::cout << "Please input expression of the form \"double op double\"\n";
+            std::cout << "Result is: " << lm::Expression(line).getResult()
+                      << "\n";
+            std::cout
+                << "Please input expression of the form \"double op double\"\n";
         }
     }
     catch (...)

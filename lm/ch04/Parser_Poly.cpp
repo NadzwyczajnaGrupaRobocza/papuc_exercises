@@ -15,7 +15,7 @@
 class Parser_Poly::Impl
 {
 public:
-    Impl(const std::string &);
+    Impl(const std::string&);
     std::unique_ptr<AST_Poly::Poly> parse();
 
 private:
@@ -46,7 +46,7 @@ private:
     const std::string varName = "x";
 };
 
-Parser_Poly::Parser_Poly(const std::string &inputInit)
+Parser_Poly::Parser_Poly(const std::string& inputInit)
     : impl{std::make_unique<Impl>(inputInit)}
 {
 }
@@ -60,7 +60,7 @@ std::unique_ptr<AST_Poly::Poly> Parser_Poly::parse()
     return impl->parse();
 }
 
-Parser_Poly::Impl::Impl(const std::string &inputInit)
+Parser_Poly::Impl::Impl(const std::string& inputInit)
     : input{inputInit}, inputIt{input.begin()}, lastOp{Op::plus}
 {
 }

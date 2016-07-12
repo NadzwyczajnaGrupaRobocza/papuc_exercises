@@ -12,7 +12,7 @@ class Node;
 class Parser_Ast
 {
 public:
-    Parser_Ast(const std::string &);
+    Parser_Ast(const std::string&);
     ~Parser_Ast();
     std::unique_ptr<AST::Node> parse();
 
@@ -31,15 +31,15 @@ class AstVisitor
 {
 public:
     ~AstVisitor() = default;
-    virtual void visit(Symbol &) = 0;
-    virtual void visit(Number &) = 0;
-    virtual void visit(Asignment &) = 0;
+    virtual void visit(Symbol&) = 0;
+    virtual void visit(Number&) = 0;
+    virtual void visit(Asignment&) = 0;
 };
 
 class Node
 {
 public:
-    virtual void accept(AstVisitor &) = 0;
+    virtual void accept(AstVisitor&) = 0;
 };
 
 class Terminal : public Node
@@ -53,7 +53,7 @@ public:
     {
     }
 
-    void accept(AstVisitor &v)
+    void accept(AstVisitor& v)
     {
         v.visit(*this);
     }
@@ -70,16 +70,16 @@ private:
 class Symbol : public Terminal
 {
 public:
-    Symbol(const std::string &valueInit) : value{valueInit}
+    Symbol(const std::string& valueInit) : value{valueInit}
     {
     }
 
-    void accept(AstVisitor &v)
+    void accept(AstVisitor& v)
     {
         v.visit(*this);
     }
 
-    const std::string &getId()
+    const std::string& getId()
     {
         return value;
     }
@@ -97,17 +97,17 @@ public:
     {
     }
 
-    void accept(AstVisitor &v)
+    void accept(AstVisitor& v)
     {
         v.visit(*this);
     }
 
-    Symbol &getLhs()
+    Symbol& getLhs()
     {
         return *lhs;
     }
 
-    Terminal &getRhs()
+    Terminal& getRhs()
     {
         return *rhs;
     }
@@ -120,21 +120,21 @@ private:
 class AstPrintingVisitor : public AstVisitor
 {
 public:
-    AstPrintingVisitor(std::ostream &outInitializer) : out{outInitializer}
+    AstPrintingVisitor(std::ostream& outInitializer) : out{outInitializer}
     {
     }
 
-    void visit(Symbol &sym) override
+    void visit(Symbol& sym) override
     {
         out << sym.getId();
     }
 
-    void visit(Number &num) override
+    void visit(Number& num) override
     {
         out << num.getValue();
     }
 
-    void visit(Asignment &ass) override
+    void visit(Asignment& ass) override
     {
         ass.getLhs().accept(*this);
         out << " <- ";
@@ -142,6 +142,6 @@ public:
     }
 
 private:
-    std::ostream &out;
+    std::ostream& out;
 };
 }

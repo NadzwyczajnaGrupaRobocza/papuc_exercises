@@ -1,9 +1,9 @@
+#include "Parser_Poly.hpp"
 #include "parser.hpp"
 #include "parser_ast.hpp"
-#include "Parser_Poly.hpp"
 #include "gtest/gtest.h"
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
 TEST(LMCh04Ex18, willInstantiateParser)
 {
@@ -31,7 +31,6 @@ TEST(LMCh04Ex18, willParsePolyWithNegativeCoeff)
     auto ast = p.parse();
     AST_Poly::AstPrintingVisitor pv{std::cout};
     pv.visit(*ast);
-
 }
 
 TEST(LMCh04Ex18, willParsePolyAndBuildCorrectVector)
