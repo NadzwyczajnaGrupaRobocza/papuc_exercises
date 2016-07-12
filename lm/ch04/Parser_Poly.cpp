@@ -16,7 +16,7 @@
 class Parser_Poly::Impl
 {
 public:
-    Impl(const std::string&);
+    Impl(const std::string &);
     std::unique_ptr<AST_Poly::Poly> parse();
 
 private:
@@ -61,13 +61,8 @@ std::unique_ptr<AST_Poly::Poly> Parser_Poly::parse()
     return impl->parse();
 }
 
-<<<<<<< 5a3eb068573857a913369cef5bde4be5cc0a1b90
 Parser_Poly::Impl::Impl(const std::string& inputInit)
     : input{inputInit}, inputIt{input.begin()}, lastOp{Op::plus}
-=======
-Parser_Poly::Impl::Impl(const std::string &inputInit)
-    : input{inputInit}, inputIt{input.begin()}
->>>>>>> [LM] polynomial parser WIP
 {
 }
 
