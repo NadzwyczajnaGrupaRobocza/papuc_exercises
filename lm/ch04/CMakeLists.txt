@@ -13,6 +13,7 @@ add_executable(ch04-lm
   parser.cpp
   ex18.cpp
   parser_ast.cpp
+  Parser_Poly.cpp
   )
 target_link_libraries(ch04-lm gtest)
 
