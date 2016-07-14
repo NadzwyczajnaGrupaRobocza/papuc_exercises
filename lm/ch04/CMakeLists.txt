@@ -8,6 +8,7 @@ add_executable(ch04-lm
   ex08.cpp
   Grains.cpp
   ex10.cpp
+  ex12.cpp
   ex16.cpp
   ex17.cpp
   parser.cpp
