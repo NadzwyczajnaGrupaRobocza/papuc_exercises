@@ -4,6 +4,53 @@
 #include "gtest/gtest.h"
 #include <iostream>
 #include <sstream>
+#include <PolySolver.hpp>
+
+TEST(LMCh04Ex18, willSolveLinearEq)
+{
+    using SC = Equation::SolutionsContainer;
+    Polynomial p({2.0, 1.0});
+
+    Equation eq{p};
+
+    SC result = eq.solve();
+    SC expected = {-2.0};
+    ASSERT_EQ(expected, result);
+}
+
+TEST(LMCh04Ex18, willSolveQuadraticEqWithTwoRoots)
+{
+    using SC = Equation::SolutionsContainer;
+    Polynomial p({-6.0, 1.0, 1.0});
+
+    Equation eq{p};
+
+    SC result = eq.solve();
+    SC expected = {-3.0, 2.0};
+    ASSERT_EQ(expected, result);
+}
+
+TEST(LMCh04Ex18, willSolveQuadraticEqWithOneRoot)
+{
+    using SC = Equation::SolutionsContainer;
+    Polynomial p({1.0, -2.0, 1.0});
+    Equation eq{p};
+
+    SC result = eq.solve();
+    SC expected = {1.0};
+    ASSERT_EQ(expected, result);
+}
+
+TEST(LMCh04Ex18, willSolveQuadraticEqWithNoRoots)
+{
+    using SC = Equation::SolutionsContainer;
+    Polynomial p({2.0, -2.0, 1.0});
+    Equation eq{p};
+
+    SC result = eq.solve();
+    SC expected = {};
+    ASSERT_EQ(expected, result);
+}
 
 TEST(LMCh04Ex18, willInstantiateParser)
 {
@@ -25,13 +72,13 @@ TEST(LMCh04Ex18, willInstantiateParserAst)
     ASSERT_EQ("xyzfff <- 321", out.str());
 }
 
-TEST(LMCh04Ex18, willParsePolyWithNegativeCoeff)
-{
-    Parser_Poly p{"2 * x ^ 2 + 3 * x - 1"};
-    auto ast = p.parse();
-    AST_Poly::AstPrintingVisitor pv{std::cout};
-    pv.visit(*ast);
-}
+// TEST(LMCh04Ex18, willParsePolyWithNegativeCoeff)
+// {
+//     Parser_Poly p{"2 * x ^ 2 + 3 * x - 1"};
+//     auto ast = p.parse();
+//     AST_Poly::AstPrintingVisitor pv{std::cout};
+//     pv.visit(*ast);
+// }
 
 TEST(LMCh04Ex18, willParsePolyAndBuildCorrectVector)
 {
