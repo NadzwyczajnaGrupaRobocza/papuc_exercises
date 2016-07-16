@@ -52,6 +52,25 @@ TEST(LMCh04Ex18, willSolveQuadraticEqWithNoRoots)
     ASSERT_EQ(expected, result);
 }
 
+TEST(LMCh04Ex18, willSolveCubic)
+{
+    using SC = Equation::SolutionsContainer;
+    Polynomial p({6.0, 11.0, 6.0, 1.0});
+    Equation eq{p};
+
+    SC result = eq.solve();
+    //SC expected = { -3.0, -2.0, -1.0};
+
+    std::for_each(result.begin(), result.end(),
+                  [&](const auto x)
+                  {
+                      ASSERT_NEAR(0.0, p(x), 0.3);
+                      std::cout << "at sol.begin: " << p(x) << "\n";
+                  });
+
+    //ASSERT_EQ(expected, result);
+}
+
 TEST(LMCh04Ex18, willInstantiateParser)
 {
     Parser p{"x = 123;"};
