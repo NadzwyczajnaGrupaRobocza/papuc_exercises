@@ -11,11 +11,11 @@ Calculator::Calculator(const Data& data)
 {
 }
 
-void Calculator::runCalculator()
+std::string Calculator::runCalculator()
 {
     validateData();
     result = calculate();
-    std::cout << getResult() << std::endl;
+    return printResult();
 }
 
 void Calculator::validateData()
@@ -90,7 +90,7 @@ double Calculator::calculate()
     return operationResult;
 }
 
-std::string Calculator::getResult()
+std::string Calculator::printResult()
 {
     std::stringstream output;
     char cOperation = *(operation.c_str());

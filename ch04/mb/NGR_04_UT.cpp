@@ -76,122 +76,53 @@ TEST(MBB_04_05, throwingErrorAfterGettingEmptyData)
 {
     Data data = {0, 0, ""};
     Calculator calc = Calculator(data);
-    EXPECT_THROW(calc.validateData(), std::string);
+    EXPECT_THROW(calc.runCalculator(), std::string);
 }
 
 TEST(MBB_04_05, throwingErrorAfterGettingWrongOperator)
 {
     Data data = {12.0, 3.0, "%"};
     Calculator calc = Calculator(data);
-    EXPECT_THROW(calc.validateData(), std::string);
+    EXPECT_THROW(calc.runCalculator(), std::string);
 }
 
 TEST(MBB_04_05, throwingErrorAfterDividingByZero)
 {
     Data data = {12.0, 0, "/"};
     Calculator calc = Calculator(data);
-    EXPECT_THROW(calc.validateData(), std::string);
-}
-
-TEST(MBB_04_05, acceptOperation)
-{
-
-    Data data = {0.0, 0.0, ""};
-    Calculator calc = Calculator(data);
-    EXPECT_FALSE(calc.operationIsNotAcceptable("+"));
-}
-
-TEST(MBB_04_05, rejectOperation)
-{
-    Data data = {0.0, 0.0, ""};
-    Calculator calc = Calculator(data);
-    EXPECT_TRUE(calc.operationIsNotAcceptable("%"));
-}
-
-TEST(MBB_04_05, secondIsAlmostZero)
-{
-    Data data = {0.0, 0.000000009, ""};
-    Calculator calc = Calculator(data);
-    EXPECT_TRUE(calc.secondIsAlmostZero());
-}
-
-TEST(MBB_04_05, secondIsNotAlmostZero)
-{
-    Data data = {0.0, 0.00000002, ""};
-    Calculator calc = Calculator(data);
-    EXPECT_FALSE(calc.secondIsAlmostZero());
-}
-
-TEST(MBB_04_05, calculateSum)
-{
-    Data data = {12.0, 2.3, "+"};
-    Calculator calc = Calculator(data);
-    EXPECT_EQ(14.3, calc.calculate());
-}
-
-TEST(MBB_04_05, calculateDifference)
-{
-    Data data = {12.0, 2.3, "-"};
-    Calculator calc = Calculator(data);
-    EXPECT_EQ(9.7, calc.calculate());
-}
-
-TEST(MBB_04_05, calculateProduct)
-{
-    Data data = {12.0, 2.3, "*"};
-    Calculator calc = Calculator(data);
-    EXPECT_EQ(12*2.3, calc.calculate());
-}
-
-TEST(MBB_04_05, calculateQuotient)
-{
-    Data data = {12.0, 2.3, "/"};
-    Calculator calc = Calculator(data);
-    EXPECT_EQ(12/2.3, calc.calculate());
+    EXPECT_THROW(calc.runCalculator(), std::string);
 }
 
 TEST(MBB_04_05, printSum)
 {
     Data data = {12.0, 2.3, "+"};
     Calculator calc = Calculator(data);
-    calc.result = calc.calculate();
     EXPECT_EQ("Sum of 12 and 2.3 is equal to 14.3",
-              calc.getResult());
+              calc.runCalculator());
 }
 
 TEST(MBB_04_05, printDifference)
 {
     Data data = {12.0, 2.3, "-"};
     Calculator calc = Calculator(data);
-    calc.result = calc.calculate();
     EXPECT_EQ("Difference of 12 and 2.3 is equal to 9.7",
-              calc.getResult());
+              calc.runCalculator());
 }
 
 TEST(MBB_04_05, printProduct)
 {
     Data data = {12.0, 2.3, "*"};
     Calculator calc = Calculator(data);
-    calc.result = calc.calculate();
     EXPECT_EQ("Product of 12 and 2.3 is equal to 27.6",
-              calc.getResult());
+              calc.runCalculator());
 }
 
 TEST(MBB_04_05, printQuotient)
 {
     Data data = {12.0, 2.3, "/"};
     Calculator calc = Calculator(data);
-    calc.result = calc.calculate();
     EXPECT_EQ("Quotient of 12 and 2.3 is equal to 5.21739",
-              calc.getResult());
-}
-
-TEST(MBB_04_05, runCalculator)
-{
-    Data data = {12.0, 2.3, "+"};
-    Calculator calc = Calculator(data);
-    calc.runCalculator();
-    EXPECT_TRUE(true);
+              calc.runCalculator());
 }
 
 // Excercise 08
@@ -200,8 +131,7 @@ TEST(MBB_04_05, runCalculator)
 TEST(MBB_04_08, throwingError)
 {
 	RiceFromChessboard riceCalculator = RiceFromChessboard();
-//	EXPECT_THROW(riceCalculator.getNumberOfSquares(-10), negativeRiceException);
-	EXPECT_THROW(riceCalculator.getNumberOfSquares(-10), std::runtime_error);
+	EXPECT_THROW(riceCalculator.getNumberOfSquares(-10), std::out_of_range);
 }
 
 TEST(MBB_04_08, squaresFor0RiceGrains)

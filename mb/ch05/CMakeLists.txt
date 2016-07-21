@@ -1,9 +1,9 @@
 include_directories(${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
 
 # UT
-add_executable(mb-ch05 ../../gtest_main.cc 
-                       ../common/MB_Common.cpp
-                       NGR_05_UT.cpp
-                       NGR_05_02_01.cpp
+add_executable(mb-05 ../../gtest_main.cc 
+                     ../common/MB_Common.cpp
+                     MB_05_UT.cpp
+                     MB_05_02.cpp
                        )
-target_link_libraries(mb-ch05 gtest)
+target_link_libraries(mb-05 gtest)

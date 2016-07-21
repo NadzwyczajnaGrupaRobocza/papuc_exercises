@@ -7,7 +7,7 @@ int RiceFromChessboard::getNumberOfSquares(long long riceGrains)
 {
 	if(riceGrains < 0)
 	{
-		std::runtime_error error("Number of rice grains shouldn't be negative");
+		std::out_of_range error("Number of rice grains shouldn't be negative");
 		throw error;
 	}
 	
