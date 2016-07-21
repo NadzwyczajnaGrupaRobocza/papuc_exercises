@@ -25,8 +25,11 @@ In the root directory of the project:
 
 4. merge upstream changes to your checkout
     ``` bash
-    git merge upstream/master
+    git pull --rebase upstream master
     ```
+
+*Only step 4 is needed to later repeat the procedure*
+
 
 ## Initialize gtest submodule
 
