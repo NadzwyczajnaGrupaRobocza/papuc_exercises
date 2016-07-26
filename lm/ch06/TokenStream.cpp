@@ -4,8 +4,9 @@
 
 namespace calc
 {
+
 TokenStream::TokenStream(std::istream& inputInit)
-    : input{inputInit}
+    : input{inputInit}, bufferFull{false}
 {
 }
 
@@ -17,11 +18,12 @@ Token TokenStream::get()
         return buffer;
     }
     return getTokenFromStream();
+}
 
 void TokenStream::putback(Token t)
 {
     buffer = t;
-    full = true;
+    bufferFull = true;
 }
 
 Token TokenStream::getTokenFromStream()
@@ -38,8 +40,7 @@ Token TokenStream::getTokenFromStream()
     case '+':
     case '-':
     case '*':
-    case '/':
-        return Token{ch};
+    case '/': return Token{ch};
     case '.':
     case '0':
     case '1':
@@ -57,8 +58,7 @@ Token TokenStream::getTokenFromStream()
         input >> value;
         return Token('8', value);
     }
-    default:
-        throw std::runtime_error("invalid char in input stream");
+    default: throw std::runtime_error("invalid char in input stream");
     }
 }
 }

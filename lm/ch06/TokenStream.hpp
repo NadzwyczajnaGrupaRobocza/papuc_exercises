@@ -1,7 +1,7 @@
 #pragma once
 
-#include <iosfwd>
 #include "Token.hpp"
+#include <iosfwd>
 
 namespace calc
 {
