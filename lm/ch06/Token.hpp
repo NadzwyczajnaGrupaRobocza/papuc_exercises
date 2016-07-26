@@ -5,10 +5,11 @@ namespace calc
 class Token
 {
 public:
+    Token();
     Token(char);
     Token(char, double);
 
-    char op;
+    char typeId;
     double value;
 };
 }
