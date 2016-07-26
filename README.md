@@ -63,7 +63,7 @@ In the root directory of the project do the following:
     make ch04-<user-prefix>
    ```
 
-4. The resulting binary is at \<project-root\>/build/ch04/lm/ch04-lm
+4. The resulting binary is at \<project-root\>/build/ch04/lm/ch04-\<user-prefix\>
 
 ## Adding own code to the build system:
 
