@@ -1,7 +1,7 @@
 # papuc_exercises
 Programming: Principles and Practice Using C++ - Exercises
 
-User prefix will be written as <user-prefix>. User prefix
+User prefix will be written as \<user-prefix\>. User prefix
 can be one of "lm", "ib", "mb".
 
 ## Update your fork with changes from the common repository
@@ -63,11 +63,11 @@ In the root directory of the project do the following:
     make ch04-<user-prefix>
    ```
 
-4. The resulting binary is at <project-root>/build/ch04/lm/ch04-lm
+4. The resulting binary is at \<project-root\>/build/ch04/lm/ch04-lm
 
 ## Adding own code to the build system:
 
-1. Move your files to your user directory (<project-root>/ch04/<user-prefix>)
+1. Move your files to your user directory (\<project-root\>/ch04/\<user-prefix\>)
 
 2. Edit the CMakeLists.txt file in your user directory.
     * In "add_executable" command, replace empty.cpp with the name of
