@@ -15,9 +15,9 @@ TEST(TokenStreamTest, willReturnTokensForSimpleExpression)
     // output.emplace_back(ts.get());
     // output.emplace_back(ts.get());
     // output.emplace_back(ts.get());
-    std::generate_n(std::back_inserter(output), 3, [&] { return ts.get(); });
+    std::generate_n(std::back_inserter(output), 4, [&] { return ts.get(); });
 
-    ASSERT_EQ(output.size(), 3u);
+    ASSERT_EQ(output.size(), 4u);
     ASSERT_EQ(output[0].typeId, '8');
     ASSERT_NEAR(output[0].value, 12.1, epsilon);
 
@@ -25,4 +25,6 @@ TEST(TokenStreamTest, willReturnTokensForSimpleExpression)
 
     ASSERT_EQ(output[2].typeId, '8');
     ASSERT_NEAR(output[2].value, 17.3, epsilon);
+
+    ASSERT_EQ(output[3].typeId, 'E');
 }
