@@ -1,10 +1,38 @@
 #include "Evaluator.hpp"
 
 #include <stdexcept>
+#include <memory>
+#include <utility>
+
+namespace
+{
+
+long long factorial_impl(long long n)
+{
+    if (n < 2)
+        return 1;
+    return n * factorial_impl(n - 1);
+}
+
+double factorial(double n)
+{
+    auto N = static_cast<long long>(n);
+    return static_cast<double>(factorial_impl(N));
+}
+
+}
 
 namespace calc
 {
-Evaluator::Evaluator(TokenStream& tsInit) : ts{tsInit}
+
+Evaluator::Evaluator(TokenStream& tsInit) : tsVal{nullptr},
+                                            ts{tsInit}
+{
+}
+
+Evaluator::Evaluator(TokenStream&& tsInitVal) :
+    tsVal{std::make_unique<TokenStream>(std::move(tsInitVal))},
+    ts{*tsVal}
 {
 }
 
@@ -25,8 +53,6 @@ double Evaluator::expression()
             left -= term();
             t = ts.get();
             break;
-        case ';':
-            return left;
         default: ts.putback(t); return left;
         }
     }
@@ -64,6 +90,7 @@ double Evaluator::term()
 double Evaluator::primary()
 {
     Token t = ts.get();
+    double retVal;
     switch (t.typeId)
     {
     case '(':
@@ -74,10 +101,38 @@ double Evaluator::primary()
         {
             throw std::runtime_error("expected ')' missing");
         }
-        return d;
+        retVal = d;
+        break;
     }
-    case '8': return t.value;
+    case '{':
+    {
+        double d = expression();
+        t = ts.get();
+        if (t.typeId != '}')
+        {
+            throw std::runtime_error("expected '}' missing");
+        }
+        retVal = d;
+        break;
+    }
+    case '8':
+    {
+        retVal = t.value;
+        break;
+    }
     default: throw std::runtime_error("expected primary expression");
     }
+
+    t = ts.get();
+    if (t.typeId == '!')
+    {
+        return factorial(retVal);
+    }
+    else
+    {
+        ts.putback(t);
+        return retVal;
+    }
+
 }
 }
