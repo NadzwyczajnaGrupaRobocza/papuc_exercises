@@ -1,34 +1,46 @@
 #include "gtest/gtest.h"
 #include "Evaluator.hpp"
-#include "MockTokenStream.hpp"
+#include "TokenStream.hpp"
 
 using namespace testing;
 
-class EvaluatorTest : public Test
+inline calc::TokenStream buildTs(const std::string& str)
 {
-public:
-    EvaluatorTest()
-    {}
-protected:
-    calc::MockTokenStream mts;
-    calc::Evaluator e{mts};
-};
+    return calc::TokenStream{std::stringstream{str}};
+}
 
-TEST_F(EvaluatorTest, willAddTwoTokens)
+TEST(EvaluatorTest, willAddTwoTokens)
 {
-    calc::Token val1{'8', 11.5};
-    calc::Token plus{'+'};
-    calc::Token val2{'8', 0.8};
-    calc::Token terminate{';'};
+    calc::Evaluator e{buildTs("12.3 + 2")};
+    ASSERT_EQ(e.expression(), 14.3);
+}
 
-    InSequence dummy;
-    EXPECT_CALL(mts, _get()).WillOnce(Return(val1));
-    EXPECT_CALL(mts, _get()).WillOnce(Return(plus));
-    EXPECT_CALL(mts, _putback(plus)).Times(1);
-    EXPECT_CALL(mts, _get()).WillOnce(Return(plus));
-    EXPECT_CALL(mts, _get()).WillOnce(Return(val2));
-    EXPECT_CALL(mts, _get()).WillOnce(Return(terminate));
-    EXPECT_CALL(mts, _putback(terminate));
-    EXPECT_CALL(mts, _get()).WillOnce(Return(terminate));
-    ASSERT_EQ(e.expression(), 12.3);
+TEST(EvaluatorTest, willHandleMultiplication)
+{
+    calc::Evaluator e{buildTs("12.3 + 2 * 7 - 10 / 5")};
+    ASSERT_EQ(e.expression(), 24.3);
+}
+
+TEST(EvaluatorTest, willHandleParenthesis)
+{
+    calc::Evaluator e{buildTs("2 * (3 + 4)")};
+    ASSERT_EQ(e.expression(), 14.0);
+}
+
+TEST(EvaluatorTest, willHandleTwoTypesOfParenthesis)
+{
+    calc::Evaluator e{buildTs("{2 + 3} * (4 + 5)")};
+    ASSERT_EQ(e.expression(), 45.0);
+}
+
+TEST(EvaluatorTest, willCalculateFactorial)
+{
+    calc::Evaluator e{buildTs("2 * 3!")};
+    ASSERT_EQ(e.expression(), 12.0);
+}
+
+TEST(EvaluatorTest, willCalculateFactorialFromParenthesis)
+{
+    calc::Evaluator e{buildTs("(2 + 3)!")};
+    ASSERT_EQ(e.expression(), 120.0);
 }
