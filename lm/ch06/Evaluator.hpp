@@ -13,6 +13,6 @@ public:
     double primary();
     double term();
 private:
-    TokenStream ts;
+    TokenStream& ts;
 };
 };
