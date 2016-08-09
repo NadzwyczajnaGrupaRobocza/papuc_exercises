@@ -9,9 +9,10 @@ class TokenStream
 {
 public:
     TokenStream(std::istream&);
+    virtual ~TokenStream() = default;
 
-    Token get();
-    void putback(Token);
+    virtual Token get();
+    virtual void putback(Token);
 
 private:
     Token getTokenFromStream();

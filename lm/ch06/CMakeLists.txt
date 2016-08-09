@@ -6,5 +6,14 @@ add_executable(lm-ch06
   Token.cpp
   TokenStream.cpp
   Evaluator.cpp
+  EvaluatorTest.cpp
   )
-target_link_libraries(lm-ch06 gtest)
+
+target_link_libraries(lm-ch06 gtest gmock)
+
+add_executable(calc
+  CalcMain.cpp
+  Token.cpp
+  TokenStream.cpp
+  Evaluator.cpp
+  )
