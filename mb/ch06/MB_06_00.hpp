@@ -39,5 +39,5 @@ public:
 private:
     TokenStream& tokenStream;
     
-    double returnValue(const double& value);
+    double calculteValue(const double& value);
 };

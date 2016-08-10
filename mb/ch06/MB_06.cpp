@@ -3,9 +3,10 @@
 
 #include "MB_06_00.hpp"
 
-int main(int argc, char* argv[])
+//int main(int argc, char* argv[])
+int main()
 {
-    if(argc < 2)
+    /*if(argc < 2)
     {
         std::cout << "Nie podano parametru!" << std::endl;
         return 1;
@@ -13,8 +14,9 @@ int main(int argc, char* argv[])
     
     std::cout << "Wyliczanie wyrażenia " << argv[1] << std::endl;
     
-    std::string expression{argv[1]};    
-    TokenStream tokenStream{expression + ";"};
+    std::string expression{argv[1]};*/ //mbb
+    //TokenStream tokenStream{expression + ";"};
+    TokenStream tokenStream; //mbb
     
     try
     {
@@ -27,6 +29,7 @@ int main(int argc, char* argv[])
             {
                 break;
             }
+            
             if(token.kind == ';')
             {
                 std::cout << "=" << value << std::endl;
