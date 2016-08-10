@@ -46,7 +46,8 @@ Token TokenStream::get()
     
     char ch;
     //std::cin >> ch;
-    if(stream >> ch)
+    //if(stream >> ch)
+    if(std::cin >> ch) //mbb
     {
         switch(ch)
         {
@@ -64,17 +65,19 @@ Token TokenStream::get()
             case '0': case '1': case '2': case '3': case '4':
             case '5': case '6': case '7': case '8': case '9':
             {
-                //std::cin.putback(ch);
-                stream.putback(ch);
+                std::cin.putback(ch); //mbb
+                //stream.putback(ch);
                 double value;
-                //std::cin >> value;
-                stream >> value;
+                std::cin >> value; //mbb
+                //stream >> value;
                 return Token{'d', value};
             }
             default:
             {
-                std::cout << "??" << static_cast<int>(ch) << std::endl;
-                std::logic_error error("Nieprawidłowy token");
+                std::stringstream wrongToken;
+                wrongToken << "Nieprawidłowy token:" << ch << std::endl
+                           << "Kod: " << static_cast<int>(ch) << std::endl;
+                std::logic_error error(wrongToken.str());
                 throw error;
             }
             
@@ -82,6 +85,7 @@ Token TokenStream::get()
     }
     else
     {
+        std::cout << "Returning token #" << std::endl;
         return Token{'#'};
     }
 }
@@ -171,7 +175,7 @@ double Parser::primary()
                 std::logic_error error("Oczekiwano ')'");
                 throw error;
             }
-            return returnValue(value);
+            return calculteValue(value);
         }
         case '{':
         {
@@ -182,26 +186,30 @@ double Parser::primary()
                 std::logic_error error("Oczekiwano '}'");
                 throw error;
             }
-            return returnValue(value);
+            return calculteValue(value);
         }
         case 'd':
         {
             value = token.value;
-            return returnValue(value);
+            return calculteValue(value);
         }
-        case '#':
+        case 'k':
         {
-            std::cout << "bbb" << std::endl;
+            tokenStream.putback(token);
+        //    std::cout << "Token: " << token.kind << std::endl;
+            return 0.0;
         }
         default:
         {
+            tokenStream.putback(token);
+            std::cout << "Token: " << token.kind << std::endl;
             std::logic_error error("Oczekiwano czynnika");
             throw error;
         }
     }
 }
 
-double Parser::returnValue(const double& value)
+double Parser::calculteValue(const double& value)
 {
     Token token = tokenStream.get();
     if(token.kind == '!' )
