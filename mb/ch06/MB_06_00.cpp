@@ -83,7 +83,7 @@ Token TokenStream::get()
             
         }
     }
-    else
+    else // zastąpić w rozsądny sposób
     {
         std::cout << "Returning token #" << std::endl;
         return Token{'#'};
@@ -196,7 +196,6 @@ double Parser::primary()
         case 'k':
         {
             tokenStream.putback(token);
-        //    std::cout << "Token: " << token.kind << std::endl;
             return 0.0;
         }
         default:
