@@ -48,7 +48,7 @@ int main()
     }
     catch (...)
     {
-        std::cerr << "Wyjątek";
+        std::cerr << "Niespodziewany wyjątek";
         return 2;
     }
     return 0;
