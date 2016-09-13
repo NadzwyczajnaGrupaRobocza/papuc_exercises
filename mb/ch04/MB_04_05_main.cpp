@@ -1,4 +1,4 @@
-#include "NGR_04_05_01.hpp"
+#include "MB_04_05.hpp"
 #include <iostream>
 
 int main()
@@ -14,7 +14,7 @@ int main()
     {
         calculator.runCalculator();
     }
-    catch(const std::string& error)
+    catch (const std::string& error)
     {
         std::cerr << "Error: " << error << "\n";
         return 1;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 std::vector<double> collectDistances();
 double getTotalDistance(const std::vector<double>&);
 double getSmallestDistance(const std::vector<double>&);

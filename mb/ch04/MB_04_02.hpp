@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 
 std::vector<double> collectTemperatures();
