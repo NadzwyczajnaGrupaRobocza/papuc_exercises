@@ -51,6 +51,7 @@ Token TokenStream::getTokenFromStream()
     case '-':
     case '*':
     case '/':
+    case '%':
     case '!': return Token{ch};
     case '.':
     case '0':
