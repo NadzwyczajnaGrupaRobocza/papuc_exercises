@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <memory>
 #include <utility>
+#include <iostream>
 
 namespace
 {
@@ -34,6 +35,11 @@ Evaluator::Evaluator(TokenStream&& tsInitVal) :
     tsVal{std::make_unique<TokenStream>(std::move(tsInitVal))},
     ts{*tsVal}
 {
+}
+
+double Evaluator::calculate()
+{
+    return expression();
 }
 
 double Evaluator::expression()
