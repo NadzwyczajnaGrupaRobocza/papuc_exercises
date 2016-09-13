@@ -11,6 +11,7 @@ public:
     Evaluator(TokenStream&);
     Evaluator(TokenStream&& tsInitVal);
 
+    double calculate();
     double expression();
     double primary();
     double term();

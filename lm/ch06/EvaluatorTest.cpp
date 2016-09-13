@@ -1,6 +1,9 @@
 #include "gtest/gtest.h"
 #include "Evaluator.hpp"
 #include "TokenStream.hpp"
+#include <sstream>
+#include <vector>
+#include <string>
 
 using namespace testing;
 
@@ -43,4 +46,19 @@ TEST(EvaluatorTest, willCalculateFactorialFromParenthesis)
 {
     calc::Evaluator e{buildTs("(2 + 3)!")};
     ASSERT_EQ(e.expression(), 120.0);
+}
+
+TEST(stringstream, howSplitWorks)
+{
+    std::vector<std::string> tokens;
+    std::string input{"12; 13; 14;"};
+    std::stringstream ss{input};
+    std::string token;
+    while (std::getline(ss, token, ';'))
+    {
+        tokens.push_back(token);
+    }
+    auto num_sep = std::count(input.begin(), input.end(), ';');
+    ASSERT_EQ(num_sep, 3);
+    ASSERT_EQ(tokens.size(), 3u);
 }
