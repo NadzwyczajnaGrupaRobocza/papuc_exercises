@@ -1,6 +1,5 @@
 #include <stdexcept>
 #include <iostream>
-//#include <sstream>
 
 #include "MB_06_00.hpp"
 
@@ -45,9 +44,9 @@ Token TokenStream::get()
     }
     
     char ch;
-    //std::cin >> ch;
-    //if(stream >> ch)
-    if(std::cin >> ch) //mbb
+    //std::cin >> ch; // remove this?
+    if(stream >> ch)
+    //if(std::cin >> ch) //mbb
     {
         switch(ch)
         {
@@ -65,11 +64,11 @@ Token TokenStream::get()
             case '0': case '1': case '2': case '3': case '4':
             case '5': case '6': case '7': case '8': case '9':
             {
-                std::cin.putback(ch); //mbb
-                //stream.putback(ch);
+                //std::cin.putback(ch);
+                stream.putback(ch);
                 double value;
-                std::cin >> value; //mbb
-                //stream >> value;
+                //std::cin >> value;
+                stream >> value;
                 return Token{'d', value};
             }
             default:
