@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+int factorial(const unsigned&);
+
 class Token
 {
 public:
