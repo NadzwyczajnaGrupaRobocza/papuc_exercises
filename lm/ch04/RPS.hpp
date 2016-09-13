@@ -18,7 +18,7 @@ enum class Move
     scissors
 };
 
-inline std::ostream &operator<<(std::ostream &out, Move m)
+inline std::ostream& operator<<(std::ostream& out, Move m)
 {
     switch (m)
     {
@@ -89,20 +89,19 @@ MatchResult getMatchResult(Move lhsMove, Move rhsMove)
     }
 }
 
-MatchResult getTournamentResult(const std::vector<Move> &lhs,
-                                const std::vector<Move> &rhs)
+MatchResult getTournamentResult(const std::vector<Move>& lhs,
+                                const std::vector<Move>& rhs)
 {
     std::vector<MatchResult> singleMatchResult{
         std::min(lhs.size(), rhs.size())};
 
-    boost::transform(lhs, rhs, singleMatchResult.begin(),
-                     getMatchResult);
+    boost::transform(lhs, rhs, singleMatchResult.begin(), getMatchResult);
 
     std::map<MatchResult, unsigned> tally;
 
-    boost::for_each(singleMatchResult, [&](const auto &smr) { tally[smr]++; });
+    boost::for_each(singleMatchResult, [&](const auto& smr) { tally[smr]++; });
     auto maxElementIter =
-        boost::max_element(tally, [](const auto &lhs, const auto &rhs) {
+        boost::max_element(tally, [](const auto& lhs, const auto& rhs) {
             return lhs.second < rhs.second;
         });
 

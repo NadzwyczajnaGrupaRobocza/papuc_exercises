@@ -1,6 +1,6 @@
-#include <vector>
-#include "gtest/gtest.h"
 #include "Median.hpp"
+#include "gtest/gtest.h"
+#include <vector>
 
 TEST(LMCh04Ex02, willHandleSmallInput)
 {

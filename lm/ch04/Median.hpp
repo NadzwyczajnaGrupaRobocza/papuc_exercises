@@ -1,15 +1,14 @@
 #pragma once
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 namespace lm
 {
-template<typename T>
+template <typename T>
 class Median
 {
 public:
-    Median(const std::vector<T> &v)
-        : values{v}
+    Median(const std::vector<T>& v) : values{v}
     {
     }
 
@@ -32,6 +31,7 @@ public:
             return values[middleIndex];
         }
     }
+
 private:
     std::vector<T> values;
 };
