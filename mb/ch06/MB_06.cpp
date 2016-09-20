@@ -4,7 +4,6 @@
 #include "MB_06_00.hpp"
 
 int main(int argc, char* argv[])
-//int main() //mbb
 {
     if(argc < 2)
     {
@@ -12,17 +11,16 @@ int main(int argc, char* argv[])
         return 1;
     }
     
-    std::cout << "Wyliczanie wyrażenia " << argv[1] << std::endl;
+    std::cout << ">> " << argv[1] << std::endl;
     
     std::string expression{argv[1]};
-    TokenStream tokenStream{expression + ";"};
-    //TokenStream tokenStream; //mbb
-    
+    TokenStream tokenStream{expression + END_OF_EXPR + QUIT};
+
     try
     {
         double value = 0;
         Parser parser{tokenStream};
-        while (std::cin) // ??????????
+        while (std::cin)
         {
             Token token = tokenStream.get();
             if(token.kind == 'k')
@@ -32,7 +30,7 @@ int main(int argc, char* argv[])
             
             if(token.kind == ';')
             {
-                std::cout << "=" << value << std::endl;
+                std::cout << "= " << value << std::endl;
             }
             else
             {

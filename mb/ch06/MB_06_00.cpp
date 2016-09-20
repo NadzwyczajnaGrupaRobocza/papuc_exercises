@@ -15,6 +15,12 @@ int factorial(const unsigned& value)
     }
 }
 
+void error(std::string cause)
+{
+    std::logic_error logicError(cause);
+    throw logicError;
+}
+
 Token::Token(char aKind)
     : kind {aKind}, value {0.0}
 {
@@ -44,9 +50,7 @@ Token TokenStream::get()
     }
     
     char ch;
-    //std::cin >> ch; // remove this?
     if(stream >> ch)
-    //if(std::cin >> ch) //mbb
     {
         switch(ch)
         {
@@ -64,10 +68,8 @@ Token TokenStream::get()
             case '0': case '1': case '2': case '3': case '4':
             case '5': case '6': case '7': case '8': case '9':
             {
-                //std::cin.putback(ch);
                 stream.putback(ch);
                 double value;
-                //std::cin >> value;
                 stream >> value;
                 return Token{'d', value};
             }
@@ -93,8 +95,7 @@ void TokenStream::putback(Token token)
 {
     if(full)
     {
-        std::logic_error error("Wstawianie tokenu do pełnego bufora");
-        throw error;
+        error("Wstawianie tokenu do pełnego bufora");
     }
     buffer = token;
     full = true;

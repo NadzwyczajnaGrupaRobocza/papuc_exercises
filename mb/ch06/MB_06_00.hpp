@@ -2,7 +2,12 @@
 
 #include <sstream>
 
+const char QUIT = 'k';
+const char END_OF_EXPR = ';';
+const char DIGIT = 'd';
+
 int factorial(const unsigned&);
+void error(std::string);
 
 class Token
 {
