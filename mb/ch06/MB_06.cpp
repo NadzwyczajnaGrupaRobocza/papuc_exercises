@@ -1,7 +1,9 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "MB_06_00.hpp"
+#include "Token.hpp"
+#include "TokenStream.hpp"
+#include "Calculator.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -19,25 +21,31 @@ int main(int argc, char* argv[])
     try
     {
         double value = 0;
-        Parser parser{tokenStream};
+        Calculator parser{tokenStream};
         while (std::cin)
         {
-            Token token = tokenStream.get();
-            if(token.kind == 'k')
+            try
             {
-                break;
-            }
-            
-            if(token.kind == ';')
-            {
+                Token token = tokenStream.get();
+                while (token.kind == END_OF_EXPR)
+                {
+                    token = tokenStream.get();
+                }
+                if(token.kind == QUIT)
+                {
+                    return 0;
+                }
+                tokenStream.putback(token);
+                value = parser.expression();
                 std::cout << "= " << value << std::endl;
             }
-            else
+            catch (std::logic_error& error)
             {
-                tokenStream.putback(token);
+                std::cerr << error.what() << std::endl;
+                clean(tokenStream);
             }
-            value = parser.expression();
         }
+        return 0;
     }
     catch (std::logic_error& error)
     {
