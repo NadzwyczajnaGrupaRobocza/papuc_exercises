@@ -28,3 +28,42 @@ TEST(TokenStreamTest, willReturnTokensForSimpleExpression)
 
     ASSERT_EQ(output[3].typeId, 'E');
 }
+
+TEST(TokenStreamTest, willSplitSymbols)
+{
+    std::stringstream in{"ident2 + id_ent7"};
+    calc::TokenStream ts{in};
+    std::vector<calc::Token> output{};
+    output.reserve(3u);
+    std::generate_n(std::back_inserter(output), 3, [&] { return ts.get(); });
+
+    ASSERT_EQ(output.size(), 3u);
+    ASSERT_EQ(output[0].typeId, 'S');
+    ASSERT_EQ(output[0].id, "ident2");
+
+    ASSERT_EQ(output[1].typeId, '+');
+
+    ASSERT_EQ(output[2].typeId, 'S');
+    ASSERT_EQ(output[2].id, "id_ent7");
+}
+
+TEST(TokenStreamTest, willSplitSymbolsSeparatedByWhitespace)
+{
+    std::stringstream in{"id ent2 + id_ent7"};
+    calc::TokenStream ts{in};
+    std::vector<calc::Token> output{};
+    output.reserve(4u);
+    std::generate_n(std::back_inserter(output), 4, [&] { return ts.get(); });
+
+    ASSERT_EQ(output.size(), 4u);
+    ASSERT_EQ(output[0].typeId, 'S');
+    ASSERT_EQ(output[0].id, "id");
+
+    ASSERT_EQ(output[1].typeId, 'S');
+    ASSERT_EQ(output[1].id, "ent2");
+
+    ASSERT_EQ(output[2].typeId, '+');
+
+    ASSERT_EQ(output[3].typeId, 'S');
+    ASSERT_EQ(output[3].id, "id_ent7");
+}
