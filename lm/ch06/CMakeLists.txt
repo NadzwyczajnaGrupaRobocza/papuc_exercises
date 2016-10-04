@@ -5,6 +5,7 @@ add_library(lm-calculator-lib STATIC
   TokenStream.cpp
   Evaluator.cpp
   ExpressionSplitter.cpp
+  ShuntingYard.cpp
   )
 
 add_executable(lm-ch06
