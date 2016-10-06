@@ -1,7 +1,0 @@
-# wynik UT:
-[ RUN      ] MBB_04_02.showVector
-/home/kmbiedronie/NadzwyczajnaGrupaRobocza/papuc_exercises/ch04/mb/NGR_04_02_UT.cpp:8: Failure
-      Expected: "[-12.0, 23.6, 13.1]"
-To be equal to: showVector(data)
-      Which is: "[\xF4, \x17, \r]"
-[  FAILED  ] MBB_04_02.showVector (0 ms)
