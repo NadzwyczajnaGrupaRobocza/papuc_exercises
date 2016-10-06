@@ -3,9 +3,12 @@
 #include "MockTokenStream.hpp"
 #include "ShuntingYard.hpp"
 #include "StreamLog.hpp"
+#include <iostream>
+#include <sstream>
 
 using testing::Return;
 using testing::InSequence;
+
 namespace calc
 {
 class ShuntingYardTest : public testing::Test
@@ -17,7 +20,28 @@ protected:
         EXPECT_CALL(ts, _get()).WillOnce(Return(t));
     }
 
-    util::StreamLog log{std::cout};
+    void nextVal(double d)
+    {
+        next(Token{'8', d});
+    }
+
+    void nextSym(char s)
+    {
+        next(Token{s});
+    }
+
+    void endOfInput()
+    {
+        EXPECT_CALL(ts, _hasNext()).WillOnce(Return(false));
+    }
+
+    void validateTreesLispyForm(ASTNode* tree, const std::string& expectedLisp)
+    {
+        ASSERT_EQ(lispyTreePrint(tree), expectedLisp);
+    }
+
+    std::stringstream logSink;
+    util::StreamLog log{logSink};
     calc::MockTokenStream ts;
     calc::ASTBuilder astb{log, ts};
 };
@@ -31,40 +55,88 @@ TEST_F(ShuntingYardTest, willCreateInstance)
 TEST_F(ShuntingYardTest, willCreateTrivialTree)
 {
     InSequence s;
-    EXPECT_CALL(ts, _hasNext()).WillOnce(Return(true));
-    EXPECT_CALL(ts, _get()).WillOnce(Return(Token{'8', 14.7}));
-    EXPECT_CALL(ts, _hasNext()).WillOnce(Return(false));
+    nextVal(14.7);
+    endOfInput();
 
     auto trivialTree = astb.getAST();
 
-    ASSERT_EQ(trivialTree->left, nullptr);
-    ASSERT_EQ(trivialTree->right, nullptr);
-    ASSERT_EQ(trivialTree->data.typeId, '8');
-    ASSERT_DOUBLE_EQ(trivialTree->data.value, 14.7);
+    validateTreesLispyForm(trivialTree.get(), "14.7");
 }
 
 TEST_F(ShuntingYardTest, willCreateSimpleTree)
 {
-    auto v2 = Token{'8', 4.1};
-    auto v3 = Token{'8', 2.0};
     InSequence s;
-    next(Token{'8', 14.7});
-    next(Token{'+'});
-    next(v2);
-    next(Token{'*'});
-    next(v3);
-    EXPECT_CALL(ts, _hasNext()).WillOnce(Return(false));
-
+    // 14.7 + 4.1 * 2.3
+    nextVal(14.7);
+    nextSym('+');
+    nextVal(4.1);
+    nextSym('*');
+    nextVal(2.3);
+    endOfInput();
 
     auto simpleTree = astb.getAST();
 
-    ASSERT_NE(simpleTree->left, nullptr);
-    ASSERT_NE(simpleTree->right, nullptr);
-    ASSERT_EQ(simpleTree->data.typeId, '+');
-    // ASSERT_DOUBLE_EQ(simpleTree->left->data.value, 14.7);
-    // ASSERT_EQ(simpleTree->right->data.typeId, '*');
-    // ASSERT_EQ(simpleTree->right->left->data, v2);
-    // ASSERT_EQ(simpleTree->right->right->data, v3);
+    validateTreesLispyForm(simpleTree.get(), "(+ 14.7 (* 4.1 2.3))");
 }
 
+TEST_F(ShuntingYardTest, willCreateSimpleTreeWithParens)
+{
+    // 14.7 + 4.1 * (1.5 - 0.7)
+    InSequence s;
+    nextVal(14.7);
+    nextSym('+');
+    nextVal(4.1);
+    nextSym('*');
+    nextSym('(');
+    nextVal(1.5);
+    nextSym('-');
+    nextVal(0.7);
+    nextSym(')');
+    endOfInput();
+
+    auto simpleTree = astb.getAST();
+
+    validateTreesLispyForm(simpleTree.get(), "(+ 14.7 (* 4.1 (- 1.5 0.7)))");
+}
+
+TEST_F(ShuntingYardTest, willHandleUnaryMinus)
+{
+    InSequence s;
+    // - 12.3 * - (16.7 / 10.5)
+    nextSym('-');
+    nextVal(12.3);
+    nextSym('*');
+    nextSym('-');
+    nextSym('(');
+    nextVal(16.7);
+    nextSym('/');
+    nextVal(10.5);
+    nextSym(')');
+    endOfInput();
+
+    auto unaryMinusTree = astb.getAST();
+
+    validateTreesLispyForm(unaryMinusTree.get(),
+                           "(* (# 12.3) (# (/ 16.7 10.5)))");
+}
+
+TEST_F(ShuntingYardTest, willHandleUnaryPlus)
+{
+    InSequence s;
+    // + 12.3 * + (16.7 / 10.5)
+    nextSym('+');
+    nextVal(12.3);
+    nextSym('*');
+    nextSym('+');
+    nextSym('(');
+    nextVal(16.7);
+    nextSym('/');
+    nextVal(10.5);
+    nextSym(')');
+    endOfInput();
+
+    auto unaryMinusTree = astb.getAST();
+
+    validateTreesLispyForm(unaryMinusTree.get(), "(* 12.3 (/ 16.7 10.5))");
+}
 }
