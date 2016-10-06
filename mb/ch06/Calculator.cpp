@@ -5,13 +5,12 @@
 #include "TokenStream.hpp"
 #include "Calculator.hpp"
 
-
-void clean(TokenStream& tokenStream)
+void clean(ITokenStream& tokenStream)
 {
     tokenStream.ignore(END_OF_EXPR);
 }
 
-Calculator::Calculator(TokenStream& aTokenStream)
+Calculator::Calculator(ITokenStream& aTokenStream)
     : tokenStream {aTokenStream}
 {    
 }
@@ -56,9 +55,7 @@ double Calculator::term()
                 double right = primary();
                 if (right == 0)
                 {
-                    //std::logic_error error("Dzielenie przez 0");
-                    //throw error;
-                    mbcommon::error("Dzielenie przez 0");
+                    throw std::logic_error("Dividing by 0");
                 }
                 left /= right;
                 token = tokenStream.get();
@@ -71,16 +68,16 @@ double Calculator::term()
                 int iLeft = static_cast<int>(left);
                 if (left != iLeft)
                 {
-                    mbcommon::error("Lewa strona działania % nie jest liczbą całkowitą");
+                    throw std::logic_error("Left side of operation % should be integer number");
                 }
                 int iRight = static_cast<int>(right);
                 if (right != iRight)
                 {
-                    mbcommon::error("Prawa strona działania % nie jest liczbą całkowitą");
+                    throw std::logic_error("Right side of operation % should be integer number");
                 }
                 if (iRight == 0)
                 {
-                    mbcommon::error("Dzielenie przez 0");
+                    throw std::logic_error("Dividing by 0");
                 }
                 left = iLeft % iRight;
                 token = tokenStream.get(); 
@@ -105,9 +102,7 @@ double Calculator::primary()
             token = tokenStream.get();
             if( token.kind != ')' )
             {
-                //std::logic_error error("Oczekiwano ')'");
-                //throw error;
-                mbcommon::error("Oczekiwano ')'");
+                throw std::logic_error("Expected ')'");
             }
             return calculteValue(value);
         }
@@ -117,9 +112,7 @@ double Calculator::primary()
             token = tokenStream.get();
             if( token.kind != '}' )
             {
-                //std::logic_error error("Oczekiwano '}'");
-                //throw error;
-                mbcommon::error("Oczekiwano '}'");
+                throw std::logic_error("Expected '}'");
             }
             return calculteValue(value);
         }
@@ -136,12 +129,10 @@ double Calculator::primary()
         default:
         {
             tokenStream.putback(token);
-            std::string cause{"Oczekiwano czynnika, przekazano "};
+            std::string cause{"Expected czynnika, przekazano "};
             cause += token.kind;
-            //std::logic_error error(cause);
-            //throw error;
-            mbcommon::error(cause);
-            return 0.0;
+            throw std::logic_error(cause);
+            //return 0.0;
         }
     }
 }

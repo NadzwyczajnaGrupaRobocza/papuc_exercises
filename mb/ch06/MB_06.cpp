@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 {
     if(argc < 2)
     {
-        std::cout << "Nie podano parametru!" << std::endl;
+        std::cout << "There aren't any operations send to Calculator" << std::endl;
         return 1;
     }
     
@@ -54,8 +54,9 @@ int main(int argc, char* argv[])
     }
     catch (...)
     {
-        std::cerr << "Niespodziewany wyjątek";
+        std::cerr << "Unexpected exception";
         return 2;
     }
     return 0;
 }
+

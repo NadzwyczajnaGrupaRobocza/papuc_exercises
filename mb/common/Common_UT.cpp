@@ -28,9 +28,3 @@ TEST(Common, factorialFrom0)
 {
     EXPECT_EQ(mbcommon::factorial(0), 1);
 }
-
-TEST(Common, throwingError)
-{
-    std::string cause{"Simple error!"};
-    EXPECT_THROW(mbcommon::error(cause), std::logic_error);
-}
