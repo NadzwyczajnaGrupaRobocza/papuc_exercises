@@ -32,10 +32,4 @@ int factorial(const unsigned& value)
     }
 }
 
-void error(std::string cause)
-{
-    std::logic_error logicError(cause);
-    throw logicError;
-}
-
 } // namespace mbcommon

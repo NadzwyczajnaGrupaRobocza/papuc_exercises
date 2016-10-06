@@ -1,20 +1,20 @@
 #pragma once
 
-class TokenStream;
+class ITokenStream;
 
-void clean(TokenStream&);
+void clean(ITokenStream&);
 
 class Calculator
 {
 public:
-    Calculator(TokenStream&);
+    Calculator(ITokenStream&);
 
     double expression();
     double term();
     double primary();
 
 private:
-    TokenStream& tokenStream;
+    ITokenStream& tokenStream;
 
     double calculteValue(const double& value);
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sstream>
+#include "Token.hpp"
 
 const char QUIT = 'k';
 const char END_OF_EXPR = ';';
@@ -22,9 +23,9 @@ public:
     TokenStream();
     TokenStream(const std::string);
     
-    Token get();
-    void putback(Token);
-    void ignore(char);
+    Token get() override;
+    void putback(Token) override;
+    void ignore(char) override;
 
 private:
     bool full;

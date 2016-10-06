@@ -48,11 +48,8 @@ Token TokenStream::get()
             }
             default:
             {
-                std::stringstream wrongToken;
-                //std::logic_error error(wrongToken.str());
-                //throw error;
-                mbcommon::error(wrongToken.str());
-                return Token{'0'};
+                throw std::logic_error("Wrong Token");
+                //return Token{'0'};
             }
             
         }
@@ -68,7 +65,7 @@ void TokenStream::putback(Token token)
 {
     if(full)
     {
-        mbcommon::error("Wstawianie tokenu do pełnego bufora");
+        throw std::logic_error("Inserting token to full buffer");
     }
     buffer = token;
     full = true;
