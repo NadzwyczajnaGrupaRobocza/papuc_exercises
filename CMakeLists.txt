@@ -14,6 +14,7 @@ endif()
 
 add_subdirectory(googletest)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++14 -pedantic -g")
 set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googletest/include/")
 set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googlemock/include/")
 set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/GSL/")
