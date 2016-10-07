@@ -5,7 +5,7 @@ message(STATUS "Configuring target: ${LZ_CH00_UT}")
 if(${WIN_CLANG})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
  /imsvc ${GOOGLETEST_INCLUDE_DIR} /imsvc ${GOOGLEMOCK_INCLUDE_DIR}\
- -Wno-global-constructors -Wno-weak-vtables")
+ -Wno-weak-vtables")
 else()
   include_directories(SYSTEM ${COMMON_INCLUDES})
 endif()
