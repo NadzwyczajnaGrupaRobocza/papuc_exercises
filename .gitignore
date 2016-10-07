@@ -28,5 +28,10 @@
 *.out
 *.app
 
+# Gtags
+*/GPATH
+*/GTAGS
+*/GRTAGS
+
 build/*
 .dir-locals.el
