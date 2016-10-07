@@ -19,9 +19,10 @@ set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
 
 if(${WIN_CLANG})
   message(STATUS "Detected Windows system with clang compiler.")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -Weverything")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -Weverything /imsvc ${GSL_INCLUDE_DIR}")
 else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14 -pedantic -g")
+  include_directories(${GSL_INCLUDE_DIR})
 endif()
 
 add_subdirectory(ch04)
