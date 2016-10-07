@@ -4,11 +4,24 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <chrono>
+
+auto log()
+{
+    using namespace std::chrono_literals;
+    auto i = 3h;
+    std::cout << "time: " << i.count() << "h" << std::endl;
+    return i;
+}
 
 void fun(gsl::not_null<int*> i)
 {
+    using namespace std::chrono_literals;
     using namespace std;
     cout << *i << endl;
+
+    auto time = log();
+    cout << ( time - 30min).count() << "min" << endl;
 }
 
 int main()
