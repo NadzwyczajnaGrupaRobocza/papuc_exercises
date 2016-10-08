@@ -30,14 +30,19 @@ protected:
         next(Token{s});
     }
 
+    void nextId(const std::string& s)
+    {
+        next(Token{'S', s});
+    }
+
     void endOfInput()
     {
         EXPECT_CALL(ts, _hasNext()).WillOnce(Return(false));
     }
 
-    void validateTreesLispyForm(ASTNode* tree, const std::string& expectedLisp)
+    void validateLispyForm(ASTNode* tree, const std::string& expectedLisp)
     {
-        ASSERT_EQ(lispyTreePrint(tree), expectedLisp);
+        ASSERT_EQ(lispyTreePrint(tree), expectedLisp) << logSink.str();
     }
 
     std::stringstream logSink;
@@ -60,7 +65,7 @@ TEST_F(ShuntingYardTest, willCreateTrivialTree)
 
     auto trivialTree = astb.getAST();
 
-    validateTreesLispyForm(trivialTree.get(), "14.7");
+    validateLispyForm(trivialTree.get(), "14.7");
 }
 
 TEST_F(ShuntingYardTest, willCreateSimpleTree)
@@ -76,7 +81,7 @@ TEST_F(ShuntingYardTest, willCreateSimpleTree)
 
     auto simpleTree = astb.getAST();
 
-    validateTreesLispyForm(simpleTree.get(), "(+ 14.7 (* 4.1 2.3))");
+    validateLispyForm(simpleTree.get(), "(+ 14.7 (* 4.1 2.3))");
 }
 
 TEST_F(ShuntingYardTest, willCreateSimpleTreeWithParens)
@@ -96,7 +101,7 @@ TEST_F(ShuntingYardTest, willCreateSimpleTreeWithParens)
 
     auto simpleTree = astb.getAST();
 
-    validateTreesLispyForm(simpleTree.get(), "(+ 14.7 (* 4.1 (- 1.5 0.7)))");
+    validateLispyForm(simpleTree.get(), "(+ 14.7 (* 4.1 (- 1.5 0.7)))");
 }
 
 TEST_F(ShuntingYardTest, willHandleUnaryMinus)
@@ -116,8 +121,7 @@ TEST_F(ShuntingYardTest, willHandleUnaryMinus)
 
     auto unaryMinusTree = astb.getAST();
 
-    validateTreesLispyForm(unaryMinusTree.get(),
-                           "(* (# 12.3) (# (/ 16.7 10.5)))");
+    validateLispyForm(unaryMinusTree.get(), "(* (# 12.3) (# (/ 16.7 10.5)))");
 }
 
 TEST_F(ShuntingYardTest, willHandleUnaryPlus)
@@ -137,6 +141,55 @@ TEST_F(ShuntingYardTest, willHandleUnaryPlus)
 
     auto unaryMinusTree = astb.getAST();
 
-    validateTreesLispyForm(unaryMinusTree.get(), "(* 12.3 (/ 16.7 10.5))");
+    validateLispyForm(unaryMinusTree.get(), "(* 12.3 (/ 16.7 10.5))");
+}
+
+TEST_F(ShuntingYardTest, willHandleSymbolAddition)
+{
+    InSequence s;
+    nextId("x1");
+    nextSym('+');
+    nextVal(11.1);
+    endOfInput();
+
+    auto symbolTree = astb.getAST();
+
+    validateLispyForm(symbolTree.get(), "(+ x1 11.1)");
+}
+
+TEST_F(ShuntingYardTest, willHandleValueAsignment)
+{
+    InSequence s;
+    nextId("x1");
+    nextSym('=');
+    nextVal(11.1);
+    endOfInput();
+
+    auto symbolTree = astb.getAST();
+
+    validateLispyForm(symbolTree.get(), "(= x1 11.1)");
+}
+
+TEST_F(ShuntingYardTest, willHandleValueAsignmentIncludingPrecedence)
+{
+
+    // x1 = 14.7 + 4.1 * (1.5 - 0.7)
+    InSequence s;
+    nextId("x1");
+    nextSym('=');
+    nextVal(14.7);
+    nextSym('+');
+    nextVal(4.1);
+    nextSym('*');
+    nextSym('(');
+    nextVal(1.5);
+    nextSym('-');
+    nextVal(0.7);
+    nextSym(')');
+    endOfInput();
+
+    auto symbolTree = astb.getAST();
+
+    validateLispyForm(symbolTree.get(), "(= x1 (+ 14.7 (* 4.1 (- 1.5 0.7))))");
 }
 }
