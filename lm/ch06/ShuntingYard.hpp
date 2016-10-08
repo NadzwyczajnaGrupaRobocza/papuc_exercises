@@ -1,10 +1,10 @@
 #pragma once
 
-#include <memory>
-#include <stack>
 #include "Log.hpp"
 #include "Token.hpp"
 #include "TokenStream.hpp"
+#include <memory>
+#include <stack>
 
 namespace calc
 {
@@ -30,6 +30,7 @@ public:
     ASTBuilder(util::Log&, TokenStream&&);
 
     std::unique_ptr<ASTNode> getAST();
+
 private:
     void processOp(const Token& opTok);
     bool hasLowerPrecedenceThanStackTop(const Token& opTok);

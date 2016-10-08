@@ -1,30 +1,38 @@
 #include "Log.hpp"
+#include <iostream>
+#include <string>
 
 namespace util
 {
+
 class StreamLog : public Log
 {
 public:
     StreamLog(std::ostream& outInit)
         : out{outInit}
     {
+        ourEpoch = Clock::now();
     }
 
-    std::ostream& info() override
+    LogLine info() override
     {
-        return out << "INF ";
+        return LogLine{out, ourEpoch, "INF "};
     }
 
-    std::ostream& error() override
+    LogLine error() override
     {
-        return out << "ERR ";
+        return LogLine{out, ourEpoch, "ERR "};
     }
 
-    std::ostream& debug() override
+    LogLine debug() override
     {
-        return out << "DBG ";
+        return LogLine{out, ourEpoch, "DBG "};
     }
 private:
+
     std::ostream& out;
+    TimePoint ourEpoch;
 };
+
+
 }
