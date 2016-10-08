@@ -74,7 +74,7 @@ std::unique_ptr<ASTNode> ASTBuilder::getAST()
     while (ts.hasNext())
     {
         auto token = ts.get();
-        log.debug() << "processing token: " << token << "\n";
+        log.debug() << "processing token: " << token;
 
         switch (token.typeId)
         {
@@ -83,6 +83,12 @@ std::unique_ptr<ASTNode> ASTBuilder::getAST()
         {
             outStack.push(std::make_unique<ASTNode>(token));
             binaryOpExpectedNext = true;
+            break;
+        }
+        case '=':
+        {
+            opStack.push(token);
+            binaryOpExpectedNext = false;
             break;
         }
         case '+':
@@ -146,7 +152,7 @@ std::unique_ptr<ASTNode> ASTBuilder::getAST()
 
             if (opStack.empty() or opStack.top().typeId != '(')
             {
-                log.error() << "no matching paren found on stack\n";
+                log.error() << "no matching paren found on stack";
             }
             else
             {
@@ -157,7 +163,7 @@ std::unique_ptr<ASTNode> ASTBuilder::getAST()
         }
         default:
         {
-            log.error() << "unhandled token type\n";
+            log.error() << "unhandled token type";
         }
         }
     }
@@ -174,8 +180,8 @@ std::unique_ptr<ASTNode> ASTBuilder::getAST()
     }
     else
     {
-        log.error() << "algorithm done with more than one element on the "
-                       "output stack\n";
+        log.error() << "algorithm finished with more than one element on the "
+                       "output stack";
         return nullptr;
     }
 }
@@ -237,6 +243,7 @@ bool ASTBuilder::isBinaryOp(const Token& opTok)
     case '*':
     case '/':
     case '%':
+    case '=':
     {
         return true;
     }
@@ -252,12 +259,12 @@ void ASTBuilder::processBinaryPop(const Token& opTok)
     if (not isBinaryOp(opTok.typeId))
     {
         log.error() << "processing non binary " << opTok.typeId
-                    << " as binary operator!\n";
+                    << " as binary operator!";
     }
 
     if (outStack.size() < 2u)
     {
-        log.error() << lispyTreePrint(outStack.top().get()) << '\n';
+        log.error() << lispyTreePrint(outStack.top().get());
         throw std::logic_error("malformed expression");
     }
     else
@@ -292,7 +299,7 @@ void ASTBuilder::processUnaryPop(const Token& opTok)
     if (not isUnaryOp(opTok.typeId))
     {
         log.error() << "processing non unary " << opTok.typeId
-                    << " as unary operator!\n";
+                    << " as unary operator!";
     }
 
     if (outStack.size() < 1u)
