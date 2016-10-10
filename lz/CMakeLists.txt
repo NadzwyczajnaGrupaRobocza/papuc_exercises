@@ -2,10 +2,6 @@ set(LZ_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 message(STATUS "Cmake build type: ${CMAKE_BUILD_TYPE}")
 
-set(CMAKE_BINARY_DIR ./../bin)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-
 if(${WIN_CLANG})
   string(REPLACE "/MDd" "/MTd" CMAKE_CXX_FLAGS_DEBUG
     "${CMAKE_CXX_FLAGS_DEBUG}")
@@ -24,3 +20,15 @@ endif()
 
 add_subdirectory(ch00)
 add_subdirectory(ut)
+
+set(CLANG_COMPLETE "-D_MSC_VER=1900\n\
+-I${GSL_INCLUDE_DIR}\n\
+-I${GOOGLETEST_INCLUDE_DIR}\n\
+-I${GOOGLEMOCK_INCLUDE_DIR}\n\
+-std=c++14")
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+STRING(REGEX REPLACE "-IC:/" "-Ic:/" CLANG_COMPLETE ${CLANG_COMPLETE})
+endif()
+
+file(WRITE ".clang_complete" ${CLANG_COMPLETE})

@@ -1,6 +1,0 @@
--I/include
--I/src/papuc_exercises/googletest/googletest/include
--Wall
--D_MSC_VER=1900
--fexceptions
--std=c++14
