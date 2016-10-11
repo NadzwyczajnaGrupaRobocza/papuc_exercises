@@ -1,4 +1,5 @@
 #include "ASTNode.hpp"
+#include <sstream>
 
 namespace calc
 {
@@ -22,5 +23,37 @@ ASTNode::ASTNode(Token&& tokenInit, std::unique_ptr<ASTNode> leftInit,
     : data{std::move(tokenInit)}, left{std::move(leftInit)},
       right{std::move(rightInit)}
 {
+}
+
+std::string lispyTreePrint(ASTNode* root)
+{
+    std::stringstream output;
+
+    if (root != nullptr)
+    {
+        if (root->data.typeId != '8' and root->data.typeId != 'S')
+        {
+            output << '(';
+            output << root->data.typeId << ' ';
+            if (root->left != nullptr)
+            {
+                output << lispyTreePrint(root->left.get()) << ' ';
+            }
+            if (root->right != nullptr)
+            {
+                output << lispyTreePrint(root->right.get());
+            }
+            output << ')';
+        }
+        else if (root->data.typeId == '8')
+        {
+            output << root->data.value;
+        }
+        else if (root->data.typeId == 'S')
+        {
+            output << root->data.id;
+        }
+    }
+    return output.str();
 }
 }
