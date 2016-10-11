@@ -1,9 +1,10 @@
+#include "Evaluator.hpp"
+#include "ExpressionSplitter.hpp"
+#include "TokenStream.hpp"
+#include <algorithm>
 #include <iostream>
 #include <sstream>
-#include <algorithm>
-#include "Evaluator.hpp"
-#include "TokenStream.hpp"
-#include "ExpressionSplitter.hpp"
+#include <boost/range/algorithm.hpp>
 
 int main(int argc, char** argv)
 {
@@ -36,27 +37,18 @@ int main(int argc, char** argv)
         std::string line;
         std::getline(std::cin, line);
 
+        auto inputExpressions = es.split(line);
 
-        auto inVec = es.split(line);
+        auto processSingleExpression = [](const auto& expr) {
+            std::stringstream ss{expr};
+            calc::TokenStream ts{ss};
+            calc::Evaluator ev{ts};
+            std::cout << "= " << ev.calculate() << '\n';
+        };
 
-        std::for_each(inVec.begin(), inVec.end(),
-                      [](const auto& expr)
-                      {
-                          std::stringstream ss{expr};
-                          calc::TokenStream ts{ss};
-                          calc::Evaluator ev{ts};
-                          std::cout << "= " << ev.calculate() << '\n';
-                       });
+        boost::for_each(inputExpressions, processSingleExpression);
 
-        if (es.hasIncompleteInput())
-        {
-            waitingForInput = true;
-        }
-        else
-        {
-            waitingForInput = false;
-        }
-
+        waitingForInput = es.hasIncompleteInput();
     }
 
     return 0;

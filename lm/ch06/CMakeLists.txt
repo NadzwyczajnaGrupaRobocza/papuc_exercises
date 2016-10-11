@@ -13,7 +13,7 @@ add_executable(lm-ch06
 
 target_link_libraries(lm-ch06 gtest gmock)
 
-add_executable(calc
+add_executable(lm-calc
   CalcMain.cpp
   Token.cpp
   TokenStream.cpp
