@@ -1,4 +1,0 @@
-Notatki ze spotkania:
-* zamiast (a+b)/2 pisać a/2 + b/2 <- aby nie przekroczyć zakresu przy dodawaniu
-* nie pisać funkcji które modyfikują argumenty, zamiast tego funkcje powinnt zwracać obiekt.
-    podczas czytania kodu nie widać, że dana funkcja modyfikuje dane
