@@ -14,9 +14,10 @@ add_executable(lm-ch06
   ExpressionSplitterTest.cpp
   )
 
-target_link_libraries(lm-ch06 lm-calculator-lib gtest_main gmock_main)
+target_link_libraries(lm-ch06 lm-calculator-lib lm-calculator-ext-lib gtest gmock)
 
 add_executable(lm-calculator
-  CalcMain.cpp)
+  CalcMain.cpp
+  )
 
 target_link_libraries(lm-calculator lm-calculator-lib)

@@ -5,6 +5,7 @@
 #include "TokenStream.hpp"
 #include <memory>
 #include <stack>
+#include "SymbolTable.hpp"
 
 namespace calc
 {
@@ -45,5 +46,13 @@ private:
 
     std::stack<std::unique_ptr<ASTNode>> outStack;
     std::stack<Token> opStack;
+};
+
+class ASTEvaluator
+{
+public:
+    ASTEvaluator(util::Log&, calc::SymbolTable&);
+
+private:
 };
 }
