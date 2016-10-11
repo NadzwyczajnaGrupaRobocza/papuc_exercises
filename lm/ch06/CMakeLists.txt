@@ -5,7 +5,6 @@ add_library(lm-calculator-lib STATIC
   TokenStream.cpp
   Evaluator.cpp
   ExpressionSplitter.cpp
-  ShuntingYard.cpp
   )
 
 add_executable(lm-ch06
@@ -15,7 +14,7 @@ add_executable(lm-ch06
   ExpressionSplitterTest.cpp
   )
 
-target_link_libraries(lm-ch06 lm-calculator-lib gtest gmock)
+target_link_libraries(lm-ch06 lm-calculator-lib lm-calculator-ext-lib gtest gmock)
 
 add_executable(lm-calculator
   CalcMain.cpp

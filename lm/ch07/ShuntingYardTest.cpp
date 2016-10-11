@@ -193,3 +193,32 @@ TEST_F(ShuntingYardTest, willHandleValueAsignmentIncludingPrecedence)
     validateLispyForm(symbolTree.get(), "(= x1 (+ 14.7 (* 4.1 (- 1.5 0.7))))");
 }
 }
+
+#include <locale>
+#include <string>
+using namespace std::literals;
+
+// Declaration of the concept "EqualityComparable", which is satisfied by
+// any type T such that for values a and b of type T,
+// the expression a==b compiles and its result is convertible to bool
+// template <typename T>
+// concept bool EqualityComparable = requires(T a, T b)
+// {
+//     {
+//         a == b
+//     }
+//     ->bool;
+// };
+
+// template <EqualityComparable T>
+// bool f(T&& a)
+// {
+//     return a == T{};
+// }
+
+// TEST(dupa, dupa)
+// {
+//     std::cout << f("abc"s); // OK, std::string is EqualityComparable
+//     std::cout << f(std::use_facet<std::ctype<char>>(
+//         std::locale{})); // Error: not EqualityComparable
+// }
