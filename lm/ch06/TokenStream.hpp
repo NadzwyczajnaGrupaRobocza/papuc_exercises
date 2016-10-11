@@ -1,7 +1,9 @@
 #pragma once
 
-#include <iosfwd>
 #include "Token.hpp"
+#include <iosfwd>
+#include <memory>
+#include <sstream>
 
 namespace calc
 {
@@ -9,12 +11,17 @@ class TokenStream
 {
 public:
     TokenStream(std::istream&);
+    TokenStream(std::stringstream&&);
 
-    Token get();
-    void putback(Token);
+    TokenStream(TokenStream&& ) = default;
+    virtual ~TokenStream() = default;
+
+    virtual Token get();
+    virtual void putback(Token);
 
 private:
     Token getTokenFromStream();
+    std::unique_ptr<std::istream> inputVal;
     std::istream& input;
     Token buffer;
     bool bufferFull;
