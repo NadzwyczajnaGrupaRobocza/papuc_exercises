@@ -38,11 +38,11 @@ private:
 class ASTEvaluator
 {
 public:
-    ASTEvaluator(util::Log&, calc::SymbolTable&);
+    ASTEvaluator(util::Log&, SymbolTable&);
 
     double evaluate(ASTNode*);
 private:
     util::Log& log;
-    calc::SymbolTable& st;
+    SymbolTable& st;
 };
 }
