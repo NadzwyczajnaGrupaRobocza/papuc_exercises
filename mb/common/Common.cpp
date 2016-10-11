@@ -10,14 +10,7 @@ namespace mbcommon
 bool doublesAreEqual(const double& first, const double& second,
                      const double& epsilon)
 {
-    if (std::fabs(first - second) < epsilon)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return std::fabs(first - second) < epsilon;
 }
 
 int factorial(const unsigned& value)
