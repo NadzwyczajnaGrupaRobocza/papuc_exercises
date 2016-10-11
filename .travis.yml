@@ -14,17 +14,17 @@ matrix:
       env:
       - C_COMPILER=gcc-6
       - CXX_COMPILER=g++-6
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-3.8
-          packages:
-            - clang-3.8
-      env:
-      - C_COMPILER=clang-3.8
-      - CXX_COMPILER=clang++-3.8
+    # - compiler: clang
+    #   addons:
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #         - llvm-toolchain-trusty-3.8
+    #       packages:
+    #         - clang-3.8
+    #   env:
+    #   - C_COMPILER=clang-3.8
+    #   - CXX_COMPILER=clang++-3.8
 
 # Build steps
 script:
