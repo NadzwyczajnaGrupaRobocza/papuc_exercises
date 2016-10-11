@@ -25,11 +25,10 @@ if(${WIN_CLANG})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fms-compatibility-version=19 -m64\
  -Weverything /imsvc ${GSL_INCLUDE_DIR}")
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14 -pedantic -g")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14 -pedantic -g -Werror")
   include_directories(${GSL_INCLUDE_DIR})
 endif()
 
-add_subdirectory(ch04)
 add_subdirectory(mb)
 add_subdirectory(lm)
 add_subdirectory(ib)
