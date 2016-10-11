@@ -1,9 +1,8 @@
 #pragma once
 
 #include "gmock/gmock.h"
-#include "TokenStream.hpp"
-
-class Token;
+#include "ITokenStream.hpp"
+#include "Token.hpp"
 
 class MockTokenStream : public ITokenStream
 {
