@@ -6,23 +6,10 @@
 #include <memory>
 #include <stack>
 #include "SymbolTable.hpp"
+#include "ASTNode.hpp"
 
 namespace calc
 {
-class ASTNode
-{
-public:
-    ASTNode(const Token&);
-    ASTNode(Token&&);
-    ASTNode(const Token&, std::unique_ptr<ASTNode>, std::unique_ptr<ASTNode>);
-    ASTNode(Token&&, std::unique_ptr<ASTNode>, std::unique_ptr<ASTNode>);
-
-    Token data;
-    std::unique_ptr<ASTNode> left;
-    std::unique_ptr<ASTNode> right;
-};
-
-std::string lispyTreePrint(ASTNode*);
 
 class ASTBuilder
 {
@@ -53,6 +40,9 @@ class ASTEvaluator
 public:
     ASTEvaluator(util::Log&, calc::SymbolTable&);
 
+    double evaluate(ASTNode*);
 private:
+    util::Log& log;
+    calc::SymbolTable& st;
 };
 }
