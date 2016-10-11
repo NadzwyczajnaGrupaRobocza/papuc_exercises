@@ -19,4 +19,4 @@ private:
     std::unique_ptr<TokenStream> tsVal;
     TokenStream& ts;
 };
-};
+}
