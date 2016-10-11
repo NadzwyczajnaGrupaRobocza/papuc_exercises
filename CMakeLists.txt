@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 2.8.11)
 project("PaPuC++")
 
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows" AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
   set(WIN_CLANG "yes")
 endif()
