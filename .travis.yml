@@ -36,4 +36,4 @@ script:
   - mkdir build
   - cd build
   - env CC=${C_COMPILER} CXX=${CXX_COMPILER} cmake ..
-  - make
+  - make VERBOSE=1
