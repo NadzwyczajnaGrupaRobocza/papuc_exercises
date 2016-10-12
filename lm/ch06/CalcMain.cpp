@@ -48,14 +48,7 @@ int main(int argc, char** argv)
 
         boost::for_each(inputExpressions, evaluateSingleExpression);
 
-        if (es.hasIncompleteInput())
-        {
-            waitingForInput = true;
-        }
-        else
-        {
-            waitingForInput = false;
-        }
+        waitingForInput = es.hasIncompleteInput();
     }
 
     return 0;
