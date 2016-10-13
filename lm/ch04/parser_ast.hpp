@@ -30,7 +30,7 @@ class Asignment;
 class AstVisitor
 {
 public:
-    ~AstVisitor() = default;
+    virtual ~AstVisitor() = default;
     virtual void visit(Symbol&) = 0;
     virtual void visit(Number&) = 0;
     virtual void visit(Asignment&) = 0;
@@ -39,6 +39,7 @@ public:
 class Node
 {
 public:
+    virtual ~Node() = default;
     virtual void accept(AstVisitor&) = 0;
 };
 
