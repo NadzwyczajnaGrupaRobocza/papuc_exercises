@@ -9,7 +9,18 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows" AND ${CMAKE_CXX_COMPILER_ID} STREQUAL
 endif()
 
 if(${WIN_CLANG})
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations\
+ -Wno-c++98-compat -Wno-c++98-compat-pedantic\
+ -Wno-c++98-c++11-compat-pedantic -Wno-undefined-func-template\
+ -Wno-exit-time-destructors -Wno-global-constructors\
+ -Wno-unknown-pragmas -Wno-missing-prototypes -Wno-undef\
+ -Wno-language-extension-token -Wno-missing-noreturn -Wno-missing-noreturn\
+ -Wno-language-extension-token -Wno-used-but-marked-unused\
+ -Wno-shift-sign-overflow -Wno-deprecated\
+ -Wno-weak-vtables -Wno-sign-conversion")
+
+  string(REPLACE "/MDd" "/MTd" CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG}")
 endif()
 
 add_subdirectory(googletest)
