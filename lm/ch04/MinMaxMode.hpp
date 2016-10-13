@@ -4,6 +4,7 @@
 #include <boost/range/algorithm.hpp>
 #include <map>
 #include <vector>
+#include <set>
 
 namespace MMM
 {
