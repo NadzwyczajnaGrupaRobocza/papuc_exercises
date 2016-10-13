@@ -45,6 +45,7 @@ public:
 class Node
 {
 public:
+    virtual ~Node() = default;
     virtual void accept(AstVisitor&) const = 0;
 };
 
