@@ -3,6 +3,7 @@
 #include "TokenStream.hpp"
 #include <algorithm>
 #include <boost/range/algorithm.hpp>
+#include <boost/range/adaptors.hpp>
 #include <iostream>
 #include <sstream>
 
@@ -39,14 +40,20 @@ int main(int argc, char** argv)
 
         auto inputExpressions = es.split(line);
 
-        auto evaluateSingleExpression = [](const auto& expr) {
+        auto evaluateExpression = [](const auto& expr) {
             std::stringstream ss{expr};
             calc::TokenStream ts{ss};
             calc::Evaluator ev{ts};
-            std::cout << "= " << ev.calculate() << '\n';
+            return ev.calculate();
         };
 
-        boost::for_each(inputExpressions, evaluateSingleExpression);
+        auto formattedPrint = [](double d) {
+            std::cout << "= " << d << std::endl;
+        };
+
+        using boost::adaptors::transformed;
+        boost::for_each(inputExpressions | transformed(evaluateExpression),
+                        formattedPrint);
 
         waitingForInput = es.hasIncompleteInput();
     }
