@@ -18,6 +18,7 @@ public:
 
     virtual Token get();
     virtual void putback(Token);
+    virtual bool hasNext();
 
 private:
     Token getTokenFromStream();
