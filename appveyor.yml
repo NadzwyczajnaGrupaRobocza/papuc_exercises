@@ -46,6 +46,7 @@ before_build:
 
 
 build_script:
+  - dir C:\Libraries\
   - mkdir build
   - cd build
   - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl
