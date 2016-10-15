@@ -41,6 +41,8 @@ install:
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
   - cd C:\projects\papuc-exercises
+  - git submodule init
+  - git submodule update
 
 
 build_script:
