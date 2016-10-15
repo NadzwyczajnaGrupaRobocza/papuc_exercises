@@ -1,8 +1,4 @@
- /*
-   /-----------------------\\
- // (-_(-_(-_(^_^)_-)_-)_-) \\ 
- */
-
+#include <boost/range/adaptor/transformed.hpp>
 int main()
 {
 }
