@@ -61,6 +61,7 @@ build_script:
   - ninja ch00-lz
   - ninja ch00-lz-ut
   - ninja ch04-lm
+  - del /S /F /Q *
   - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration%
   - ninja ch00-lz
   - ninja ch00-lz-ut
