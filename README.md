@@ -1,5 +1,4 @@
-[[build][https://ci.appveyor.com/api/projects/status/xe5uift7sub641o0?svg=true]]
-
+[![Build Status](https://ci.appveyor.com/api/projects/status/xe5uift7sub641o0/branch/master?svg=true)](https://ci.appveyor.com/project/Abergard/papuc-exercises)
 # papuc_exercises
 Programming: Principles and Practice Using C++ - Exercises
 
