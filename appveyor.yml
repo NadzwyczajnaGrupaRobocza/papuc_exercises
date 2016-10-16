@@ -5,10 +5,6 @@ build:
   
 platform: 
 - x64
-  
-environment:
-  BOOST_ROOT: C:\Libraries\boost_1_62_0
-  BOOST_LIBRARYDIR: C:\Libraries\boost_1_62_0\lib64-msvc-14.0
 
 configuration:
   - Debug
@@ -24,6 +20,7 @@ install:
   ############################################################################
   # Install Ninja
   ############################################################################
+  - ninja --version
   - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-win.zip"
   - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
   - 7z x ninja.zip -oC:\projects\deps\ninja > nul
@@ -33,6 +30,7 @@ install:
   ############################################################################
   # Install a recent CMake
   ############################################################################
+  - cmake --version
   - set CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.0-win32-x86.zip"
   - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
   - 7z x cmake.zip -oC:\projects\deps\cmake > nul
@@ -45,6 +43,10 @@ install:
   - set PATH="C:\Program Files\LLVM\bin";%PATH%
   - clang-cl -v
 
+  ############################################################################
+  # Setup the path to Boost
+  ############################################################################
+  - set INCLUDE=%INCLUDE%;C:\Libraries\boost_1_62_0
 
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
