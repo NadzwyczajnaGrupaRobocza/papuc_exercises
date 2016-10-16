@@ -1,3 +1,4 @@
+os: Visual Studio 2015
 
 build:
   verbosity: detailed
@@ -56,6 +57,6 @@ build_script:
   - dir C:\Libraries\boost_1_62_0\
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
   - ninja ch00-lz
   - ninja ch00-lz-ut
