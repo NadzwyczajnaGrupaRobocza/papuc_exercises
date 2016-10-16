@@ -1,3 +1,5 @@
+[[build][https://ci.appveyor.com/api/projects/status/xe5uift7sub641o0?svg=true]]
+
 # papuc_exercises
 Programming: Principles and Practice Using C++ - Exercises
 
