@@ -57,12 +57,12 @@ build_script:
   - dir C:\Libraries\boost_1_62_0\
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=ON
   - ninja ch00-lz
   - ninja ch00-lz-ut
   - ninja ch04-lm
   - del /S /F /Q *
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration%
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DBUILD_SHARED_LIBS:BOOL=ON
   - ninja ch00-lz
   - ninja ch00-lz-ut
   - ninja ch04-lm
