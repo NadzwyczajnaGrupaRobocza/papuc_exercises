@@ -4,13 +4,11 @@ build:
   verbosity: detailed
   
 platform:
-- Win32
 - x64
 
 configuration:
   - Debug
   - Release
-
 
 install:
   ############################################################################
@@ -58,7 +56,6 @@ before_build:
   - git submodule update
 
 build_script:
-  - dir C:\Libraries\boost_1_62_0\
   - mkdir build
   - cd build
   - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=ON
