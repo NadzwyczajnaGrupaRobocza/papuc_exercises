@@ -58,5 +58,6 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=ON
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
   - ninja
+  - ninja ut-run

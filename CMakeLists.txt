@@ -60,7 +60,16 @@ else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -g -Werror=pedantic")
 endif()
 
+set(MB-UT-RUN "mb-ut-run")
+set(LM-UT-RUN "lm-ut-run")
+set(IB-UT-RUN "ib-ut-run")
+set(LZ-UT-RUN "lz-ut-run")
+
 add_subdirectory(mb)
 add_subdirectory(lm)
 add_subdirectory(ib)
 add_subdirectory(lz)
+
+add_custom_target(ut-run
+  DEPENDS ${MB-UT-RUN} ${LM-UT-RUN} ${IB-UT-RUN} ${LZ-UT-RUN}
+)

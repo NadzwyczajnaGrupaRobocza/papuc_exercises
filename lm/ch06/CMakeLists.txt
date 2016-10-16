@@ -10,7 +10,7 @@ add_executable(lm-ch06
   ExpressionSplitterTest.cpp
   )
 
-target_link_libraries(lm-ch06 gtest_main gmock_main)
+target_link_libraries(lm-ch06 gtest_main gmock)
 
 add_executable(calc
   CalcMain.cpp
@@ -19,3 +19,8 @@ add_executable(calc
   Evaluator.cpp
   ExpressionSplitter.cpp
   )
+
+add_custom_target(ch06-lm-ut-run
+  COMMAND lm-ch06
+  COMMENT "Run ch06-lm-ut"
+)

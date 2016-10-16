@@ -7,3 +7,7 @@ add_subdirectory(ch05)
 #add_subdirectory(ch08)
 
 #add_executable(mb-org Test.cpp)
+
+add_custom_target(${MB-UT-RUN}
+  DEPENDS ch04-mb-ut-run ch05-mb-ut-run
+)

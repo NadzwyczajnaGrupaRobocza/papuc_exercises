@@ -11,3 +11,8 @@ TEST_F(T, test1)
 {
     EXPECT_TRUE(true);
 }
+
+TEST(F, test2)
+{
+    EXPECT_TRUE(true);
+}

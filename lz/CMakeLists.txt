@@ -5,6 +5,12 @@ message(STATUS "Cmake build type: ${CMAKE_BUILD_TYPE}")
 add_subdirectory(ch00)
 add_subdirectory(ut)
 
+add_custom_target(${LZ-UT-RUN}
+  DEPENDS ch00-lz-ut-run
+)
+
+#######################################
+
 set(CLANG_COMPLETE "-D_MSC_VER=1900\n\
 -I${GSL_INCLUDE_DIR}\n\
 -I${GOOGLETEST_INCLUDE_DIR}\n\
