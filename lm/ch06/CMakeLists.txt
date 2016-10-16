@@ -1,7 +1,6 @@
 include_directories(${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(lm-ch06
-  ../../gtest_main.cc
   TokenStreamTest.cpp
   Token.cpp
   TokenStream.cpp
@@ -11,7 +10,7 @@ add_executable(lm-ch06
   ExpressionSplitterTest.cpp
   )
 
-target_link_libraries(lm-ch06 gtest gmock)
+target_link_libraries(lm-ch06 gtest_main gmock_main)
 
 add_executable(calc
   CalcMain.cpp
