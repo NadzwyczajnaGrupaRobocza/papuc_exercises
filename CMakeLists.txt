@@ -22,8 +22,6 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
   endif()
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D not=! /D and=&& /D or=||")
-
   if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fms-compatibility-version=19")
   endif()
@@ -46,6 +44,9 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
  -Wno-weak-vtables -Wno-sign-conversion")
 
   target_compile_options(gtest PRIVATE "-Wno-deprecated-declarations")
+  target_compile_options(gmock PRIVATE "-Wno-deprecated-declarations")
+  target_compile_options(gtest_main PRIVATE "-Wno-deprecated-declarations")
+  target_compile_options(gmock_main PRIVATE "-Wno-deprecated-declarations")
 
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   message(STATUS "Detected system with Microsoft compiler.")
@@ -53,6 +54,8 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall\
  /wd4251 /wd4265 /wd4350 /wd4371 /wd4514 /wd5031 /wd5026 /wd5027\
  /wd4625 /wd4619 /wd4626 /wd4710 /wd4711 /wd4820 /wd4668")
+
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D not=! /D and=&& /D or=||")
 
 else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -g -Werror=pedantic")
