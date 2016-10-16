@@ -1,6 +1,13 @@
 
 build:
   verbosity: detailed
+  
+platform: 
+- x64
+  
+environment:
+  BOOST_ROOT: C:\Libraries\boost_1_62_0
+  BOOST_LIBRARYDIR: C:\Libraries\boost_1_62_0\lib64-msvc-14.0
 
 configuration:
   - Debug
@@ -46,7 +53,7 @@ before_build:
 
 
 build_script:
-  - dir C:\Libraries\
+  - dir C:\Libraries\boost_1_62_0\
   - mkdir build
   - cd build
   - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl
