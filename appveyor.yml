@@ -3,11 +3,12 @@ os: Visual Studio 2015
 build:
   verbosity: detailed
   
-platform: 
+platform:
 - x64
 
 configuration:
   - Debug
+  - Release
 
 
 install:
@@ -55,17 +56,9 @@ before_build:
   - git submodule init
   - git submodule update
 
-
 build_script:
   - dir C:\Libraries\boost_1_62_0\
   - mkdir build
   - cd build
   - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=ON
-  - ninja ch00-lz
-  - ninja ch00-lz-ut
-  - ninja ch04-lm
-  - del /S /F /Q *
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DBUILD_SHARED_LIBS:BOOL=ON
-  - ninja ch00-lz
-  - ninja ch00-lz-ut
-  - ninja ch04-lm
+  - ninja
