@@ -5,10 +5,9 @@ add_library(lm-calculator-ext-lib STATIC
   )
 
 add_executable(lm-ch07
-  ../../gtest_main.cc
   EvaluatorTest-ch07-extensions.cpp
   ShuntingYardTest.cpp
   ASTNode.cpp
   )
 
-target_link_libraries(lm-ch07 lm-calculator-ext-lib lm-calculator-lib gtest gmock)
+target_link_libraries(lm-ch07 lm-calculator-ext-lib lm-calculator-lib gtest_main gmock)
