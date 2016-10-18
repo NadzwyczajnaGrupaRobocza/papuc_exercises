@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <algorithm>
+#include <iterator>
 
 Polynomial::Polynomial(std::vector<double> pol)
 {	

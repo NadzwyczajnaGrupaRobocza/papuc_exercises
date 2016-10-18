@@ -4,12 +4,35 @@ project("PaPuC++")
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows" AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-  set(WIN_CLANG "yes")
+add_subdirectory(googletest)
+
+set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googletest/include/")
+set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googlemock/include/")
+set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/GSL/")
+set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  message(STATUS "Detected Windows system.")
+
+  if("${BUILD_SHARED_LIBS}" STREQUAL "ON")
+    string(REPLACE "/MTd" "/MDd" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REPLACE "/MT" "/MD" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+  else()
+    string(REPLACE "/MDd" "/MTd" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+  endif()
+
+  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fms-compatibility-version=19")
+  endif()
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 endif()
 
-if(${WIN_CLANG})
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations\
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+  message(STATUS "Detected system with clang compiler.")
+
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
  -Wno-c++98-compat -Wno-c++98-compat-pedantic\
  -Wno-c++98-c++11-compat-pedantic -Wno-undefined-func-template\
  -Wno-exit-time-destructors -Wno-global-constructors\
@@ -19,25 +42,22 @@ if(${WIN_CLANG})
  -Wno-shift-sign-overflow -Wno-deprecated\
  -Wno-weak-vtables -Wno-sign-conversion")
 
-  string(REPLACE "/MDd" "/MTd" CMAKE_CXX_FLAGS_DEBUG
-    "${CMAKE_CXX_FLAGS_DEBUG}")
-endif()
+  target_compile_options(gtest PRIVATE "-Wno-deprecated-declarations")
+  target_compile_options(gmock PRIVATE "-Wno-deprecated-declarations")
+  target_compile_options(gtest_main PRIVATE "-Wno-deprecated-declarations")
+  target_compile_options(gmock_main PRIVATE "-Wno-deprecated-declarations")
 
-add_subdirectory(googletest)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+  message(STATUS "Detected system with Microsoft compiler.")
 
-set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googletest/include/")
-set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googlemock/include/")
-set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/GSL/")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall\
+ /wd4251 /wd4265 /wd4350 /wd4371 /wd4514 /wd5031 /wd5026 /wd5027\
+ /wd4625 /wd4619 /wd4626 /wd4710 /wd4711 /wd4820 /wd4668")
 
-set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D not=! /D and=&& /D or=||")
 
-if(${WIN_CLANG})
-  message(STATUS "Detected Windows system with clang compiler.")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fms-compatibility-version=19 -m64\
- -Weverything /imsvc ${GSL_INCLUDE_DIR}")
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++14 -pedantic -g -Werror=pedantic")
-  include_directories(${GSL_INCLUDE_DIR})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -g -Werror=pedantic")
 endif()
 
 add_subdirectory(mb)

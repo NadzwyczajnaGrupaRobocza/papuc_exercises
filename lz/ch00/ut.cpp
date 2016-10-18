@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <boost/range/adaptor/transformed.hpp>
 
 class T : public ::testing::Test
 {
