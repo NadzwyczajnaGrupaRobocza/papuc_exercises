@@ -17,6 +17,10 @@ add_executable(ch04-lm
   )
 target_link_libraries(ch04-lm gtest_main)
 
-
 add_executable(lm-ch04-05-UI Expression.cpp ex05-UI.cpp)
 add_executable(lm-ch04-10-UI ex10-UI.cpp)
+
+add_custom_target(ch04-lm-ut-run
+  COMMAND ch04-lm
+  COMMENT "Run ch04-lm-ut"
+)
