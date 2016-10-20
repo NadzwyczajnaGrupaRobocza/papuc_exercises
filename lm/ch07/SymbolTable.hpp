@@ -1,11 +1,9 @@
 #pragma once
-#include <experimental/optional>
-
-template <typename T>
-using Optional = std::experimental::optional<T>;
+#include "Optional.hpp"
 
 namespace calc
 {
+
 class SymbolTable
 {
 public:
