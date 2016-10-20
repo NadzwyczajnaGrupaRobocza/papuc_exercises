@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 #include <gtest/gtest.h>
-=======
->>>>>>> [LM][Ch07] adding unary plus/minus and modulo ops
 #include "Evaluator.hpp"
 #include "TokenStream.hpp"
-#include "gtest/gtest.h"
 #include <sstream>
 #include <string>
 #include <vector>
