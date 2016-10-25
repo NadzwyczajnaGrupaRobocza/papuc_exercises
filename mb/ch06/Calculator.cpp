@@ -97,11 +97,40 @@ double Calculator::primary()
     double value = 0;
     switch (token.kind)
     {
-    case '(':
-    {
-        value = expression();
-        token = tokenStream.get();
-        if (token.kind != ')')
+        case '(':
+        {
+            value = expression();
+            token = tokenStream.get();
+            if( token.kind != ')' )
+            {
+                throw std::logic_error("Expected ')'");
+            }
+            return calculteValue(value);
+        }
+        case '{':
+        {
+            value = expression();
+            token = tokenStream.get();
+            if( token.kind != '}' )
+            {
+                throw std::logic_error("Expected '}'");
+            }
+            return calculteValue(value);
+        }
+        case NUMBER:
+        {
+            value = token.value;
+            return calculteValue(value);
+        }
+        case '-':
+        {
+            return -primary();
+        }
+        case '+':
+        {
+            return primary();
+        }
+        case QUIT:
         {
             throw std::logic_error("Expected ')'");
         }
@@ -113,7 +142,11 @@ double Calculator::primary()
         token = tokenStream.get();
         if (token.kind != '}')
         {
-            throw std::logic_error("Expected '}'");
+            tokenStream.putback(token);
+            std::string cause{"Expected factor, passed "};
+            cause += token.kind;
+            throw std::logic_error(cause);
+            //return 0.0;
         }
         return calculteValue(value);
     }
