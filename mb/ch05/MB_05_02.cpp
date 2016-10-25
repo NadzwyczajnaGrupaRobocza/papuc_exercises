@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <string>
 
 #include "MB_05_02.hpp"
 

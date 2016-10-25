@@ -1,7 +1,6 @@
 include_directories(${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(ch04-lm
-  ../../gtest_main.cc
   ex02.cpp
   ex05.cpp
   Expression.cpp
@@ -16,8 +15,12 @@ add_executable(ch04-lm
   parser_ast.cpp
   Parser_Poly.cpp
   )
-target_link_libraries(ch04-lm gtest)
-
+target_link_libraries(ch04-lm gtest_main)
 
 add_executable(lm-ch04-05-UI Expression.cpp ex05-UI.cpp)
 add_executable(lm-ch04-10-UI ex10-UI.cpp)
+
+add_custom_target(ch04-lm-ut-run
+  COMMAND ch04-lm
+  COMMENT "Run ch04-lm-ut"
+)

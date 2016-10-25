@@ -1,8 +1,7 @@
 include_directories(${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
 
 # UT
-add_executable(mb-04 ../../gtest_main.cc 
-                     ../common/Common.cpp
+add_executable(mb-04 ../common/Common.cpp
                      MB_04_UT.cpp
                      MB_04_10.cpp
                      MB_04_15.cpp
@@ -10,7 +9,7 @@ add_executable(mb-04 ../../gtest_main.cc
                      MB_04_03.cpp
                      MB_04_05.cpp
                      MB_04_08.cpp)
-target_link_libraries(mb-04 gtest)
+target_link_libraries(mb-04 gtest_main)
 
 add_executable(mb-test Test.cpp
                        MB_04_10.cpp)
@@ -40,3 +39,7 @@ add_executable(mb-04-08-bin MB_04_08.cpp MB_04_08_main.cpp)
 #add_executable(ch04-mb-XX-bin NGR_04_XX_01.cpp NGR_04_XX_main.cpp)
 ##target_link_libraries(ch04-mb-XX gtest)
 
+add_custom_target(ch04-mb-ut-run
+  COMMAND mb-04
+  COMMENT "Run ch04-mb-ut"
+)

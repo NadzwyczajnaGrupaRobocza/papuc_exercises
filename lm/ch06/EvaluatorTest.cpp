@@ -1,9 +1,9 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "Evaluator.hpp"
 #include "TokenStream.hpp"
 #include <sstream>
-#include <vector>
 #include <string>
+#include <vector>
 
 using namespace testing;
 

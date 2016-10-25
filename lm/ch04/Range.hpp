@@ -11,7 +11,7 @@ class Range;
 // { ++t; t >= t; };
 // template <Incrementable _Tp>
 template <typename _Tp>
-class RangeIter : std::iterator<std::forward_iterator_tag, _Tp>
+class RangeIter : public std::iterator<std::forward_iterator_tag, _Tp>
 {
 public:
     using type = _Tp;
