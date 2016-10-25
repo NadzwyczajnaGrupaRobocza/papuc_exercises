@@ -5,24 +5,38 @@
 #include "TokenStream.hpp"
 #include "Calculator.hpp"
 
+
+void cleanUpMess(ITokenStream& tokenStream)
+{
+    tokenStream.ignore(END_OF_EXPR);
+}
+
 void calculate(ITokenStream& tokenStream)
 {
     double value = 0;
     Calculator parser{tokenStream};
     while (std::cin)
     {
-        Token token = tokenStream.get();
-        while (token.kind == END_OF_EXPR)
+        try
         {
-            token = tokenStream.get();
+            Token token = tokenStream.get();
+            while (token.kind == END_OF_EXPR)
+            {
+                token = tokenStream.get();
+            }
+            if(token.kind == QUIT)
+            {
+                return;
+            }
+            tokenStream.putback(token);
+            value = parser.expression();
+            std::cout << "= " << value << std::endl;
         }
-        if(token.kind == QUIT)
+        catch (std::logic_error& error)
         {
-            return;
+            std::cerr << error.what() << std::endl;
+            cleanUpMess(tokenStream);
         }
-        tokenStream.putback(token);
-        value = parser.expression();
-        std::cout << "= " << value << std::endl;
     }
 }
 
