@@ -121,6 +121,14 @@ double Calculator::primary()
             value = token.value;
             return calculteValue(value);
         }
+        case '-':
+        {
+            return -primary();
+        }
+        case '+':
+        {
+            return primary();
+        }
         case QUIT:
         {
             tokenStream.putback(token);
@@ -129,7 +137,7 @@ double Calculator::primary()
         default:
         {
             tokenStream.putback(token);
-            std::string cause{"Expected czynnika, przekazano "};
+            std::string cause{"Expected factor, passed "};
             cause += token.kind;
             throw std::logic_error(cause);
             //return 0.0;
