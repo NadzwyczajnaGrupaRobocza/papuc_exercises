@@ -80,6 +80,7 @@ add_subdirectory(mb)
 add_subdirectory(lm)
 add_subdirectory(ib)
 add_subdirectory(lz)
+add_subdirectory(td)
 
 add_custom_target(ut-run
   DEPENDS ${MB-UT-RUN} ${LM-UT-RUN} ${IB-UT-RUN} ${LZ-UT-RUN}
