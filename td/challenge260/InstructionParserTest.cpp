@@ -22,10 +22,15 @@ public:
       return;
     }
     const std::vector<std::string> acceptableInstructions{"ld a,", "out (0),a", ""};
-    if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), instruction.substr(instruction.find_first_not_of(" \t"))) == acceptableInstructions.end())
+    if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), trimWhitespacesOnFront(instruction)) == acceptableInstructions.end())
     {
       throw UnknownInstruction{"Unknown instruction" + instruction};
     }
+  }
+
+  std::string trimWhitespacesOnFront(const std::string& instruction)
+  {
+    return instruction.substr(instruction.find_first_not_of(" \t"));
   }
 
 };
