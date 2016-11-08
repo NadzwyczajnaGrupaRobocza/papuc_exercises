@@ -33,17 +33,17 @@ struct InstructionParserTest : public Test
   InstructionParser parser;
 };
 
-TEST(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
+TEST_F(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
 {
   EXPECT_THROW(parser.parseInstructions("Instructions"), InstructionParser::UnknownInstruction);
 }
 
-TEST(InstructionParserTest, ParserShouldAcceptInstuctionLd)
+TEST_F(InstructionParserTest, ParserShouldAcceptInstuctionLd)
 {
   EXPECT_NO_THROW(parser.parseInstructions("ld a,"));
 }
 
-TEST(InstructionParserTest, ParserShouldAcceptInstructionOut)
+TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOut)
 {
   EXPECT_NO_THROW(parser.parseInstructions("out (0),a"));
 }
