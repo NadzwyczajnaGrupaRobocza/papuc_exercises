@@ -1,8 +1,8 @@
 add_library(libtd-challenge260 STATIC
-            dummy.cpp)
+            InstructionParser.cpp)
 
 add_executable(td-challenge260-test
-               dummyTest.cpp)
+               InstructionParserTest.cpp)
 
 target_link_libraries(td-challenge260-test libtd-challenge260 gtest_main gmock)
 
