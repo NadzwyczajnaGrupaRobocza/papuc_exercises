@@ -1,9 +1,13 @@
-#include "InstructionParser.h"
+//#include "InstructionParser.h"
 
 #include "gtest/gtest.h"
 
-TEST(D, D)
+class InstructionParser
 {
-  D d;
-  EXPECT_TRUE(true);
+
+};
+
+TEST(InstructionParser, D)
+{
+  InstructionParser parser;
 }
