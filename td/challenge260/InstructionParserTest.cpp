@@ -17,7 +17,7 @@ public:
 
   void parseInstructions(const std::string& instruction)
   {
-    if (instruction != "ld a,")
+    if (instruction != "ld a," && instruction != "out (0),a")
     {
       throw UnknownInstruction{"Unknown instruction" + instruction};
     }
@@ -31,8 +31,14 @@ TEST(InstructionParser, ParserShouldDeclineUnknownInstruction)
   EXPECT_THROW(parser.parseInstructions("Instructions"), InstructionParser::UnknownInstruction);
 }
 
-TEST(InstructionParser, ParserShouldAcceptValidInstruction)
+TEST(InstructionParser, ParserShouldAcceptInstuctionLd)
 {
   InstructionParser parser;
   EXPECT_NO_THROW(parser.parseInstructions("ld a,"));
+}
+
+TEST(InstructionParser, ParserShouldAcceptInstructionOut)
+{
+  InstructionParser parser;
+  EXPECT_NO_THROW(parser.parseInstructions("out (0),a"));
 }
