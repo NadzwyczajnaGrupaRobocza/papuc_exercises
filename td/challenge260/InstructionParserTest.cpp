@@ -58,9 +58,9 @@ TEST_F(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
   EXPECT_THROW(parser.parseInstructions("Instructions"), InstructionParser::UnknownInstruction);
 }
 
-TEST_F(InstructionParserTest, ParserShouldAcceptInstuctionLd)
+TEST_F(InstructionParserTest, ParserShouldRejectInstuctionLd)
 {
-  EXPECT_NO_THROW(parser.parseInstructions("ld a,"));
+  EXPECT_THROW(parser.parseInstructions("ld a,"), InstructionParser::MissingArgument);
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOut)
