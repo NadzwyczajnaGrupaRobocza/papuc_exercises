@@ -16,6 +16,14 @@ public:
     {}
   };
 
+  class MissingArgument : public std::runtime_error
+  {
+  public:
+    MissingArgument(const std::string& msg) : std::runtime_error{msg}
+    {}
+  };
+
+
   void parseInstructions(const std::string& instructions)
   {
     boost::tokenizer<boost::char_separator<char>> instructionTokenizer{instructions, boost::char_separator<char>{"\n"}};
@@ -32,11 +40,25 @@ private:
     {
       return;
     }
-    const std::vector<std::string> acceptableInstructions{"ld a,", "out (0),a", ""};
-    if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), trimWhitespacesOnFront(instruction)) == acceptableInstructions.end())
+    const auto trimmedInstruction = trimWhitespacesOnFront(instruction);
+    const std::vector<std::string> acceptableInstructions{"out (0),a"};
+    const std::vector<std::string> acceptableInstructionsWithArgument{"ld a,"};
+    if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), trimmedInstruction) != acceptableInstructions.end())
     {
-      throw UnknownInstruction{"Unknown instruction" + instruction};
+      return;
     }
+    const auto instructionPosition = std::find_if(acceptableInstructionsWithArgument.begin(), acceptableInstructionsWithArgument.end(), [&](const auto& instructionTemplate)
+          {
+            return instructionTemplate == trimmedInstruction.substr(0, instructionTemplate.size());
+          });
+    if (instructionPosition != acceptableInstructions.end())
+    {
+      if (*instructionPosition == trimmedInstruction)
+      {
+        throw MissingArgument{"Missing argument for: " + instruction};
+      }
+    }
+    throw UnknownInstruction{"Unknown instruction: " + instruction};
   }
 
   std::string trimWhitespacesOnFront(const std::string& instruction)
