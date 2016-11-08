@@ -14,14 +14,25 @@ public:
     UnknownInstruction(const std::string& msg) : std::runtime_error{msg}
     {}
   };
+
   void parseInstructions(const std::string& instruction)
   {
-    throw UnknownInstruction{"Unknown instruction" + instruction};
+    if (instruction != "ld a,")
+    {
+      throw UnknownInstruction{"Unknown instruction" + instruction};
+    }
   }
+
 };
 
 TEST(InstructionParser, ParserShouldDeclineUnknownInstruction)
 {
   InstructionParser parser;
   EXPECT_THROW(parser.parseInstructions("Instructions"), InstructionParser::UnknownInstruction);
+}
+
+TEST(InstructionParser, ParserShouldAcceptValidInstruction)
+{
+  InstructionParser parser;
+  EXPECT_NO_THROW(parser.parseInstructions("ld a,"));
 }
