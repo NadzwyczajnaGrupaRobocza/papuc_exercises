@@ -26,20 +26,24 @@ public:
 
 };
 
-TEST(InstructionParser, ParserShouldDeclineUnknownInstruction)
+using namespace ::testing;
+
+struct InstructionParserTest : public Test
 {
   InstructionParser parser;
+};
+
+TEST(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
+{
   EXPECT_THROW(parser.parseInstructions("Instructions"), InstructionParser::UnknownInstruction);
 }
 
-TEST(InstructionParser, ParserShouldAcceptInstuctionLd)
+TEST(InstructionParserTest, ParserShouldAcceptInstuctionLd)
 {
-  InstructionParser parser;
   EXPECT_NO_THROW(parser.parseInstructions("ld a,"));
 }
 
-TEST(InstructionParser, ParserShouldAcceptInstructionOut)
+TEST(InstructionParserTest, ParserShouldAcceptInstructionOut)
 {
-  InstructionParser parser;
   EXPECT_NO_THROW(parser.parseInstructions("out (0),a"));
 }
