@@ -82,3 +82,13 @@ TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructions)
 {
   EXPECT_NO_THROW(parser.parseInstructions("out (0),a\nout (0),a"));
 }
+
+TEST_F(InstructionParserTest, ParserShouldThrowIfSecondInstructionIsInvalid)
+{
+  EXPECT_THROW(parser.parseInstructions("out (0),a\ninvalid"), InstructionParser::UnknownInstruction);
+}
+
+TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
+{
+  EXPECT_NO_THROW(parser.parseInstructions("out (0),a\n\nout (0),a"));
+}
