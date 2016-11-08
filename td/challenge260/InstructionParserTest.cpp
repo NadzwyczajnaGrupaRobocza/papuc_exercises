@@ -17,8 +17,12 @@ public:
 
   void parseInstructions(const std::string& instruction)
   {
+    if (instruction.empty())
+    {
+      return;
+    }
     const std::vector<std::string> acceptableInstructions{"ld a,", "out (0),a", ""};
-    if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), instruction) == acceptableInstructions.end())
+    if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), instruction.substr(instruction.find_first_not_of(" \t"))) == acceptableInstructions.end())
     {
       throw UnknownInstruction{"Unknown instruction" + instruction};
     }
@@ -51,4 +55,9 @@ TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOut)
 TEST_F(InstructionParserTest, ParserShouldAcceptEmptyLine)
 {
   EXPECT_NO_THROW(parser.parseInstructions(""));
+}
+
+TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOutWithWhitespaces)
+{
+  EXPECT_NO_THROW(parser.parseInstructions(" \t    out (0),a"));
 }
