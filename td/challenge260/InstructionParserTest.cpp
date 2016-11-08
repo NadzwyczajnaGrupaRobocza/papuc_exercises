@@ -17,7 +17,8 @@ public:
 
   void parseInstructions(const std::string& instruction)
   {
-    if (instruction != "ld a," && instruction != "out (0),a")
+    const std::vector<std::string> acceptableInstructions{"ld a,", "out (0),a"};
+    if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), instruction) == acceptableInstructions.end())
     {
       throw UnknownInstruction{"Unknown instruction" + instruction};
     }
