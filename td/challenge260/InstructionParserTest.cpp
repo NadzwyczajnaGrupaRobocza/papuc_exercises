@@ -2,6 +2,7 @@
 
 #include <string>
 #include <stdexcept>
+#include "boost/tokenizer.hpp"
 
 #include "gtest/gtest.h"
 
@@ -15,7 +16,17 @@ public:
     {}
   };
 
-  void parseInstructions(const std::string& instruction)
+  void parseInstructions(const std::string& instructions)
+  {
+    boost::tokenizer<boost::char_separator<char>> instructionTokenizer{instructions, boost::char_separator<char>{"\n"}};
+    for (const auto&token : instructionTokenizer)
+    {
+      parseInstruction(token);
+    }
+  }
+private:
+
+  void parseInstruction(const std::string& instruction)
   {
     if (instruction.empty())
     {
@@ -65,4 +76,9 @@ TEST_F(InstructionParserTest, ParserShouldAcceptEmptyLine)
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOutWithWhitespaces)
 {
   EXPECT_NO_THROW(parser.parseInstructions(" \t    out (0),a"));
+}
+
+TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructions)
+{
+  EXPECT_NO_THROW(parser.parseInstructions("out (0),a\nout (0),a"));
 }
