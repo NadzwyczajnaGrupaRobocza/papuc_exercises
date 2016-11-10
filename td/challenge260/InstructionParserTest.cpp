@@ -77,12 +77,12 @@ TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
 TEST_F(InstructionParserTest, ParserShouldAbleToGet0AsToken)
 {
   const Tokens expectedTokens{{TokenType::Number8Bit, 0}};
-  parser.parseInstructions("0");
+  EXPECT_EQ(expectedTokens, parser.parseInstructions("0"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAbleToGet255AsToken)
 {
-  const Tokens expectedTokens{{TokenType::Number8Bit, 0}};
+  const Tokens expectedTokens{{TokenType::Number8Bit, 255}};
   parser.parseInstructions("255");
 }
 
