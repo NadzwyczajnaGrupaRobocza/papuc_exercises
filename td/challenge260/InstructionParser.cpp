@@ -31,7 +31,8 @@ Tokens InstructionParser::parseInstruction(const std::string& instruction)
   const TextToTokens acceptableInstructions{{std::regex{"out"}, TokenType::Out},
                                             {std::regex{"\\(0\\)"}, TokenType::ZeroWithBrackets},
                                             {std::regex{"ld"}, TokenType::Ld},
-                                            {std::regex{"a"}, TokenType::A}};
+                                            {std::regex{"a"}, TokenType::A},
+                                            {std::regex{"0"}, TokenType::Number8Bit}};
   const auto noArgumentInstructionPosition = std::find_if(acceptableInstructions.begin(), acceptableInstructions.end(), [&](const auto& tokenMap)
       {
         return std::regex_match(trimmedInstruction, tokenMap.first);
