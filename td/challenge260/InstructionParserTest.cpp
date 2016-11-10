@@ -73,3 +73,8 @@ TEST_F(InstructionParserTest, ParserShouldAbleToGetMinusOneAsToken)
 {
   EXPECT_THROW(parser.parseInstructions("-1"), InstructionParser::UnknownInstruction);
 }
+
+TEST_F(InstructionParserTest, ParserShouldAbleToGet256AsToken)
+{
+  EXPECT_THROW(parser.parseInstructions("256"), InstructionParser::UnknownInstruction);
+}
