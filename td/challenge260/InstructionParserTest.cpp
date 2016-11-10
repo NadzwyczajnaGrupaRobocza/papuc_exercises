@@ -16,13 +16,13 @@ TEST_F(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
 
 TEST_F(InstructionParserTest, ParserShouldRejectInstuctionLd)
 {
-  const Tokens expectedTokens{Token::LdA};
+  const Tokens expectedTokens{Token::Ld, Token::A};
   parser.parseInstructions("ld a,");
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOut)
 {
-  const Tokens expectedTokens{Token::OutA};
+  const Tokens expectedTokens{Token::Out, Token::ZeroWithBrackets, Token::A};
   EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a"));
 }
 
@@ -34,13 +34,14 @@ TEST_F(InstructionParserTest, ParserShouldAcceptEmptyLine)
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOutWithWhitespaces)
 {
-  const Tokens expectedTokens{Token::OutA};
+  const Tokens expectedTokens{Token::Out, Token::ZeroWithBrackets, Token::A};
   EXPECT_EQ(expectedTokens, parser.parseInstructions(" \t    out (0),a"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructions)
 {
-  const Tokens expectedTokens{Token::OutA, Token::OutA};
+  const Tokens expectedTokens{Token::Out, Token::ZeroWithBrackets, Token::A,
+                              Token::Out, Token::ZeroWithBrackets, Token::A};
   EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\nout (0),a"));
 }
 
@@ -51,6 +52,7 @@ TEST_F(InstructionParserTest, ParserShouldThrowIfSecondInstructionIsInvalid)
 
 TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
 {
-  const Tokens expectedTokens{Token::OutA, Token::OutA};
+  const Tokens expectedTokens{Token::Out, Token::ZeroWithBrackets, Token::A,
+                              Token::Out, Token::ZeroWithBrackets, Token::A};
   EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\n\nout (0),a"));
 }
