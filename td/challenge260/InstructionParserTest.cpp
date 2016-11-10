@@ -7,6 +7,11 @@ using namespace ::testing;
 struct InstructionParserTest : public Test
 {
   InstructionParser parser;
+
+  Token createTokenWithZeroValue(TokenType type)
+  {
+    return {type, 0};
+  }
 };
 
 TEST_F(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
@@ -16,13 +21,15 @@ TEST_F(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
 
 TEST_F(InstructionParserTest, ParserShouldRejectInstuctionLd)
 {
-  const Tokens expectedTokens{TokenType::Ld, TokenType::A};
+  const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Ld), createTokenWithZeroValue(TokenType::A)};
   parser.parseInstructions("ld a,");
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOut)
 {
-  const Tokens expectedTokens{TokenType::Out, TokenType::ZeroWithBrackets, TokenType::A};
+  const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Out),
+                              createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                              createTokenWithZeroValue(TokenType::A)};
   EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a"));
 }
 
@@ -34,14 +41,20 @@ TEST_F(InstructionParserTest, ParserShouldAcceptEmptyLine)
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOutWithWhitespaces)
 {
-  const Tokens expectedTokens{TokenType::Out, TokenType::ZeroWithBrackets, TokenType::A};
+  const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Out),
+                              createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                              createTokenWithZeroValue(TokenType::A)};
   EXPECT_EQ(expectedTokens, parser.parseInstructions(" \t    out (0),a"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructions)
 {
-  const Tokens expectedTokens{TokenType::Out, TokenType::ZeroWithBrackets, TokenType::A,
-                              TokenType::Out, TokenType::ZeroWithBrackets, TokenType::A};
+  const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Out),
+                              createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                              createTokenWithZeroValue(TokenType::A),
+                              createTokenWithZeroValue(TokenType::Out),
+                              createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                              createTokenWithZeroValue(TokenType::A)};
   EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\nout (0),a"));
 }
 
@@ -52,20 +65,24 @@ TEST_F(InstructionParserTest, ParserShouldThrowIfSecondInstructionIsInvalid)
 
 TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
 {
-  const Tokens expectedTokens{TokenType::Out, TokenType::ZeroWithBrackets, TokenType::A,
-                              TokenType::Out, TokenType::ZeroWithBrackets, TokenType::A};
+  const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Out),
+                              createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                              createTokenWithZeroValue(TokenType::A),
+                              createTokenWithZeroValue(TokenType::Out),
+                              createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                              createTokenWithZeroValue(TokenType::A)};
   EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\n\nout (0),a"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAbleToGet0AsToken)
 {
-  const Tokens expectedTokens{TokenType::Number8Bit};
+  const Tokens expectedTokens{{TokenType::Number8Bit, 0}};
   parser.parseInstructions("0");
 }
 
 TEST_F(InstructionParserTest, ParserShouldAbleToGet255AsToken)
 {
-  const Tokens expectedTokens{TokenType::Number8Bit};
+  const Tokens expectedTokens{{TokenType::Number8Bit, 0}};
   parser.parseInstructions("255");
 }
 
@@ -78,3 +95,4 @@ TEST_F(InstructionParserTest, ParserShouldAbleToGet256AsToken)
 {
   EXPECT_THROW(parser.parseInstructions("256"), InstructionParser::UnknownInstruction);
 }
+

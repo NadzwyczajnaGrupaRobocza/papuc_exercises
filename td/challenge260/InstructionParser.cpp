@@ -15,7 +15,7 @@ Tokens InstructionParser::parseInstructions(const std::string& instructions)
     Tokens tokens;
     for (const auto&token : instructionTokenizer)
     {
-      boost::copy( parseInstruction(token), std::back_inserter(tokens));
+      boost::copy(parseInstruction(token), std::back_inserter(tokens));
     }
     return tokens;
 }
@@ -27,19 +27,34 @@ Tokens InstructionParser::parseInstruction(const std::string& instruction)
   {
     return{};
   }
-  using TextToTokens = std::vector<std::pair<std::regex, TokenType>>;
-  const TextToTokens acceptableInstructions{{std::regex{"out"}, TokenType::Out},
-                                            {std::regex{"\\(0\\)"}, TokenType::ZeroWithBrackets},
-                                            {std::regex{"ld"}, TokenType::Ld},
-                                            {std::regex{"a"}, TokenType::A},
-                                            {std::regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"}, TokenType::Number8Bit}};
+  const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType
+  {
+    return 0;
+  };
+  const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType
+  {
+    try
+    {
+      return std::stoi(text);
+    }
+    catch (const std::exception &)
+    {
+      return 0;
+    }
+  };
+  using TextToTokens = std::vector<std::tuple<std::regex, TokenType, std::function<Token::ValueType(const std::string&)>>>;
+  const TextToTokens acceptableInstructions{{std::regex{"out"}, TokenType::Out, alwaysZeroValue},
+                                            {std::regex{"\\(0\\)"}, TokenType::ZeroWithBrackets, alwaysZeroValue},
+                                            {std::regex{"ld"}, TokenType::Ld, alwaysZeroValue},
+                                            {std::regex{"a"}, TokenType::A, alwaysZeroValue},
+                                            {std::regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"}, TokenType::Number8Bit, convertToUnsigned}};
   const auto noArgumentInstructionPosition = std::find_if(acceptableInstructions.begin(), acceptableInstructions.end(), [&](const auto& tokenMap)
       {
-        return std::regex_match(trimmedInstruction, tokenMap.first);
+        return std::regex_match(trimmedInstruction, std::get<0>(tokenMap));
       });
   if (noArgumentInstructionPosition != acceptableInstructions.end())
   {
-    return {noArgumentInstructionPosition->second};
+    return {{std::get<1>(*noArgumentInstructionPosition), std::get<2>(*noArgumentInstructionPosition)(trimmedInstruction)}};
   }
   throw UnknownInstruction{"Unknown instruction: " + instruction};
 }
