@@ -1,13 +1,28 @@
 #include "gtest/gtest.h"
 
+#include <stdexcept>
+
 #include "Token.hpp"
+#include "Instruction.hpp"
 
 class SemanticAnalyser
 {
 public:
-  bool analyse(const Tokens& tokens)
+  class InvalidSemantic : public std::runtime_error
   {
-    return tokens.empty() || tokens.size() == 3;
+  public:
+    InvalidSemantic(const std::string& msg) : std::runtime_error{msg}
+    {
+    }
+  };
+
+  Instructions analyse(const Tokens& tokens)
+  {
+    if (tokens.empty() || tokens.size() == 3)
+    {
+      return {};
+    }
+    throw InvalidSemantic{"Invalid number of tokens"};
   }
 };
 
@@ -26,13 +41,14 @@ struct SemanticAnalyserTest : public Test
 TEST_F(SemanticAnalyserTest, ShouldAcceptEmptyTokens)
 {
   Tokens tokens{};
-  ASSERT_TRUE(analyser.analyse(tokens));
+  Instructions instructions;
+  ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
 
 TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
 {
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld)};
-  ASSERT_FALSE(analyser.analyse(tokens));
+  ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
 
 TEST_F(SemanticAnalyserTest, ShouldNotAcceptValidLdInstructions)
@@ -40,5 +56,5 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptValidLdInstructions)
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
                 createTokenWithZeroValue(TokenType::A),
                 createTokenWithZeroValue(TokenType::Number8Bit)};
-  ASSERT_TRUE(analyser.analyse(tokens));
+  ASSERT_NO_THROW(analyser.analyse(tokens));
 }
