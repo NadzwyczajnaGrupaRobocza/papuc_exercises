@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include <vector>
 
 enum class TokenType
@@ -24,3 +25,21 @@ inline bool operator==(const Token& lhs, const Token& rhs)
 }
 
 using Tokens = std::vector<Token>;
+
+inline std::ostream& operator<<(std::ostream & out, TokenType token)
+{
+  switch (token)
+  {
+    case TokenType::Ld:
+      return out << "LD";
+    case TokenType::Out:
+      return out << "Out";
+    case TokenType::A:
+      return out << "A";
+    case TokenType::ZeroWithBrackets:
+      return out << "ZeroWithBrackets";
+    case TokenType::Number8Bit:
+      return out << "Number8Bit";
+  }
+  return out << "No known TokenType";
+}
