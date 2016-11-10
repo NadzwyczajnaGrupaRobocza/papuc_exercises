@@ -16,7 +16,8 @@ TEST_F(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
 
 TEST_F(InstructionParserTest, ParserShouldRejectInstuctionLd)
 {
-  EXPECT_NO_THROW(parser.parseInstructions("ld a,"));
+  const Tokens expectedTokens{Token::LdA};
+  parser.parseInstructions("ld a,");
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOut)
