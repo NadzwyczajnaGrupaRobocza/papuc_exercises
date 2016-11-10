@@ -57,8 +57,14 @@ TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
   EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\n\nout (0),a"));
 }
 
-TEST_F(InstructionParserTest, ParserShouldAbleToGetNumberAsToken)
+TEST_F(InstructionParserTest, ParserShouldAbleToGet0AsToken)
 {
   const Tokens expectedTokens{TokenType::Number8Bit};
   parser.parseInstructions("0");
+}
+
+TEST_F(InstructionParserTest, ParserShouldAbleToGet255AsToken)
+{
+  const Tokens expectedTokens{TokenType::Number8Bit};
+  parser.parseInstructions("255");
 }
