@@ -27,11 +27,11 @@ Tokens InstructionParser::parseInstruction(const std::string& instruction)
   {
     return{};
   }
-  using TextToTokens = std::vector<std::pair<std::regex, Token>>;
-  const TextToTokens acceptableInstructions{{std::regex{"out"}, Token::Out},
-                                            {std::regex{"\\(0\\)"}, Token::ZeroWithBrackets},
-                                            {std::regex{"ld"}, Token::Ld},
-                                            {std::regex{"a"}, Token::A}};
+  using TextToTokens = std::vector<std::pair<std::regex, TokenType>>;
+  const TextToTokens acceptableInstructions{{std::regex{"out"}, TokenType::Out},
+                                            {std::regex{"\\(0\\)"}, TokenType::ZeroWithBrackets},
+                                            {std::regex{"ld"}, TokenType::Ld},
+                                            {std::regex{"a"}, TokenType::A}};
   const auto noArgumentInstructionPosition = std::find_if(acceptableInstructions.begin(), acceptableInstructions.end(), [&](const auto& tokenMap)
       {
         return std::regex_match(trimmedInstruction, tokenMap.first);
