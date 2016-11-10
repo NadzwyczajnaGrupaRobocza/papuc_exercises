@@ -2,7 +2,9 @@
 
 
 #include <iostream>
-#include <map>
+#include <vector>
+#include <utility>
+#include <regex>
 #include "boost/tokenizer.hpp"
 #include "boost/range/algorithm.hpp"
 
@@ -25,8 +27,15 @@ Tokens InstructionParser::parseInstruction(const std::string& instruction)
   {
     return{};
   }
-  const std::map<std::string, Token> acceptableInstructions{{"out", Token::Out}, {"(0)", Token::ZeroWithBrackets}, {"ld", Token::Ld}, {"a", Token::A}};
-  const auto noArgumentInstructionPosition = acceptableInstructions.find(trimmedInstruction);
+  using TextToTokens = std::vector<std::pair<std::regex, Token>>;
+  const TextToTokens acceptableInstructions{{std::regex{"out"}, Token::Out},
+                                            {std::regex{"\\(0\\)"}, Token::ZeroWithBrackets},
+                                            {std::regex{"ld"}, Token::Ld},
+                                            {std::regex{"a"}, Token::A}};
+  const auto noArgumentInstructionPosition = std::find_if(acceptableInstructions.begin(), acceptableInstructions.end(), [&](const auto& tokenMap)
+      {
+        return std::regex_match(trimmedInstruction, tokenMap.first);
+      });
   if (noArgumentInstructionPosition != acceptableInstructions.end())
   {
     return {noArgumentInstructionPosition->second};
