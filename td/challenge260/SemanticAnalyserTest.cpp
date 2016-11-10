@@ -11,21 +11,26 @@ public:
   }
 };
 
-constexpr Token createTokenWithZeroValue(TokenType type)
-{
-  return {type, 0};
-}
+using namespace ::testing;
 
-TEST(SemanticAnalyserTest, ShouldAcceptEmptyTokens)
+struct SemanticAnalyserTest : public Test
 {
   SemanticAnalyser analyser;
+  static constexpr Token createTokenWithZeroValue(TokenType type)
+  {
+    return
+    { type, 0};
+  }
+};
+
+TEST_F(SemanticAnalyserTest, ShouldAcceptEmptyTokens)
+{
   Tokens tokens{};
   ASSERT_TRUE(analyser.analyse(tokens));
 }
 
-TEST(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
+TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
 {
-  SemanticAnalyser analyser;
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld)};
   ASSERT_FALSE(analyser.analyse(tokens));
 }
