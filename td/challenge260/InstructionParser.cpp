@@ -1,38 +1,35 @@
 #include "InstructionParser.hpp"
 
-void InstructionParser::parseInstructions(const std::string& instructions)
+
+#include <iostream>
+#include <map>
+#include "boost/tokenizer.hpp"
+#include "boost/range/algorithm.hpp"
+
+Tokens InstructionParser::parseInstructions(const std::string& instructions)
 
 {
     boost::tokenizer<boost::char_separator<char>> instructionTokenizer{instructions, boost::char_separator<char>{"\n"}};
+    Tokens tokens;
     for (const auto&token : instructionTokenizer)
     {
-      parseInstruction(token);
+      boost::copy( parseInstruction(token), std::back_inserter(tokens));
     }
+    return tokens;
 }
 
-void InstructionParser::parseInstruction(const std::string& instruction)
+Tokens InstructionParser::parseInstruction(const std::string& instruction)
 {
   if (instruction.empty())
   {
-    return;
+    return{};
   }
   const auto trimmedInstruction = trimWhitespacesOnFront(instruction);
-  const std::vector<std::string> acceptableInstructions{"out (0),a"};
-  const std::vector<std::string> acceptableInstructionsWithArgument{"ld a,"};
-  if (std::find(acceptableInstructions.begin(), acceptableInstructions.end(), trimmedInstruction) != acceptableInstructions.end())
+  const std::map<std::string, Token> acceptableInstructions{{"out (0),a", Token::OutA}, {"ld a,", Token::LdA}};
+  const auto noArgumentInstructionPosition = acceptableInstructions.find(trimmedInstruction);
+  if (noArgumentInstructionPosition != acceptableInstructions.end())
   {
-    return;
-  }
-  const auto instructionPosition = std::find_if(acceptableInstructionsWithArgument.begin(), acceptableInstructionsWithArgument.end(), [&](const auto& instructionTemplate)
-        {
-          return instructionTemplate == trimmedInstruction.substr(0, instructionTemplate.size());
-        });
-  if (instructionPosition != acceptableInstructions.end())
-  {
-    if (*instructionPosition == trimmedInstruction)
-    {
-      throw MissingArgument{"Missing argument for: " + instruction};
-    }
+    return {noArgumentInstructionPosition->second};
   }
   throw UnknownInstruction{"Unknown instruction: " + instruction};
 }

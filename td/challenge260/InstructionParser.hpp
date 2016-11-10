@@ -2,7 +2,7 @@
 
 #include <string>
 #include <stdexcept>
-#include "boost/tokenizer.hpp"
+#include "Token.hpp"
 
 
 class InstructionParser
@@ -15,17 +15,9 @@ public:
     {}
   };
 
-  class MissingArgument : public std::runtime_error
-  {
-  public:
-    MissingArgument(const std::string& msg) : std::runtime_error{msg}
-    {}
-  };
-
-
-  void parseInstructions(const std::string& instructions);
+  Tokens parseInstructions(const std::string& instructions);
 
 private:
-  void parseInstruction(const std::string& instruction);
+  Tokens parseInstruction(const std::string& instruction);
   std::string trimWhitespacesOnFront(const std::string& instruction);
 };

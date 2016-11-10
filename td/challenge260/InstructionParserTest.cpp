@@ -16,27 +16,31 @@ TEST_F(InstructionParserTest, ParserShouldDeclineUnknownInstruction)
 
 TEST_F(InstructionParserTest, ParserShouldRejectInstuctionLd)
 {
-  EXPECT_THROW(parser.parseInstructions("ld a,"), InstructionParser::MissingArgument);
+  EXPECT_NO_THROW(parser.parseInstructions("ld a,"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOut)
 {
-  EXPECT_NO_THROW(parser.parseInstructions("out (0),a"));
+  const Tokens expectedTokens{Token::OutA};
+  EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptEmptyLine)
 {
-  EXPECT_NO_THROW(parser.parseInstructions(""));
+  const Tokens expectedTokens{};
+  EXPECT_EQ(expectedTokens, parser.parseInstructions(""));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptInstructionOutWithWhitespaces)
 {
-  EXPECT_NO_THROW(parser.parseInstructions(" \t    out (0),a"));
+  const Tokens expectedTokens{Token::OutA};
+  EXPECT_EQ(expectedTokens, parser.parseInstructions(" \t    out (0),a"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructions)
 {
-  EXPECT_NO_THROW(parser.parseInstructions("out (0),a\nout (0),a"));
+  const Tokens expectedTokens{Token::OutA, Token::OutA};
+  EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\nout (0),a"));
 }
 
 TEST_F(InstructionParserTest, ParserShouldThrowIfSecondInstructionIsInvalid)
@@ -46,5 +50,6 @@ TEST_F(InstructionParserTest, ParserShouldThrowIfSecondInstructionIsInvalid)
 
 TEST_F(InstructionParserTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
 {
-  EXPECT_NO_THROW(parser.parseInstructions("out (0),a\n\nout (0),a"));
+  const Tokens expectedTokens{Token::OutA, Token::OutA};
+  EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\n\nout (0),a"));
 }
