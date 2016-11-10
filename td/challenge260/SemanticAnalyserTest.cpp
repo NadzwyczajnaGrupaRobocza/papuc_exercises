@@ -2,5 +2,5 @@
 
 TEST(SemanticAnalyserTest, D)
 {
-  ASSERT_TRUE(true);
+  SemanticAnalyser analyser;
 }
