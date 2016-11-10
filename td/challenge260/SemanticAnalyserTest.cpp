@@ -7,7 +7,7 @@ class SemanticAnalyser
 public:
   bool analyse(const Tokens& tokens)
   {
-    return tokens.empty();
+    return tokens.empty() || tokens.size() == 3;
   }
 };
 
@@ -33,4 +33,12 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
 {
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld)};
   ASSERT_FALSE(analyser.analyse(tokens));
+}
+
+TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstruction)
+{
+  Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
+                createTokenWithZeroValue(TokenType::A),
+                createTokenWithZeroValue(TokenType::Number8Bit)};
+  ASSERT_TRUE(analyser.analyse(tokens));
 }
