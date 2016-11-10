@@ -42,3 +42,11 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstruction)
                 createTokenWithZeroValue(TokenType::Number8Bit)};
   ASSERT_TRUE(analyser.analyse(tokens));
 }
+
+TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
+{
+  Tokens tokens{createTokenWithZeroValue(TokenType::Out),
+                createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                createTokenWithZeroValue(TokenType::A)};
+  ASSERT_TRUE(analyser.analyse(tokens));
+}
