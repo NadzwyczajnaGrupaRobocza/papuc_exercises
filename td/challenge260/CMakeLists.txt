@@ -3,7 +3,8 @@ add_library(libtd-challenge260 STATIC
 
 add_executable(td-challenge260-test
                InstructionLexerTest.cpp
-	       SemanticAnalyserTest.cpp)
+	       SemanticAnalyserTest.cpp
+	       LedControllerTest.cpp)
 
 target_link_libraries(td-challenge260-test libtd-challenge260 gtest_main gmock)
 

@@ -35,18 +35,10 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
   ASSERT_FALSE(analyser.analyse(tokens));
 }
 
-TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstruction)
+TEST_F(SemanticAnalyserTest, ShouldNotAcceptValidLdInstructions)
 {
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
                 createTokenWithZeroValue(TokenType::A),
                 createTokenWithZeroValue(TokenType::Number8Bit)};
-  ASSERT_TRUE(analyser.analyse(tokens));
-}
-
-TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
-{
-  Tokens tokens{createTokenWithZeroValue(TokenType::Out),
-                createTokenWithZeroValue(TokenType::ZeroWithBrackets),
-                createTokenWithZeroValue(TokenType::A)};
   ASSERT_TRUE(analyser.analyse(tokens));
 }
