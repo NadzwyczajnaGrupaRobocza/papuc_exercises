@@ -68,3 +68,8 @@ TEST_F(InstructionParserTest, ParserShouldAbleToGet255AsToken)
   const Tokens expectedTokens{TokenType::Number8Bit};
   parser.parseInstructions("255");
 }
+
+TEST_F(InstructionParserTest, ParserShouldAbleToGetMinusOneAsToken)
+{
+  EXPECT_THROW(parser.parseInstructions("-1"), InstructionParser::UnknownInstruction);
+}
