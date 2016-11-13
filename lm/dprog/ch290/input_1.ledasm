@@ -1,12 +1,12 @@
-  ld a,14
+  ld a,255
   out (0),a
-  ld a,12
+  ld a,254
   out (0),a
-  ld a,8
+  ld a,253
   out (0),a
-
+  ld a,252
   out (0),a
-  ld a,12
+  ld a,251
   out (0),a
-  ld a,14
+  ld a,250
   out (0),a
