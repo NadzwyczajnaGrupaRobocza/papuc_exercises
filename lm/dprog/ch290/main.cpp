@@ -1,4 +1,4 @@
-#include "InstructionLexer.hpp"
+#include "InstructionBuilderCombinator.hpp"
 #include "Processor.hpp"
 #include "throw_assert.hpp"
 #include <bitset>
@@ -6,14 +6,14 @@
 
 int main(int argc, char** argv)
 {
-    throw_assert(argc >= 1, "not enough arguments");
+    throw_assert(argc >= 2, "not enough arguments");
 
     std::string inputFileName{argv[1]};
     std::ifstream inputFile{inputFileName};
-    InstructionLexer lexer;
+    ltm::InstructionBuilderCombinator ibc;
     auto led = [](u8_t v) {
         std::cout << std::bitset<8>(v).to_string('.', '*') << '\n';
-    };
+   };
     Processor proc{{{Register::out_0, led}}};
-    return proc.runProgram(lexer.lex(inputFile));
+    return proc.runProgram(ibc.process(inputFile));
 }
