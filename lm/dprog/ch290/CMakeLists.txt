@@ -11,6 +11,8 @@ add_library(lm-ch290-lib STATIC
 add_executable(lm-ch290-test
   InstructionBuilderCombinatorTest.cpp
   LoadInstructionBuilderTest.cpp
+  RotateLeftCyclicInstructionBuilderTest.cpp
+  RotateRightCyclicInstructionBuilderTest.cpp
   ProcessorTest.cpp)
 
 target_link_libraries(lm-ch290-test lm-ch290-lib gtest_main gmock)

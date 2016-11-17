@@ -1,31 +1,34 @@
 #pragma once
 
 #include "Instruction.hpp"
+#include "InstructionBuilder.hpp"
 #include <functional>
 #include <iosfwd>
+#include <memory>
 #include <regex>
 #include <string>
 #include <vector>
-#include <memory>
-#include "InstructionBuilder.hpp"
 
 namespace ltm
 {
 class InstructionBuilderCombinator
 {
 public:
+    using Program = std::vector<Instruction>;
+
     InstructionBuilderCombinator();
-    std::vector<Instruction> process(std::istream&);
+    Program process(std::istream&);
 
 private:
-    std::tuple<bool, Instruction>
-    processSingleInstruction(const std::string&);
-    bool shouldProcessAsEmpty(const std::string& line);
-    bool shouldProcessAsInstruction(const std::string& line);
-
     using InstructionBuilderPtr = std::unique_ptr<InstructionBuilder>;
     using InstructionSet = std::vector<InstructionBuilderPtr>;
 
+    std::vector<std::string> preprocess(std::istream&);
+    std::string preprocessIfLabel(const std::string&,
+                                  std::vector<std::string>&);
+
     const InstructionSet knownInstructions;
+
+    class Worker;
 };
 }

@@ -28,7 +28,8 @@ enum class OperationType : u8_t
     load,
     output,
     rotateLeftCyclic,
-    rotateRightCyclic
+    rotateRightCyclic,
+    decrementAndJump
 };
 
 enum class Register : u8_t
