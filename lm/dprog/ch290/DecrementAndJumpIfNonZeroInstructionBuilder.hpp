@@ -4,10 +4,10 @@
 
 namespace ltm
 {
-class DecrementAndJumpIfNonZeroInstructionBuilder : public InstructionBuilder
+class DecrementAndJumpInstructionBuilder : public InstructionBuilder
 {
 public:
-    DecrementAndJumpIfNonZeroInstructionBuilder();
+    DecrementAndJumpInstructionBuilder();
 
 private:
     Instruction buildInstruction(const std::smatch& m) const;

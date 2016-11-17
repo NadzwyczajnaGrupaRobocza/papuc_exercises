@@ -21,7 +21,7 @@ InstructionBuilderCombinator::InstructionBuilderCombinator()
           tmp.push_back(
               std::make_unique<RotateRightCyclicInstructionBuilder>());
           tmp.push_back(std::make_unique<
-                        DecrementAndJumpIfNonZeroInstructionBuilder>());
+                        DecrementAndJumpInstructionBuilder>());
           return tmp;
       }()}
 {
@@ -46,12 +46,13 @@ private:
     bool shouldProcessAsEmpty(const std::string&);
     bool shouldProcessAsLabel(const std::string&);
     bool shouldProcessAsInstruction(const std::string&);
+    void postprocessLabels();
 
     const InstructionSet& instructionSet;
     std::vector<std::string>& in;
 
     Program program;
-    std::map<std::string, Program::size_type> labelToLoc;
+    std::map<u8_t, Program::size_type> labelToLoc;
     int currentLine;
 };
 
@@ -97,20 +98,21 @@ std::string InstructionBuilderCombinator::preprocessIfLabel(
         }
     }
     else if (std::regex_match(line, m,
-                              std::regex{"\\s+djnz ([a-z]) ([0-9]+)"}))
+                              std::regex{"\\s+djnz ([a-z]) (\\w+):"}))
     {
-        std::string label = m[1];
+        const std::string label = m[2];
+        const std::string reg = m[1];
         auto it = std::find(labels.begin(), labels.end(), label);
         if (it == labels.end())
         {
             const auto label_pos = labels.size();
             labels.push_back(label);
-            return " djnz " + std::to_string(label_pos);
+            return " djnz " + reg + " " + std::to_string(label_pos);
         }
         else
         {
             const auto label_pos = std::distance(labels.begin(), it);
-            return " djnz " + std::to_string(label_pos);
+            return " djnz " + reg + " " + std::to_string(label_pos);
         }
     }
     else
@@ -145,7 +147,8 @@ InstructionBuilderCombinator::Worker::process()
         }
         else
         {
-            throw_assert(false, "should never end up here");
+            throw_assert(false, "unknown instruction in line "
+                                    << currentLine << ": " << line);
         }
     }
 
@@ -161,7 +164,7 @@ bool InstructionBuilderCombinator::Worker::shouldProcessAsInstruction(
 bool InstructionBuilderCombinator::Worker::shouldProcessAsLabel(
     const std::string& line)
 {
-    return std::regex_match(line, std::regex{"[a-zA-Z]+:"});
+    return std::regex_match(line, std::regex{"[0-9]+:"});
 }
 
 bool InstructionBuilderCombinator::Worker::shouldProcessAsEmpty(
@@ -189,21 +192,33 @@ InstructionBuilderCombinator::Worker::processSingleInstruction(
 }
 
 void InstructionBuilderCombinator::Worker::processLabel(
-    const std::string& label)
+    const std::string& line)
 {
-    throw_assert(label[label.size() - 1] == ':',
-                 "processing invalid label");
+    throw_assert(line[line.size() - 1] == ':', "processing invalid label");
 
-    const std::string labelTrim = [](const std::string& s) {
+    const std::string labelStr = [](const std::string& s) {
         auto copy = s;
         copy.pop_back();
         return copy;
-    }(label);
+    }(line);
 
-    throw_assert(labelToLoc.count(labelTrim) == 0,
-                 "redefinition of label " << labelTrim << " at "
-                                          << currentLine);
+    const u8_t label = std::stoi(labelStr);
 
-    labelToLoc.emplace(labelTrim, program.size());
+    throw_assert(labelToLoc.count(label) == 0, "redefinition of label "
+                                                   << label << " at "
+                                                   << currentLine);
+
+    labelToLoc.emplace(label, program.size());
+}
+
+void InstructionBuilderCombinator::Worker::postprocessLabels()
+{
+    for (auto& instr : program)
+    {
+        if (instr.operation == OperationType::decrementAndJump)
+        {
+            instr.value = static_cast<u8_t>(labelToLoc.at(instr.value));
+        }
+    }
 }
 }
