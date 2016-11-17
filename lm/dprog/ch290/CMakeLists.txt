@@ -13,6 +13,7 @@ add_executable(lm-ch290-test
   LoadInstructionBuilderTest.cpp
   RotateLeftCyclicInstructionBuilderTest.cpp
   RotateRightCyclicInstructionBuilderTest.cpp
+  DecrementAndJumpInstructionBuilderTest.cpp
   ProcessorTest.cpp)
 
 target_link_libraries(lm-ch290-test lm-ch290-lib gtest_main gmock)
