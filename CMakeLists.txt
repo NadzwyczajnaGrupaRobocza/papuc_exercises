@@ -71,8 +71,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -pedantic \
 -g \
 -Werror=pedantic")
-  include_directories(${GSL_INCLUDE_DIR})
-  endif()
+endif()
+
+include_directories(${GSL_INCLUDE_DIR})
 
 set(MB-UT-RUN "mb-ut-run")
 set(LM-UT-RUN "lm-ut-run")
