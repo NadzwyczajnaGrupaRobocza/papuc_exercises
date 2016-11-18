@@ -40,4 +40,4 @@ script:
   - make -j `nproc`
   - make -j `nproc` ut-run
   - cd bin
-  - ch04-lm
+  - ./ch04-lm
