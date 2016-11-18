@@ -9,6 +9,7 @@ namespace lm
 {
 Expression::Expression(const std::string& inputInit) : input{inputInit}
 {
+    std::cout << "contructor" << std::endl;
 }
 
 double Expression::getResult()
