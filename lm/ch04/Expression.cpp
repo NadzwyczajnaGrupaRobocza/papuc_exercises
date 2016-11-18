@@ -21,7 +21,7 @@ double Expression::getResult()
     double val1 = 0.0;
     double val2 = 0.0;
     char op = '\0';
-    std::cout << "before >> " << istr << std::endl;
+    std::cout << "before >> " << istr.str() << std::endl;
     istr >> val1;
     std::cout << "after val1 >> " << val1 << std::endl;
     istr >> op;
