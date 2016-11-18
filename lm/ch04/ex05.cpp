@@ -28,7 +28,8 @@ TEST(LMCh04Ex05, DISABLED_willDivideNumbers)
 TEST(LMCh04Ex05, willThrowExceptionOnUnknownOp)
 {
     std::cout << "start test" << std::endl;
-    auto expression = lm::Expression("12.0 ^ 14.1");
+    std::string input{"12.0 ^ 14.1"};
+    auto expression = lm::Expression(input);
     std::cout << "before throw" << std::endl;
     ASSERT_THROW(expression.getResult(), std::runtime_error);
     std::cout << "after throw" << std::endl;
