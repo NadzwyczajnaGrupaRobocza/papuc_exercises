@@ -1,4 +1,4 @@
-#include "DecrementAndJumpIfNonZeroInstructionBuilder.hpp"
+#include "DecrementAndJumpInstructionBuilder.hpp"
 #include "gtest/gtest.h"
 
 namespace ltm

@@ -5,7 +5,7 @@ add_library(lm-ch290-lib STATIC
   OutputInstructionBuilder.cpp
   RotateLeftCyclicInstructionBuilder.cpp
   RotateRightCyclicInstructionBuilder.cpp
-  DecrementAndJumpIfNonZeroInstructionBuilder.cpp
+  DecrementAndJumpInstructionBuilder.cpp
   Processor.cpp)
 
 add_executable(lm-ch290-test
