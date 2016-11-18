@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include <gmock/gmock.h>
+#include <gsl/gsl_assert>
 #include <memory>
 #include <type_traits>
 
@@ -37,13 +38,13 @@ public:
 
     T& operator*() const
     {
-        assert(raw != nullptr);
+        Expects(raw != nullptr);
         return *raw;
     }
 
     T* operator->() const
     {
-        assert(raw != nullptr);
+        Expects(raw != nullptr);
         return raw;
     }
 
