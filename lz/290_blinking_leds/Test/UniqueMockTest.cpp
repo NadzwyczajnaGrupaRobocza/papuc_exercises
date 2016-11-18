@@ -1,5 +1,7 @@
-#include "UniqueMock.hpp"
 #include <gtest/gtest.h>
+
+#include "UniqueMock.hpp"
+#include <gsl/gsl_assert>
 
 using namespace ::testing;
 
@@ -41,7 +43,7 @@ TEST(UniqueMockTest, usingDestroyedObject_shouldThrow)
     {
         std::unique_ptr<ITest> test = test_mock.unique();
     }
-    EXPECT_DEATH(*test_mock, "");
-    EXPECT_DEATH(test_mock->doSth(), "");
+    EXPECT_THROW(*test_mock, gsl::fail_fast);
+    EXPECT_THROW(test_mock->doSth(), gsl::fail_fast);
 }
 }
