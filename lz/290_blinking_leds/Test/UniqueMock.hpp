@@ -12,7 +12,7 @@ template <class T>
 class UniqueMock
 {
     static_assert(
-        std::has_virtual_destructor_v<T>,
+        std::has_virtual_destructor<T>::value,
         "UniqueMock require type inherited from class with virtual destructor");
 
 public:
