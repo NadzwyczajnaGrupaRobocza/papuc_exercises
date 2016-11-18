@@ -9,6 +9,7 @@ add_subdirectory(googletest)
 set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googletest/include/")
 set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googlemock/include/")
 set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/GSL/")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_THROW_ON_CONTRACT_VIOLATION")
 
 set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
 
@@ -35,7 +36,8 @@ endif()
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
   message(STATUS "Detected system with clang compiler.")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Weverything \
+ -Wno-error=covered-switch-default\
  -Wno-c++98-compat -Wno-c++98-compat-pedantic\
  -Wno-c++98-c++11-compat-pedantic -Wno-undefined-func-template\
  -Wno-exit-time-destructors -Wno-global-constructors\
