@@ -15,7 +15,9 @@ TEST(BlinkingLedsTest, part_one)
                             "ld a,6\n"
                             "out (0),a\n"
                             "out (0),a\n"
-                            "ld a,77\n" 
+                            "ld a,77\n"
+                            "out (0),a\n"
+                            "ld a,255\n"
                             "out (0),a\n"};
 
     LedSimulation led{std::make_unique<LedSimulationFsm>(
@@ -25,7 +27,8 @@ TEST(BlinkingLedsTest, part_one)
     EXPECT_EQ("........\n"
               ".....**.\n"
               ".....**.\n"
-              ".*..**.*\n",
+              ".*..**.*\n"
+              "********\n",
               ::testing::internal::GetCapturedStdout());
 }
 }
