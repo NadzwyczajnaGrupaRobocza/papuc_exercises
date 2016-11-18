@@ -13,7 +13,7 @@ Expression::Expression(const std::string& inputInit) : input{inputInit}
 }
 
 double Expression::getResult()
-{        std::cout << "get result" << std::endl;
+{        std::cout << "get result " << input << std::endl;
     std::istringstream istr(input);
     std::cout << "after istr" << std::endl;
 
