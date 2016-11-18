@@ -1,4 +1,4 @@
-#include "DecrementAndJumpIfNonZeroInstructionBuilder.hpp"
+#include "DecrementAndJumpInstructionBuilder.hpp"
 
 #include "throw_assert.hpp"
 #include <iostream>

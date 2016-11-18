@@ -1,5 +1,5 @@
 #include "InstructionBuilderCombinator.hpp"
-#include "DecrementAndJumpIfNonZeroInstructionBuilder.hpp"
+#include "DecrementAndJumpInstructionBuilder.hpp"
 #include "LoadInstructionBuilder.hpp"
 #include "OutputInstructionBuilder.hpp"
 #include "RotateLeftCyclicInstructionBuilder.hpp"
