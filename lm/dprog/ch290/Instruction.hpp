@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 
 using u8_t = unsigned char;
@@ -22,6 +23,14 @@ inline bool operator==(const Instruction& lhs, const Instruction& rhs)
            lhs.value == rhs.value and lhs.srcReg == rhs.srcReg;
 }
 
+inline std::ostream& operator<<(std::ostream& out, const Instruction& instr)
+{
+    return out << static_cast<int>(instr.operation) << " "
+               << static_cast<int>(instr.reg) << " "
+               << static_cast<int>(instr.value) << " "
+               << static_cast<int>(instr.srcReg);
+}
+
 enum class OperationType : u8_t
 {
     INVALID = 0,
@@ -42,14 +51,12 @@ enum class Register : u8_t
 
 inline bool isValidInternalRegisterName(const std::string& name)
 {
-    return (name.size() == 1 and
-            (name[0] == 'a' or name[0] == 'b'));
+    return (name.size() == 1 and (name[0] == 'a' or name[0] == 'b'));
 }
 
 inline bool isValidOutputRegisterName(const std::string& name)
 {
-    return (name.size() == 1 and
-            (name[0] == '0'));
+    return (name.size() == 1 and (name[0] == '0'));
 }
 
 inline bool isOutputRegister(Register r)

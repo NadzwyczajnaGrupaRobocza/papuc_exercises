@@ -2,9 +2,9 @@
 
 #include <exception>
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <string>
-#include <regex>
 
 /// Exception type for assertion failures
 class AssertionFailureException : public std::exception

@@ -19,8 +19,10 @@ OutputInstructionBuilder::buildInstruction(const std::smatch& m) const
 
     const Register outReg = registerNameToEnum(m[1]);
     const Register srcReg = registerNameToEnum(m[2]);
-    throw_assert(isOutputRegister(outReg), "invalid out register in output instruction");
-    throw_assert(isInternalRegister(srcReg), "invalid source register in output instruction");
+    throw_assert(isOutputRegister(outReg),
+                 "invalid out register in output instruction");
+    throw_assert(isInternalRegister(srcReg),
+                 "invalid source register in output instruction");
 
     return {OperationType::output, outReg, 0u, srcReg};
 }

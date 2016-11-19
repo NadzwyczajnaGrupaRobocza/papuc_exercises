@@ -7,6 +7,7 @@
 #include "throw_assert.hpp"
 #include <iostream>
 #include <istream>
+#include <map>
 
 namespace ltm
 {
@@ -20,8 +21,8 @@ InstructionBuilderCombinator::InstructionBuilderCombinator()
               std::make_unique<RotateLeftCyclicInstructionBuilder>());
           tmp.push_back(
               std::make_unique<RotateRightCyclicInstructionBuilder>());
-          tmp.push_back(std::make_unique<
-                        DecrementAndJumpInstructionBuilder>());
+          tmp.push_back(
+              std::make_unique<DecrementAndJumpInstructionBuilder>());
           return tmp;
       }()}
 {
@@ -98,7 +99,7 @@ std::string InstructionBuilderCombinator::preprocessIfLabel(
         }
     }
     else if (std::regex_match(line, m,
-                              std::regex{"\\s+djnz ([a-z]) (\\w+):"}))
+                              std::regex{"\\s+djnz ([a-z]) (\\w+)"}))
     {
         const std::string label = m[2];
         const std::string reg = m[1];
@@ -151,6 +152,8 @@ InstructionBuilderCombinator::Worker::process()
                                     << currentLine << ": " << line);
         }
     }
+
+    postprocessLabels();
 
     return program;
 }
