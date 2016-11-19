@@ -8,6 +8,7 @@
 #include <iostream>
 #include <istream>
 #include <map>
+#include <tuple>
 
 namespace ltm
 {
