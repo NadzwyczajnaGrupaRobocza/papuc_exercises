@@ -4,6 +4,9 @@
 #include <unordered_map>
 #include <vector>
 
+namespace ltm
+{
+
 class Processor
 {
 public:
@@ -28,3 +31,4 @@ private:
     std::unordered_map<Register, u8_t> internalRegisters;
     OutputRegisters outputRegisters;
 };
+}

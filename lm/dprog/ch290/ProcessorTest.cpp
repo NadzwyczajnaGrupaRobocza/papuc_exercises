@@ -1,6 +1,8 @@
 #include "Processor.hpp"
 #include "gtest/gtest.h"
 
+namespace ltm
+{
 TEST(ProcessorTest, willProcessTwoInstructions)
 {
     const auto expected_value = u8_t{129};
@@ -137,4 +139,5 @@ TEST(ProcessorTest, willLoop)
     p.runProgram(testProgram);
     ASSERT_EQ(output.size(), 3u);
     ASSERT_EQ(output, expected_output);
+}
 }

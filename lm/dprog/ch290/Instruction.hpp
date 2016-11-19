@@ -1,11 +1,12 @@
 #pragma once
 
+#include "Value.hpp"
+
 #include <iostream>
 #include <string>
 
-using u8_t = unsigned char;
-static_assert(sizeof(u8_t) == 1, "epic fail");
-
+namespace ltm
+{
 enum class OperationType : u8_t;
 enum class Register : u8_t;
 
@@ -87,4 +88,5 @@ inline Register registerNameToEnum(const std::string& name)
     {
         return Register::INVALID;
     }
+}
 }
