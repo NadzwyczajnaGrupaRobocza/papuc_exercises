@@ -1,7 +1,6 @@
 #pragma once
 #include "InstructionBuilder.hpp"
 
-
 namespace ltm
 {
 class LoadInstructionBuilder : public InstructionBuilder

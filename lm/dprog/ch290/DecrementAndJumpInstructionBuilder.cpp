@@ -8,9 +8,8 @@
 namespace ltm
 {
 
-DecrementAndJumpInstructionBuilder::
-    DecrementAndJumpInstructionBuilder()
-        : InstructionBuilder(std::regex{"\\s+djnz ([a-z]) ([0-9]+)"})
+DecrementAndJumpInstructionBuilder::DecrementAndJumpInstructionBuilder()
+    : InstructionBuilder(std::regex{"\\s+djnz ([a-z]) ([0-9]+)"})
 {
 }
 

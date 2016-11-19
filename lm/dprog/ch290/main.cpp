@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     ltm::InstructionBuilderCombinator ibc;
     auto led = [](u8_t v) {
         std::cout << std::bitset<8>(v).to_string('.', '*') << '\n';
-   };
+    };
     Processor proc{{{Register::out_0, led}}};
     return proc.runProgram(ibc.process(inputFile));
 }
