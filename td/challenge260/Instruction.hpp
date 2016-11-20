@@ -13,7 +13,7 @@ struct Instruction
   ValueType value;
 };
 
-bool operator==(const Instruction& lhs, const Instruction& rhs)
+inline bool operator==(const Instruction& lhs, const Instruction& rhs)
 {
   return lhs.type == rhs.type && lhs.value == rhs.value;
 }
