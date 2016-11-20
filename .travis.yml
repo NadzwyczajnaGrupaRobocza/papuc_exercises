@@ -36,4 +36,5 @@ script:
   - mkdir build
   - cd build
   - env CC=${C_COMPILER} CXX=${CXX_COMPILER} cmake ..
-  - make
+  - echo "We have" `nproc` "cores here"
+  - make -j `nproc`
