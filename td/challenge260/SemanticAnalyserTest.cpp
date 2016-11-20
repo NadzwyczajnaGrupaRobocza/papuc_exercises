@@ -24,7 +24,7 @@ public:
     }
     if (tokens.size() == 3)
     {
-      if (tokens.at(0).type == TokenType::Ld)
+      if (areTokensValidLdInstruction(tokens.cbegin()))
       {
         return {{InstructionType::LdA, 0}};
       }
@@ -42,6 +42,13 @@ private:
     return (begin++)->type == TokenType::Out
         && (begin++)->type == TokenType::ZeroWithBrackets
         && (begin++)->type == TokenType::A;
+  }
+
+  bool areTokensValidLdInstruction(Tokens::const_iterator begin)
+  {
+    return (begin++)->type == TokenType::Ld
+        && (begin++)->type == TokenType::A
+        && (begin++)->type == TokenType::Number8Bit;
   }
 };
 
@@ -98,5 +105,13 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstruction)
   Tokens tokens{createTokenWithZeroValue(TokenType::Out),
                 createTokenWithZeroValue(TokenType::Number8Bit),
                 createTokenWithZeroValue(TokenType::A)};
+  ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
+}
+
+TEST_F(SemanticAnalyserTest, ShouldRejectInvalidLdInstruction)
+{
+  Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
+                createTokenWithZeroValue(TokenType::A),
+                createTokenWithZeroValue(TokenType::Out)};
   ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
