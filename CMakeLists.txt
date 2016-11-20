@@ -75,6 +75,7 @@ set(MB-UT-RUN "mb-ut-run")
 set(LM-UT-RUN "lm-ut-run")
 set(IB-UT-RUN "ib-ut-run")
 set(LZ-UT-RUN "lz-ut-run")
+set(TD-UT-RUN "td-ut-run")
 
 add_subdirectory(mb)
 add_subdirectory(lm)
@@ -83,5 +84,5 @@ add_subdirectory(lz)
 add_subdirectory(td)
 
 add_custom_target(ut-run
-  DEPENDS ${MB-UT-RUN} ${LM-UT-RUN} ${IB-UT-RUN} ${LZ-UT-RUN}
+  DEPENDS ${MB-UT-RUN} ${LM-UT-RUN} ${IB-UT-RUN} ${LZ-UT-RUN} ${TD-UT-RUN}
 )
