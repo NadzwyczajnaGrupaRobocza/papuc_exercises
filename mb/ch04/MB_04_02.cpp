@@ -38,8 +38,8 @@ double getMedian(const std::vector<double>& data)
 {
     std::vector<double> temp(data);
     std::sort(temp.begin(), temp.end());
-    int numberOfData = temp.size();
-    int middleIndex = temp.size() / 2;
+    auto numberOfData = temp.size();
+    auto middleIndex = temp.size() / 2;
     double mediana = 0.0;
 
     if (numberOfData % 2 == 1)

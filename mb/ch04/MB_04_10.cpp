@@ -84,7 +84,7 @@ void Player::showOptions() const
 
 Gesture Opponent::getGesture() const
 {
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
     unsigned randomNumber = (rand() % 3) + 1;
     Gesture selection = uint2Gesture(randomNumber);
     return selection;

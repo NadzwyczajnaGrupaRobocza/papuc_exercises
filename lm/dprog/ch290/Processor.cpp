@@ -70,7 +70,7 @@ void Processor::runRotateLeftCyclicInstruction(
                  "wrong instruction runner");
     auto& i_reg = internalRegisters.at(instr.reg);
     bool carry = i_reg & (1 << 7);
-    i_reg <<= 1;
+    i_reg = static_cast<u8_t>(i_reg << 1);
     if (carry)
     {
         i_reg++;
@@ -85,10 +85,10 @@ void Processor::runRotateRightCyclicInstruction(
                  "wrong instruction runner");
     auto& i_reg = internalRegisters.at(instr.reg);
     bool carry = i_reg & 1;
-    i_reg >>= 1;
+    i_reg = static_cast<u8_t>(i_reg >> 1);
     if (carry)
     {
-        i_reg += (1 << 7);
+        i_reg = static_cast<u8_t>(i_reg + u8_t{1 << 7});
     }
     counter++;
 }

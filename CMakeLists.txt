@@ -43,7 +43,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
  -Wno-language-extension-token -Wno-missing-noreturn -Wno-missing-noreturn\
  -Wno-language-extension-token -Wno-used-but-marked-unused\
  -Wno-shift-sign-overflow -Wno-deprecated\
- -Wno-weak-vtables -Wno-sign-conversion")
+ -Wno-weak-vtables -Wno-sign-conversion -Wno-padded")
 
   target_compile_options(gtest PRIVATE "-Wno-deprecated-declarations")
   target_compile_options(gmock PRIVATE "-Wno-deprecated-declarations")
@@ -63,6 +63,9 @@ else()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -Wall \
 -Wextra \
+-Wconversion \
+-Wfloat-equal \
+-Wunreachable-code \
 -Wswitch-enum \
 -Wmissing-declarations \
 -Wshadow \

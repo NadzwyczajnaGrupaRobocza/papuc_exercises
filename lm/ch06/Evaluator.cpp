@@ -78,7 +78,7 @@ double Evaluator::term()
         case '/':
         {
             double d = primary();
-            if (d == 0.0)
+            if (std::fabs(d) < epsilon)
             {
                 throw std::runtime_error("division by zero");
             }
@@ -89,7 +89,7 @@ double Evaluator::term()
         case '%':
         {
             double d = primary();
-            if (d == 0.0)
+            if (std::fabs(d) < epsilon)
             {
                 throw std::runtime_error("division by zero");
             }
