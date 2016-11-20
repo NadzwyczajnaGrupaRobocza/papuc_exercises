@@ -14,14 +14,24 @@ public:
 
   void runProgram(const Instructions &instructions)
   {
-    if (instructions.cbegin()->type == InstructionType::OutA)
+    for (const auto &instruction : instructions)
+    {
+      runInstruction(instruction);
+    }
+  }
+
+
+
+private:
+  std::ostream &out;
+
+  void runInstruction(const Instruction & instruction)
+  {
+    if (instruction.type == InstructionType::OutA)
     {
       out << "........\n";
     }
   }
-
-private:
-  std::ostream &out;
 
 };
 
@@ -49,6 +59,13 @@ TEST_F(LedControllerTest, OutInstructionShouldPrintLedState)
 TEST_F(LedControllerTest, LdInstructionShouldNotPrintLedState)
 {
   controller.runProgram(Instructions{createInstructionWithZeroValue(InstructionType::LdA)});
+
+  EXPECT_THAT(stream.str(), Eq(""));
+}
+
+TEST_F(LedControllerTest, ShouldAcceptNoInstructions)
+{
+  controller.runProgram(Instructions{});
 
   EXPECT_THAT(stream.str(), Eq(""));
 }
