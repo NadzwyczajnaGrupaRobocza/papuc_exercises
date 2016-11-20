@@ -115,3 +115,15 @@ TEST_F(SemanticAnalyserTest, ShouldRejectInvalidLdInstruction)
                 createTokenWithZeroValue(TokenType::Out)};
   ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
+
+TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLd)
+{
+  Tokens tokens{createTokenWithZeroValue(TokenType::Out),
+                createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                createTokenWithZeroValue(TokenType::A),
+                createTokenWithZeroValue(TokenType::Ld),
+                createTokenWithZeroValue(TokenType::A),
+                createTokenWithZeroValue(TokenType::Out)};
+  Instructions instructions{createInstructionWithZeroValue(InstructionType::OutA), createInstructionWithZeroValue(InstructionType::LdA)};
+  ASSERT_EQ(instructions, analyser.analyse(tokens));
+}
