@@ -1,18 +1,40 @@
-#include "gtest/gtest.h"
+#include "gmock/gmock.h"
+
+#include <sstream>
 
 #include "Instruction.hpp"
 
 class LedController
 {
 public:
-  void runProgram(const Instructions &)
+  explicit LedController(std::ostream &stream) :
+    out{stream}
   {
   }
 
+  void runProgram(const Instructions &)
+  {
+    out << "........\n";
+  }
+
+private:
+  std::ostream &out;
+
 };
 
-TEST(LedControllerTest, ShouldCreate)
+static constexpr Instruction createInstructionWithZeroValue(InstructionType type)
 {
-  LedController controller;
-  controller.runProgram(Instructions{});
+  return{type, 0};
+}
+
+using namespace ::testing;
+
+TEST(LedControllerTest, OutInstructionShouldPrintLedState)
+{
+  std::stringstream stream;
+  LedController controller{stream};
+
+  controller.runProgram(Instructions{createInstructionWithZeroValue(InstructionType::OutA)});
+
+  EXPECT_THAT(stream.str(), Eq("........\n"));
 }
