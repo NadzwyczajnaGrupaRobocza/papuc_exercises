@@ -28,19 +28,21 @@ public:
       {
         return {{InstructionType::LdA, 0}};
       }
-      else
+      else if (areTokensValidOutInstruction(tokens.cbegin()))
       {
         return {{InstructionType::OutA, 0}};
       }
     }
-    throw InvalidSemantic{"Invalid number of tokens"};
+    throw InvalidSemantic{"Invalid instruction"};
   }
 
 private:
-  using Transition = std::pair<TokenType, TokenType>;
-  using Transitions = std::vector<Transition>;
-
-  Transitions validTransitions;
+  bool areTokensValidOutInstruction(Tokens::const_iterator begin)
+  {
+    return (begin++)->type == TokenType::Out
+        && (begin++)->type == TokenType::ZeroWithBrackets
+        && (begin++)->type == TokenType::A;
+  }
 };
 
 using namespace ::testing;
@@ -89,4 +91,12 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
                 createTokenWithZeroValue(TokenType::A)};
   Instructions instructions{createInstructionWithZeroValue(InstructionType::OutA)};
   ASSERT_EQ(instructions, analyser.analyse(tokens));
+}
+
+TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstruction)
+{
+  Tokens tokens{createTokenWithZeroValue(TokenType::Out),
+                createTokenWithZeroValue(TokenType::Number8Bit),
+                createTokenWithZeroValue(TokenType::A)};
+  ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
