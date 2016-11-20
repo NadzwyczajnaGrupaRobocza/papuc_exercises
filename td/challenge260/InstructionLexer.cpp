@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <utility>
-#include <functinal>
+#include <functional>
 #include <regex>
 
 #include "boost/tokenizer.hpp"
