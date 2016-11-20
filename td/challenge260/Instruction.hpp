@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 enum class InstructionType
 {
   LdA,

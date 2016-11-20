@@ -1,6 +1,7 @@
 add_library(libtd-challenge260 STATIC
             InstructionLexer.cpp
 	    SemanticAnalyser.cpp
+	    LedController.cpp
 	    )
 
 add_executable(td-challenge260-test
