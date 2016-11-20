@@ -22,21 +22,30 @@ public:
     {
       return {};
     }
-    if (tokens.size() == 3)
+    Instructions instructions;
+    unsigned alreadyProcessedTokens = 0;
+    while (tokens.size() - alreadyProcessedTokens % sizeOfInstruction && tokens.size() != alreadyProcessedTokens)
     {
-      if (areTokensValidLdInstruction(tokens.cbegin()))
+      if (areTokensValidLdInstruction(tokens.cbegin() + alreadyProcessedTokens))
       {
-        return {{InstructionType::LdA, 0}};
+        instructions.push_back({InstructionType::LdA, 0});
       }
-      else if (areTokensValidOutInstruction(tokens.cbegin()))
+      else if (areTokensValidOutInstruction(tokens.cbegin() + alreadyProcessedTokens))
       {
-        return {{InstructionType::OutA, 0}};
+        instructions.push_back({InstructionType::OutA, 0});
       }
+      else
+      {
+        throw InvalidSemantic{"Invalid instruction"};
+      }
+      alreadyProcessedTokens += sizeOfInstruction;
     }
-    throw InvalidSemantic{"Invalid instruction"};
+    return instructions;
   }
 
 private:
+  static constexpr auto sizeOfInstruction = 3u;
+
   bool areTokensValidOutInstruction(Tokens::const_iterator begin)
   {
     return (begin++)->type == TokenType::Out
@@ -123,7 +132,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLd)
                 createTokenWithZeroValue(TokenType::A),
                 createTokenWithZeroValue(TokenType::Ld),
                 createTokenWithZeroValue(TokenType::A),
-                createTokenWithZeroValue(TokenType::Out)};
+                createTokenWithZeroValue(TokenType::Number8Bit)};
   Instructions instructions{createInstructionWithZeroValue(InstructionType::OutA), createInstructionWithZeroValue(InstructionType::LdA)};
   ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
