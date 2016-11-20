@@ -32,21 +32,22 @@ static constexpr Instruction createInstructionWithZeroValue(InstructionType type
 
 using namespace ::testing;
 
-TEST(LedControllerTest, OutInstructionShouldPrintLedState)
+class LedControllerTest : public Test
 {
+public:
   std::stringstream stream;
   LedController controller{stream};
+};
 
+TEST_F(LedControllerTest, OutInstructionShouldPrintLedState)
+{
   controller.runProgram(Instructions{createInstructionWithZeroValue(InstructionType::OutA)});
 
   EXPECT_THAT(stream.str(), Eq("........\n"));
 }
 
-TEST(LedControllerTest, LdInstructionShouldNotPrintLedState)
+TEST_F(LedControllerTest, LdInstructionShouldNotPrintLedState)
 {
-  std::stringstream stream;
-  LedController controller{stream};
-
   controller.runProgram(Instructions{createInstructionWithZeroValue(InstructionType::LdA)});
 
   EXPECT_THAT(stream.str(), Eq(""));
