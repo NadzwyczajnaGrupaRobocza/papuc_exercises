@@ -1,6 +1,7 @@
 #include "gmock/gmock.h"
 
 #include <sstream>
+#include <bitset>
 
 #include "Instruction.hpp"
 
@@ -22,6 +23,7 @@ public:
 
 private:
   std::ostream &out;
+  std::string ledState{getLedStateFromInteger(0)};
 
   void runInstruction(const Instruction & instruction)
   {
@@ -31,12 +33,32 @@ private:
         out << ledState;
         break;
       case InstructionType::LdA:
-        ledState = "********\n";
+        ledState = getLedStateFromInteger(instruction.value);
         break;
     }
   }
 
-  std::string ledState{"........\n"};
+  static std::string getLedStateFromInteger(unsigned value)
+  {
+    const std::bitset<8> bitValue{value};
+    std::stringstream stream;
+    stream << bitValue;
+    auto text = stream.str();
+    std::transform(text.cbegin(), text.cend(), text.begin(), [](const auto character)
+    {
+      if (character == '1')
+      {
+        constexpr auto ledOnChar = '*';
+        return ledOnChar;
+      }
+      else
+      {
+        constexpr auto ledOffChar = '.';
+        return ledOffChar;
+      }
+    });
+    return text + '\n';
+  }
 
 };
 
@@ -80,4 +102,11 @@ TEST_F(LedControllerTest, OutInstructionShouldPrintLedStateAfterChangeByLd)
   controller.runProgram(Instructions{{InstructionType::LdA, 255}, createInstructionWithZeroValue(InstructionType::OutA)});
 
   EXPECT_THAT(stream.str(), Eq("********\n"));
+}
+
+TEST_F(LedControllerTest, OutInstructionShouldPrintLedStateAfterChangeByLdToSomeValue)
+{
+  controller.runProgram(Instructions{{InstructionType::LdA, 42}, createInstructionWithZeroValue(InstructionType::OutA)});
+
+  EXPECT_THAT(stream.str(), Eq("..*.*.*.\n"));
 }
