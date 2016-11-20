@@ -15,7 +15,7 @@ public:
     {}
   };
 
-  Tokens parseInstructions(const std::string& instructions);
+  Tokens parseInstructions(const std::string&);
 
 private:
   Tokens parseInstruction(const std::string&);
