@@ -18,9 +18,13 @@ public:
 
   Instructions analyse(const Tokens& tokens)
   {
-    if (tokens.empty() || tokens.size() == 3)
+    if (tokens.empty())
     {
       return {};
+    }
+    if (tokens.size() == 3)
+    {
+      return {{InstructionType::LdA, 0}};
     }
     throw InvalidSemantic{"Invalid number of tokens"};
   }
@@ -62,7 +66,7 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
   ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
 
-TEST_F(SemanticAnalyserTest, DISABLED_ShouldNotAcceptValidLdInstructions)
+TEST_F(SemanticAnalyserTest, ShouldNotAcceptValidLdInstructions)
 {
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
                 createTokenWithZeroValue(TokenType::A),
