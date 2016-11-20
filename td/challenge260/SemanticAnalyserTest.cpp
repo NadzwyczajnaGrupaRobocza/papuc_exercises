@@ -24,6 +24,12 @@ public:
     }
     throw InvalidSemantic{"Invalid number of tokens"};
   }
+
+private:
+  using Transition = std::pair<TokenType, TokenType>;
+  using Transitions = std::vector<Transition>;
+
+  Transitions validTransitions;
 };
 
 using namespace ::testing;
@@ -31,10 +37,15 @@ using namespace ::testing;
 struct SemanticAnalyserTest : public Test
 {
   SemanticAnalyser analyser;
+
   static constexpr Token createTokenWithZeroValue(TokenType type)
   {
-    return
-    { type, 0};
+    return{type, 0};
+  }
+
+  static constexpr Instruction createInstructionWithZeroValue(InstructionType type)
+  {
+    return{type, 0};
   }
 };
 
@@ -51,10 +62,11 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
   ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
 
-TEST_F(SemanticAnalyserTest, ShouldNotAcceptValidLdInstructions)
+TEST_F(SemanticAnalyserTest, DISABLED_ShouldNotAcceptValidLdInstructions)
 {
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
                 createTokenWithZeroValue(TokenType::A),
                 createTokenWithZeroValue(TokenType::Number8Bit)};
-  ASSERT_NO_THROW(analyser.analyse(tokens));
+  Instructions instructions{createInstructionWithZeroValue(InstructionType::LdA)};
+  ASSERT_EQ(instructions, analyser.analyse(tokens));
 }

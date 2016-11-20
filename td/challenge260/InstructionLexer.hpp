@@ -18,6 +18,7 @@ public:
   Tokens parseInstructions(const std::string& instructions);
 
 private:
-  Tokens parseInstruction(const std::string& instruction);
+  Tokens parseInstruction(const std::string&);
+  Tokens parseLine(const std::string&);
   std::string trimWhitespacesOnFront(const std::string& instruction);
 };

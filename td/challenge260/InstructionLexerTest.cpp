@@ -19,10 +19,15 @@ TEST_F(InstructionLexerTest, ParserShouldDeclineUnknownInstruction)
   EXPECT_THROW(parser.parseInstructions("Instructions"), InstructionLexer::UnknownInstruction);
 }
 
-TEST_F(InstructionLexerTest, ParserShouldRejectInstuctionLd)
+TEST_F(InstructionLexerTest, ParserShouldNotRejectNotFullInstuctionLd)
 {
   const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Ld), createTokenWithZeroValue(TokenType::A)};
-  parser.parseInstructions("ld a,");
+  EXPECT_EQ(expectedTokens, parser.parseInstructions(" ld a,"));
+}
+
+TEST_F(InstructionLexerTest, ParserShouldDeclineUnknownWithoutWhitespaceOnFront)
+{
+  EXPECT_THROW(parser.parseInstructions("out (0),a"), InstructionLexer::UnknownInstruction);
 }
 
 TEST_F(InstructionLexerTest, ParserShouldAcceptInstructionOut)
@@ -30,7 +35,7 @@ TEST_F(InstructionLexerTest, ParserShouldAcceptInstructionOut)
   const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Out),
                               createTokenWithZeroValue(TokenType::ZeroWithBrackets),
                               createTokenWithZeroValue(TokenType::A)};
-  EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a"));
+  EXPECT_EQ(expectedTokens, parser.parseInstructions(" out (0),a"));
 }
 
 TEST_F(InstructionLexerTest, ParserShouldAcceptEmptyLine)
@@ -55,12 +60,12 @@ TEST_F(InstructionLexerTest, ParserShouldAcceptTwoInstructions)
                               createTokenWithZeroValue(TokenType::Out),
                               createTokenWithZeroValue(TokenType::ZeroWithBrackets),
                               createTokenWithZeroValue(TokenType::A)};
-  EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\nout (0),a"));
+  EXPECT_EQ(expectedTokens, parser.parseInstructions(" out (0),a\n out (0),a"));
 }
 
 TEST_F(InstructionLexerTest, ParserShouldThrowIfSecondInstructionIsInvalid)
 {
-  EXPECT_THROW(parser.parseInstructions("out (0),a\ninvalid"), InstructionLexer::UnknownInstruction);
+  EXPECT_THROW(parser.parseInstructions(" out (0),a\ninvalid"), InstructionLexer::UnknownInstruction);
 }
 
 TEST_F(InstructionLexerTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
@@ -71,28 +76,28 @@ TEST_F(InstructionLexerTest, ParserShouldAcceptTwoInstructionsWithEmptyLine)
                               createTokenWithZeroValue(TokenType::Out),
                               createTokenWithZeroValue(TokenType::ZeroWithBrackets),
                               createTokenWithZeroValue(TokenType::A)};
-  EXPECT_EQ(expectedTokens, parser.parseInstructions("out (0),a\n\nout (0),a"));
+  EXPECT_EQ(expectedTokens, parser.parseInstructions(" out (0),a\n \n out (0),a"));
 }
 
 TEST_F(InstructionLexerTest, ParserShouldAbleToGet0AsToken)
 {
   const Tokens expectedTokens{{TokenType::Number8Bit, 0}};
-  EXPECT_EQ(expectedTokens, parser.parseInstructions("0"));
+  EXPECT_EQ(expectedTokens, parser.parseInstructions(" 0"));
 }
 
 TEST_F(InstructionLexerTest, ParserShouldAbleToGet255AsToken)
 {
   const Tokens expectedTokens{{TokenType::Number8Bit, 255}};
-  parser.parseInstructions("255");
+  parser.parseInstructions(" 255");
 }
 
 TEST_F(InstructionLexerTest, ParserShouldAbleToGetMinusOneAsToken)
 {
-  EXPECT_THROW(parser.parseInstructions("-1"), InstructionLexer::UnknownInstruction);
+  EXPECT_THROW(parser.parseInstructions(" -1"), InstructionLexer::UnknownInstruction);
 }
 
 TEST_F(InstructionLexerTest, ParserShouldAbleToGet256AsToken)
 {
-  EXPECT_THROW(parser.parseInstructions("256"), InstructionLexer::UnknownInstruction);
+  EXPECT_THROW(parser.parseInstructions(" 256"), InstructionLexer::UnknownInstruction);
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-enum class IntructionType
+enum class InstructionType
 {
   LdA,
   OutA
@@ -9,7 +9,7 @@ enum class IntructionType
 struct Instruction
 {
   using ValueType = unsigned;
-  IntructionType type;
+  InstructionType type;
   ValueType value;
 };
 

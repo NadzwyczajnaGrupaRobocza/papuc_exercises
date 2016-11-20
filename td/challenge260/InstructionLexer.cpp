@@ -7,10 +7,24 @@
 #include "boost/tokenizer.hpp"
 #include "boost/range/algorithm.hpp"
 
-Tokens InstructionLexer::parseInstructions(const std::string& instructions)
-
+Tokens InstructionLexer::parseInstructions(const std::string& line)
 {
-    boost::tokenizer<boost::char_separator<char>> instructionTokenizer{instructions, boost::char_separator<char>{"\n, "}};
+    boost::tokenizer<boost::char_separator<char>> lineTokenizer{line, boost::char_separator<char>{"\n"}};
+    Tokens tokens;
+    for (const auto&line : lineTokenizer)
+    {
+      if (line.at(0) != ' ')
+      {
+	  throw UnknownInstruction("Invalid line: " + line);
+      }
+      boost::copy(parseLine(line), std::back_inserter(tokens));
+    }
+    return tokens;
+}
+
+Tokens InstructionLexer::parseLine(const std::string& line)
+{
+    boost::tokenizer<boost::char_separator<char>> instructionTokenizer{line, boost::char_separator<char>{", "}};
     Tokens tokens;
     for (const auto&token : instructionTokenizer)
     {
@@ -19,6 +33,23 @@ Tokens InstructionLexer::parseInstructions(const std::string& instructions)
     return tokens;
 }
 
+const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType
+{
+  return 0;
+};
+
+const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType
+{
+  try
+  {
+    return std::stoi(text);
+  }
+  catch (const std::exception &)
+  {
+    return 0;
+  }
+};
+
 Tokens InstructionLexer::parseInstruction(const std::string& instruction)
 {
   const auto trimmedInstruction = trimWhitespacesOnFront(instruction);
@@ -26,21 +57,6 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
   {
     return{};
   }
-  const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType
-  {
-    return 0;
-  };
-  const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType
-  {
-    try
-    {
-      return std::stoi(text);
-    }
-    catch (const std::exception &)
-    {
-      return 0;
-    }
-  };
   using TextToTokens = std::vector<std::tuple<std::regex, TokenType, std::function<Token::ValueType(const std::string&)>>>;
   const TextToTokens acceptableInstructions{{std::regex{"out"}, TokenType::Out, alwaysZeroValue},
                                             {std::regex{"\\(0\\)"}, TokenType::ZeroWithBrackets, alwaysZeroValue},
