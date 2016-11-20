@@ -1,6 +1,7 @@
 #include "Token.hpp"
-#include <ostream>
 #include <cmath>
+#include <limits>
+#include <ostream>
 
 namespace calc
 {
@@ -38,9 +39,9 @@ std::ostream& operator<<(std::ostream& out, const Token& t)
 
 bool operator==(const Token& lhs, const Token& rhs)
 {
-    constexpr double epsilon{0.00001};
     return lhs.typeId and rhs.typeId &&
-           (std::fabs(lhs.value - rhs.value) < epsilon) and
+           (std::fabs(lhs.value - rhs.value) <
+            std::numeric_limits<double>::epsilon()) and
            lhs.id == rhs.id;
 }
 }

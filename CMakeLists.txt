@@ -43,7 +43,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
  -Wno-language-extension-token -Wno-missing-noreturn -Wno-missing-noreturn\
  -Wno-language-extension-token -Wno-used-but-marked-unused\
  -Wno-shift-sign-overflow -Wno-deprecated\
- -Wno-weak-vtables -Wno-sign-conversion -Wno-padded")
+ -Wno-weak-vtables -Wno-sign-conversion -Wno-padded -Wno-covered-switch-default")
 
   target_compile_options(gtest PRIVATE "-Wno-deprecated-declarations")
   target_compile_options(gmock PRIVATE "-Wno-deprecated-declarations")

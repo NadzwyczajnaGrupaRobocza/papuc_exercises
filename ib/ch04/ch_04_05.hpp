@@ -15,5 +15,4 @@ public:
 
 private:
     char action;
-    constexpr static double epsilon{0.00001};
 };

@@ -1,7 +1,8 @@
 #include "Expression.hpp"
 
-#include <sstream>
 #include <cmath>
+#include <limits>
+#include <sstream>
 
 namespace lm
 {
@@ -26,7 +27,7 @@ double Expression::getResult()
     case '-': return val1 - val2;
     case '*': return val1 * val2;
     case '/':
-        if (std::fabs(val2) < epsilon)
+        if (std::fabs(val2) < std::numeric_limits<double>::epsilon())
             throw std::runtime_error("division by zero");
 
         return val1 / val2;

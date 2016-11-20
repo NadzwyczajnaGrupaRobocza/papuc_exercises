@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdexcept>
 #include <utility>
+#include <limits>
 
 namespace
 {
@@ -78,7 +79,7 @@ double Evaluator::term()
         case '/':
         {
             double d = primary();
-            if (std::fabs(d) < epsilon)
+            if (std::fabs(d) < std::numeric_limits<double>::epsilon())
             {
                 throw std::runtime_error("division by zero");
             }
@@ -89,7 +90,7 @@ double Evaluator::term()
         case '%':
         {
             double d = primary();
-            if (std::fabs(d) < epsilon)
+            if (std::fabs(d) < std::numeric_limits<double>::epsilon())
             {
                 throw std::runtime_error("division by zero");
             }

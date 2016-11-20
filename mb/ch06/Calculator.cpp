@@ -5,6 +5,7 @@
 #include "Token.hpp"
 #include "TokenStream.hpp"
 #include <cmath>
+#include <limits>
 
 void clean(ITokenStream& tokenStream)
 {
@@ -51,7 +52,7 @@ double Calculator::term()
         case '/':
         {
             double right = primary();
-            if (std::fabs(right) < epsilon)
+            if (std::fabs(right) < std::numeric_limits<double>::epsilon())
             {
                 throw std::logic_error("Dividing by 0");
             }
@@ -64,18 +65,20 @@ double Calculator::term()
             double right = primary();
 
             int iLeft = static_cast<int>(left);
-            if (std::fabs(left - iLeft) > epsilon)
+            if (std::fabs(left - iLeft) >
+                std::numeric_limits<double>::epsilon())
             {
                 throw std::logic_error(
                     "Left side of operation % should be integer number");
             }
             int iRight = static_cast<int>(right);
-            if (std::fabs(right - iRight) > epsilon)
+            if (std::fabs(right - iRight) >
+                std::numeric_limits<double>::epsilon())
             {
                 throw std::logic_error(
                     "Right side of operation % should be integer number");
             }
-            if (std::fabs(iRight) < epsilon)
+            if (std::fabs(iRight) < std::numeric_limits<double>::epsilon())
             {
                 throw std::logic_error("Dividing by 0");
             }
