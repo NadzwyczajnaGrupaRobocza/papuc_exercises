@@ -79,3 +79,13 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLd)
   Instructions instructions{createInstructionWithZeroValue(InstructionType::OutA), createInstructionWithZeroValue(InstructionType::LdA)};
   ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
+
+TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstructionWithValue)
+{
+  constexpr auto number = 42u;
+  Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
+                createTokenWithZeroValue(TokenType::A),
+                {TokenType::Number8Bit, number}};
+  Instructions instructions{{InstructionType::LdA, number}};
+  ASSERT_EQ(instructions, analyser.analyse(tokens));
+}

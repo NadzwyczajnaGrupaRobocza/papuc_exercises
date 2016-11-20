@@ -10,11 +10,13 @@ Instructions SemanticAnalyser::analyse(const Tokens& tokens)
   unsigned alreadyProcessedTokens = 0;
   while (tokens.size() - alreadyProcessedTokens % sizeOfInstruction && tokens.size() != alreadyProcessedTokens)
   {
-    if (areTokensValidLdInstruction(tokens.cbegin() + alreadyProcessedTokens))
+    const auto firstTokenInInstruction = tokens.cbegin() + alreadyProcessedTokens;
+    if (areTokensValidLdInstruction(firstTokenInInstruction))
     {
-      instructions.push_back( {InstructionType::LdA, 0});
+      constexpr auto shiftToTokenWithValue = 2;
+      instructions.push_back( {InstructionType::LdA, (firstTokenInInstruction + shiftToTokenWithValue)->value});
     }
-    else if (areTokensValidOutInstruction(tokens.cbegin() + alreadyProcessedTokens))
+    else if (areTokensValidOutInstruction(firstTokenInInstruction))
     {
       instructions.push_back( {InstructionType::OutA, 0});
     }
