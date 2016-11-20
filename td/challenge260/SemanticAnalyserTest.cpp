@@ -24,7 +24,14 @@ public:
     }
     if (tokens.size() == 3)
     {
-      return {{InstructionType::LdA, 0}};
+      if (tokens.at(0).type == TokenType::Ld)
+      {
+        return {{InstructionType::LdA, 0}};
+      }
+      else
+      {
+        return {{InstructionType::OutA, 0}};
+      }
     }
     throw InvalidSemantic{"Invalid number of tokens"};
   }
@@ -66,11 +73,20 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
   ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
 
-TEST_F(SemanticAnalyserTest, ShouldNotAcceptValidLdInstructions)
+TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstruction)
 {
   Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
                 createTokenWithZeroValue(TokenType::A),
                 createTokenWithZeroValue(TokenType::Number8Bit)};
   Instructions instructions{createInstructionWithZeroValue(InstructionType::LdA)};
+  ASSERT_EQ(instructions, analyser.analyse(tokens));
+}
+
+TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
+{
+  Tokens tokens{createTokenWithZeroValue(TokenType::Out),
+                createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                createTokenWithZeroValue(TokenType::A)};
+  Instructions instructions{createInstructionWithZeroValue(InstructionType::OutA)};
   ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
