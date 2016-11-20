@@ -4,17 +4,13 @@
 #include <cmath>
 #include <iostream>
 #include <iterator>
+#include <limits>
 #include <stdexcept>
-
-namespace
-{
-constexpr double epsilon{0.00001};
-}
 
 Polynomial::Polynomial(std::vector<double> pol)
 {
     auto nonZero = std::find_if(pol.rbegin(), pol.rend(), [](double val) {
-        return std::fabs(val) > epsilon;
+        return std::fabs(val) > std::numeric_limits<double>::epsilon();
     });
     std::copy(pol.begin(), nonZero.base(), std::back_inserter(polynom));
 }
@@ -41,7 +37,7 @@ double SquareEquation::delta()
 
 bool SquareEquation::isSquare()
 {
-    if (std::fabs(square[2]) > epsilon)
+    if (std::fabs(square[2]) > std::numeric_limits<double>::epsilon())
     {
         return true;
     }
