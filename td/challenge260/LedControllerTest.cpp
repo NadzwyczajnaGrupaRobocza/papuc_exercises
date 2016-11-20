@@ -20,18 +20,23 @@ public:
     }
   }
 
-
-
 private:
   std::ostream &out;
 
   void runInstruction(const Instruction & instruction)
   {
-    if (instruction.type == InstructionType::OutA)
+    switch (instruction.type)
     {
-      out << "........\n";
+      case InstructionType::OutA:
+        out << ledState;
+        break;
+      case InstructionType::LdA:
+        ledState = "********\n";
+        break;
     }
   }
+
+  std::string ledState{"........\n"};
 
 };
 
@@ -68,4 +73,11 @@ TEST_F(LedControllerTest, ShouldAcceptNoInstructions)
   controller.runProgram(Instructions{});
 
   EXPECT_THAT(stream.str(), Eq(""));
+}
+
+TEST_F(LedControllerTest, OutInstructionShouldPrintLedStateAfterChangeByLd)
+{
+  controller.runProgram(Instructions{{InstructionType::LdA, 255}, createInstructionWithZeroValue(InstructionType::OutA)});
+
+  EXPECT_THAT(stream.str(), Eq("********\n"));
 }
