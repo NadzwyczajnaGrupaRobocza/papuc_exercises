@@ -11,6 +11,7 @@ std::ostream& operator<<(std::ostream& out, Gesture gesture)
     case Gesture::Paper: out << "Paper"; break;
     case Gesture::Scissors: out << "Scissors"; break;
     case Gesture::Rock: out << "Rock"; break;
+    case Gesture::Error:
     default: out << "Error"; break;
     }
     return out;

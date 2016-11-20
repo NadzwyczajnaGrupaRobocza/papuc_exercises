@@ -37,6 +37,7 @@ void Processor::runInstruction(const Program::value_type& instr)
     case OperationType::decrementAndJump:
         runDecrementAndJumpInstruction(instr);
         break;
+    case OperationType::INVALID:
     default:
         throw_assert(0 == 1, "unhandled instuction - upgrade your CPU");
     }
