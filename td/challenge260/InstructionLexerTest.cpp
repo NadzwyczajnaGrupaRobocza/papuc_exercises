@@ -100,4 +100,3 @@ TEST_F(InstructionLexerTest, ParserShouldAbleToGet256AsToken)
 {
   EXPECT_THROW(parser.parseInstructions(" 256"), InstructionLexer::UnknownInstruction);
 }
-

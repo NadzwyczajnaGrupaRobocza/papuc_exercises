@@ -9,9 +9,9 @@
 #include "boost/tokenizer.hpp"
 #include "boost/range/algorithm.hpp"
 
-Tokens InstructionLexer::parseInstructions(const std::string& line)
+Tokens InstructionLexer::parseInstructions(const std::string& input)
 {
-    boost::tokenizer<boost::char_separator<char>> lineTokenizer{line, boost::char_separator<char>{"\n"}};
+    boost::tokenizer<boost::char_separator<char>> lineTokenizer{input, boost::char_separator<char>{"\n"}};
     Tokens tokens;
     for (const auto&line : lineTokenizer)
     {
