@@ -29,21 +29,8 @@ void LedController::runInstruction(const Instruction& instruction)
 std::string LedController::getLedStateFromInteger(unsigned value)
 {
     const std::bitset<8> bitValue{value};
-    std::stringstream stream;
-    stream << bitValue;
-    auto text = stream.str();
-    std::transform(text.cbegin(), text.cend(), text.begin(),
-                   [](const auto character) {
-                       if (character == '1')
-                       {
-                           constexpr auto ledOnChar = '*';
-                           return ledOnChar;
-                       }
-                       else
-                       {
-                           constexpr auto ledOffChar = '.';
-                           return ledOffChar;
-                       }
-                   });
-    return text + '\n';
+    constexpr auto ledOnChar = '*';
+    constexpr auto ledOffChar = '.';
+    constexpr auto lineEnding = '\n';
+    return bitValue.to_string(ledOffChar, ledOnChar) + lineEnding;
 }
