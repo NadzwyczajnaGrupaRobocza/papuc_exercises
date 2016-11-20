@@ -79,15 +79,15 @@ Token TokenStream::getTokenFromStream()
         {
             if (std::isalpha(ch) or ch == '_')
             {
-                std::vector<char> buffer;
-                buffer.reserve(32u);
-                buffer.push_back(ch);
+                std::vector<char> l_buffer;
+                l_buffer.reserve(32u);
+                l_buffer.push_back(ch);
 
                 ch = input.get();
                 while (ch != std::istream::traits_type::eof() and
                        (std::isalnum(ch) or ch == '_'))
                 {
-                    buffer.push_back(ch);
+                    l_buffer.push_back(ch);
                     ch = input.get();
                 }
 
@@ -97,8 +97,8 @@ Token TokenStream::getTokenFromStream()
                 }
 
                 std::string idValue;
-                idValue.reserve(buffer.size());
-                boost::copy(buffer, std::back_inserter(idValue));
+                idValue.reserve(l_buffer.size());
+                boost::copy(l_buffer, std::back_inserter(idValue));
 
                 return Token('S', idValue);
             }
