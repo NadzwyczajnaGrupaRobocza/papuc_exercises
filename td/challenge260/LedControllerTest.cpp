@@ -12,9 +12,12 @@ public:
   {
   }
 
-  void runProgram(const Instructions &)
+  void runProgram(const Instructions &instructions)
   {
-    out << "........\n";
+    if (instructions.cbegin()->type == InstructionType::OutA)
+    {
+      out << "........\n";
+    }
   }
 
 private:
@@ -37,4 +40,14 @@ TEST(LedControllerTest, OutInstructionShouldPrintLedState)
   controller.runProgram(Instructions{createInstructionWithZeroValue(InstructionType::OutA)});
 
   EXPECT_THAT(stream.str(), Eq("........\n"));
+}
+
+TEST(LedControllerTest, LdInstructionShouldNotPrintLedState)
+{
+  std::stringstream stream;
+  LedController controller{stream};
+
+  controller.runProgram(Instructions{createInstructionWithZeroValue(InstructionType::LdA)});
+
+  EXPECT_THAT(stream.str(), Eq(""));
 }
