@@ -18,5 +18,6 @@ public:
 private:
     std::unique_ptr<TokenStream> tsVal;
     TokenStream& ts;
+    constexpr static double epsilon{0.00001};
 };
 }

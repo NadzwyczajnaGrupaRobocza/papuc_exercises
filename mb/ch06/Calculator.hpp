@@ -15,6 +15,7 @@ public:
 
 private:
     ITokenStream& tokenStream;
+    constexpr static double epsilon{0.00001};
 
     double calculteValue(const double& value);
 };
