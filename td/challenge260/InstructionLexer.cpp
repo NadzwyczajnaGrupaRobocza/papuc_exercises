@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+#include "boost/algorithm/string/trim.hpp"
+
 #include "boost/range/algorithm.hpp"
 #include "boost/tokenizer.hpp"
 
@@ -42,14 +44,7 @@ const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType {
 };
 
 const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType {
-    try
-    {
-        return std::stoi(text);
-    }
-    catch (const std::exception&)
-    {
-        return 0;
-    }
+    return std::stoi(text);
 };
 
 Tokens InstructionLexer::parseInstruction(const std::string& instruction)
@@ -86,10 +81,7 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
 std::string
 InstructionLexer::trimWhitespacesOnFront(const std::string& instruction)
 {
-    const auto firstRelevantCharPosition = instruction.find_first_not_of(" \t");
-    if (firstRelevantCharPosition != std::string::npos)
-    {
-        return instruction.substr(firstRelevantCharPosition);
-    }
-    return {};
+    return boost::algorithm::trim_left_copy_if(instruction, [](auto character) {
+        return character == ' ' || character == '\t';
+    });
 }
