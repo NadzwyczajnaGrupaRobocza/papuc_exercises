@@ -32,7 +32,7 @@ Tokens InstructionLexer::parseInstructions(const std::string& input)
 
 Tokens InstructionLexer::parseLabel(const std::string& label)
 {
-    if (regexMatcher(label, std::regex{R"!([a-zA-z]+:)!"}))
+    if (regexMatcher(label, std::regex{R"!([a-zA-Z_]+:)!"}))
     {
         return {{TokenType::Label, 0}};
     }
@@ -97,9 +97,8 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         });
     if (instructionPosition != acceptableInstructions.end())
     {
-        return {
-            {std::get<1>(*instructionPosition),
-             std::get<2>(*instructionPosition)(trimmedInstruction)}};
+        return {{std::get<1>(*instructionPosition),
+                 std::get<2>(*instructionPosition)(trimmedInstruction)}};
     }
     throw UnknownInstruction{"Unknown instruction: " + instruction};
 }
