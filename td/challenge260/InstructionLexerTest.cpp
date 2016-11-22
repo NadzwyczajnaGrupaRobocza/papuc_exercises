@@ -119,3 +119,9 @@ TEST_F(InstructionLexerTest, ParserShouldParseLdBInstruction)
                                 createTokenWithZeroValue(TokenType::B)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" ld b,"));
 }
+
+TEST_F(InstructionLexerTest, ParserShouldParseRlcaInstruction)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Rlca)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions(" rlca"));
+}

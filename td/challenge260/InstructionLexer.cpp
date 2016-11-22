@@ -63,6 +63,7 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         {std::regex{"ld"}, TokenType::Ld, alwaysZeroValue},
         {std::regex{"a"}, TokenType::A, alwaysZeroValue},
         {std::regex{"b"}, TokenType::B, alwaysZeroValue},
+        {std::regex{"rlca"}, TokenType::Rlca, alwaysZeroValue},
         {std::regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"},
          TokenType::Number8Bit, convertToUnsigned}};
     const auto noArgumentInstructionPosition = std::find_if(
