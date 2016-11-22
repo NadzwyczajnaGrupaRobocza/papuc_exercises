@@ -32,7 +32,8 @@ Tokens InstructionLexer::parseInstructions(const std::string& input)
 
 Tokens InstructionLexer::parseLabel(const std::string& label)
 {
-    if (regexMatcher(label, std::regex{R"!([a-zA-Z_]+:)!"}))
+    const auto labelRegEx = std::regex{R"!([a-zA-Z_]+:)!"};
+    if (regexMatcher(label, labelRegEx))
     {
         return {{TokenType::Label, 0}};
     }
