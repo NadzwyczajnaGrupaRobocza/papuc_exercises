@@ -37,8 +37,7 @@ bool SemanticAnalyser::areTokensValidOutInstruction(
     Tokens::const_iterator begin)
 {
     return (begin++)->type == TokenType::Out &&
-           (begin++)->type == TokenType::ZeroWithBrackets &&
-           (begin++)->type == TokenType::A;
+           (begin++)->type == TokenType::ZeroWithBracketsA;
 }
 
 bool SemanticAnalyser::areTokensValidLdInstruction(Tokens::const_iterator begin)

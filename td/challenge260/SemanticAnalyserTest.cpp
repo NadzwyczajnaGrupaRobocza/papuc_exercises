@@ -48,7 +48,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstruction)
 TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
-                  createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                  createTokenWithZeroValue(TokenType::ZeroWithBracketsA),
                   createTokenWithZeroValue(TokenType::A)};
     Instructions instructions{
         createInstructionWithZeroValue(InstructionType::OutA)};
@@ -74,7 +74,7 @@ TEST_F(SemanticAnalyserTest, ShouldRejectInvalidLdInstruction)
 TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLd)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
-                  createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                  createTokenWithZeroValue(TokenType::ZeroWithBracketsA),
                   createTokenWithZeroValue(TokenType::A),
                   createTokenWithZeroValue(TokenType::Ld),
                   createTokenWithZeroValue(TokenType::A),
@@ -99,7 +99,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLdWithValue)
 {
     constexpr auto number = 42u;
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
-                  createTokenWithZeroValue(TokenType::ZeroWithBrackets),
+                  createTokenWithZeroValue(TokenType::ZeroWithBracketsA),
                   createTokenWithZeroValue(TokenType::A),
                   createTokenWithZeroValue(TokenType::Ld),
                   createTokenWithZeroValue(TokenType::A),

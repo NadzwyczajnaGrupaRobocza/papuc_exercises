@@ -52,7 +52,7 @@ bool InstructionLexer::regexMatcher(const std::string& text,
 Tokens InstructionLexer::parseLine(const std::string& line)
 {
     boost::tokenizer<boost::char_separator<char>> instructionTokenizer{
-        line, boost::char_separator<char>{", "}};
+        line, boost::char_separator<char>{" "}};
     Tokens tokens;
     for (const auto& token : instructionTokenizer)
     {
@@ -66,7 +66,7 @@ const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType {
 };
 
 const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType {
-    return std::stoi(text);
+    return std::stoi(text.substr(text.find_first_of(',') + 1));
 };
 
 Tokens InstructionLexer::parseInstruction(const std::string& instruction)
@@ -79,17 +79,17 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
     using TextToTokens = std::vector<
         std::tuple<std::regex, TokenType,
                    std::function<Token::ValueType(const std::string&)>>>;
+    const std::string u8Regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"};
     const TextToTokens acceptableInstructions{
         {std::regex{"out"}, TokenType::Out, alwaysZeroValue},
-        {std::regex{"\\(0\\)"}, TokenType::ZeroWithBrackets, alwaysZeroValue},
+        {std::regex{"\\(0\\),a"}, TokenType::ZeroWithBracketsA,
+         alwaysZeroValue},
         {std::regex{"ld"}, TokenType::Ld, alwaysZeroValue},
-        {std::regex{"a"}, TokenType::A, alwaysZeroValue},
-        {std::regex{"b"}, TokenType::B, alwaysZeroValue},
+        {std::regex{"a," + u8Regex}, TokenType::A, convertToUnsigned},
+        {std::regex{"b," + u8Regex}, TokenType::B, convertToUnsigned},
         {std::regex{"rlca"}, TokenType::Rlca, alwaysZeroValue},
         {std::regex{"rrca"}, TokenType::Rrca, alwaysZeroValue},
         {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
-        {std::regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"},
-         TokenType::Number8Bit, convertToUnsigned},
         {std::regex{"w"}, TokenType::LabelRef, alwaysZeroValue}};
 
     const auto instructionPosition = std::find_if(

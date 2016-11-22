@@ -9,7 +9,7 @@ enum class TokenType
     A,
     B,
     Out,
-    ZeroWithBrackets,
+    ZeroWithBracketsA,
     Number8Bit,
     Rlca,
     Rrca,
@@ -40,7 +40,7 @@ inline std::ostream& operator<<(std::ostream& out, TokenType token)
     case TokenType::Out: return out << "Out";
     case TokenType::A: return out << "A";
     case TokenType::B: return out << "B";
-    case TokenType::ZeroWithBrackets: return out << "ZeroWithBrackets";
+    case TokenType::ZeroWithBracketsA: return out << "ZeroWithBrackets";
     case TokenType::Number8Bit: return out << "Number8Bit";
     case TokenType::Rlca: return out << "Rlca";
     case TokenType::Rrca: return out << "Rrca";
