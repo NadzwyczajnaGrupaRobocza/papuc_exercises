@@ -151,3 +151,10 @@ TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabelRefA)
                                 createTokenWithZeroValue(TokenType::LabelRef)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz a"));
 }
+
+TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabelRef_)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
+                                createTokenWithZeroValue(TokenType::LabelRef)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz _"));
+}
