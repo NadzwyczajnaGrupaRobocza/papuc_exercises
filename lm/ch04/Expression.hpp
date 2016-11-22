@@ -11,6 +11,5 @@ public:
 
 private:
     const std::string& input;
-    static constexpr double epsilon = 0.00000001;
 };
 }

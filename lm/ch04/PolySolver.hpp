@@ -3,6 +3,7 @@
 #include <cmath>
 #include <complex>
 #include <iostream>
+#include <limits>
 #include <numeric>
 #include <set>
 #include <stdexcept>
@@ -42,8 +43,6 @@ public:
         return coeffs.size() - 1;
     }
 
-    static constexpr auto epsilon = 0.000001;
-
 private:
     CoeffContainer coeffs;
 };
@@ -82,13 +81,13 @@ private:
     {
         auto delta = p[1] * p[1] - 4.0 * p[0] * p[2];
 
-        if (std::fabs(delta) < Polynomial::epsilon)
+        if (std::fabs(delta) < std::numeric_limits<double>::epsilon())
         {
             return {-1.0 * p[1] / (2.0 * p[2])};
         }
         else
         {
-            if (delta > Polynomial::epsilon)
+            if (delta > std::numeric_limits<double>::epsilon())
             {
                 return {(-1.0 * p[1] - std::sqrt(delta)) / (2.0 * p[2]),
                         (-1.0 * p[1] + std::sqrt(delta)) / (2.0 * p[2])};
@@ -103,9 +102,10 @@ private:
     SolutionsContainer solveCubic()
     {
         using namespace std::complex_literals;
-        auto R_real = (9.0 * p[3] * p[2] * p[1] - 27.0 * p[3] * p[3] * p[0] -
-                       2.0 * p[2] * p[2] * p[2]) /
-                      (54.0 * p[3] * p[3] * p[3]);
+        auto R_real =
+            (9.0 * p[3] * p[2] * p[1] - 27.0 * p[3] * p[3] * p[0] -
+             2.0 * p[2] * p[2] * p[2]) /
+            (54.0 * p[3] * p[3] * p[3]);
         auto R = std::complex<FloatingPt>(R_real, 0.0);
 
         auto Q_real = (3 * p[3] * p[1] - p[2] * p[2]) / (9.0 * p[3] * p[3]);
@@ -118,7 +118,8 @@ private:
         auto S = std::pow(S_3, 1.0 / 3.0);
         auto T = std::pow(T_3, 1.0 / 3.0);
 
-        auto b_over_3_a = std::complex<FloatingPt>{p[2] / (3.0 * p[3]), 0.0};
+        auto b_over_3_a =
+            std::complex<FloatingPt>{p[2] / (3.0 * p[3]), 0.0};
         auto fct = std::complex<FloatingPt>{0.0, std::sqrt(3.0) / 2.0};
         auto S_T_over_2 = (T + S) / 3.0;
 
@@ -133,13 +134,10 @@ private:
 
         SolutionsContainer solutions;
 
-        // std::for_each(complexSolutions.begin(), complexSolutions.end(),
-        //               [](const auto& c) { std::cout << "sol: " << c << "\n";
-        //               });
-
         std::for_each(complexSolutions.begin(), complexSolutions.end(),
                       [&](const auto& cplxSol) {
-                          if (std::fabs(cplxSol.imag()) < Polynomial::epsilon)
+                          if (std::fabs(cplxSol.imag()) <
+                              std::numeric_limits<double>::epsilon())
                           {
                               solutions.insert(cplxSol.real());
                           }

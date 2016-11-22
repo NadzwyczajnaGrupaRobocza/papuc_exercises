@@ -11,6 +11,7 @@ std::ostream& operator<<(std::ostream& out, Gesture gesture)
     case Gesture::Paper: out << "Paper"; break;
     case Gesture::Scissors: out << "Scissors"; break;
     case Gesture::Rock: out << "Rock"; break;
+    case Gesture::Error:
     default: out << "Error"; break;
     }
     return out;
@@ -83,7 +84,7 @@ void Player::showOptions() const
 
 Gesture Opponent::getGesture() const
 {
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
     unsigned randomNumber = (rand() % 3) + 1;
     Gesture selection = uint2Gesture(randomNumber);
     return selection;

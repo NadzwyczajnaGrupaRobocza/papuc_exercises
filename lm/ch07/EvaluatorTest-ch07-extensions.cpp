@@ -14,17 +14,17 @@ inline calc::TokenStream buildTs(const std::string& str)
 TEST(EvaluatorTest_Ch07_Ext, willHandleUnaryMinus)
 {
     calc::Evaluator e{buildTs("-1")};
-    ASSERT_EQ(e.expression(), -1);
+    ASSERT_DOUBLE_EQ(e.expression(), -1.0);
 }
 
 TEST(EvaluatorTest_Ch07_Ext, willHandleUnaryPlus)
 {
-  calc::Evaluator e{buildTs("+1")};
-    ASSERT_EQ(e.expression(), 1);
+    calc::Evaluator e{buildTs("+1")};
+    ASSERT_DOUBLE_EQ(e.expression(), 1.0);
 }
 
 TEST(EvaluatorTest_Ch07_Ext, willHandleModuloDivision)
 {
     calc::Evaluator e{buildTs("4 % 3")};
-    ASSERT_EQ(e.expression(), 1);
+    ASSERT_DOUBLE_EQ(e.expression(), 1.0);
 }

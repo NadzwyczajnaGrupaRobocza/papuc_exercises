@@ -1,4 +1,6 @@
 #include "Token.hpp"
+#include <cmath>
+#include <limits>
 #include <ostream>
 
 namespace calc
@@ -26,24 +28,20 @@ std::ostream& operator<<(std::ostream& out, const Token& t)
 {
     switch (t.typeId)
     {
-    case '8':
-    {
-        return out << "TOK-val:" << t.value;
+    case '8': { return out << "TOK-val:" << t.value;
     }
-    case 'S':
-    {
-        return out << "TOK-str:" << t.id;
+    case 'S': { return out << "TOK-str:" << t.id;
     }
-    default:
-    {
-        return out << "TOK-sym:" << t.typeId;
+    default: { return out << "TOK-sym:" << t.typeId;
     }
     }
 }
 
 bool operator==(const Token& lhs, const Token& rhs)
 {
-    return lhs.typeId and rhs.typeId && lhs.value == rhs.value and
+    return lhs.typeId and rhs.typeId &&
+           (std::fabs(lhs.value - rhs.value) <
+            std::numeric_limits<double>::epsilon()) and
            lhs.id == rhs.id;
 }
 }

@@ -21,7 +21,7 @@ Instruction DecrementAndJumpInstructionBuilder::buildInstruction(
     const Register reg = registerNameToEnum(m[1]);
     throw_assert(isInternalRegister(reg), "invalid register to decrement");
 
-    const u8_t label_id = std::stoi(m[2]);
+    const u8_t label_id = static_cast<u8_t>(std::stoi(m[2]));
     return {OperationType::decrementAndJump, reg, label_id,
             Register::INVALID};
 }

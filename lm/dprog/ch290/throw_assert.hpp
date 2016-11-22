@@ -48,9 +48,9 @@ public:
     }
 
     /// Construct an assertion failure exception
-    AssertionFailureException(const char* expression, const char* file,
-                              int line, const std::string& message)
-        : expression(expression), file(file), line(line), message(message)
+    AssertionFailureException(const char* p_expression, const char* p_file,
+                              int p_line, const std::string& p_message)
+        : expression(p_expression), file(p_file), line(p_line), message(p_message)
     {
         std::ostringstream outputStream;
 

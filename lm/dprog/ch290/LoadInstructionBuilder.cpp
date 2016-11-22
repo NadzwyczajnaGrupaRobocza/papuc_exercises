@@ -14,18 +14,7 @@ LoadInstructionBuilder::LoadInstructionBuilder()
 Instruction
 LoadInstructionBuilder::buildInstruction(const std::smatch& m) const
 {
-    throw_assert(m.size() == 3, "m contains: " << [](const std::smatch& m) {
-        std::stringstream content;
-        for (auto i = 0u; i < m.size(); ++i)
-        {
-            if (i > 0u)
-            {
-                content << " ";
-            }
-            content << "m[" << i << "]=" << m[i];
-        }
-        return content.str();
-    }(m));
+    throw_assert(m.size() == 3, "m contains: " << smatch_print(m));
 
     const std::string registerName = m[1];
     const std::string valueStr = m[2];

@@ -74,7 +74,7 @@ double getMeanDistance(const std::vector<double>& distances)
     double meanDistance = 0.0;
     if (distances.size() != 0)
     {
-        meanDistance = getTotalDistance(distances) / distances.size();
+        meanDistance = getTotalDistance(distances) / static_cast<double>(distances.size());
     }
     return meanDistance;
 }
