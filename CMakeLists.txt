@@ -81,6 +81,7 @@ set(MB-UT-RUN "mb-ut-run")
 set(LM-UT-RUN "lm-ut-run")
 set(IB-UT-RUN "ib-ut-run")
 set(LZ-UT-RUN "lz-ut-run")
+set(TD-UT-RUN "td-ut-run")
 
 add_subdirectory(mb)
 add_subdirectory(lm)
