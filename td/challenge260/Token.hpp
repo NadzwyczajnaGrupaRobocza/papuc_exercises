@@ -13,7 +13,8 @@ enum class TokenType
     Number8Bit,
     Rlca,
     Rrca,
-    Djnz
+    Djnz,
+    Label
 };
 
 struct Token
@@ -43,6 +44,7 @@ inline std::ostream& operator<<(std::ostream& out, TokenType token)
     case TokenType::Rlca: return out << "Rlca";
     case TokenType::Rrca: return out << "Rrca";
     case TokenType::Djnz: return out << "Djnz";
+    case TokenType::Label: return out << "Label";
     }
     return out << "No known TokenType";
 }

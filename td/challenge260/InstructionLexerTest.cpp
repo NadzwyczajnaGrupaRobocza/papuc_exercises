@@ -16,7 +16,7 @@ struct InstructionLexerTest : public Test
 
 TEST_F(InstructionLexerTest, ParserShouldDeclineUnknownInstruction)
 {
-    EXPECT_THROW(parser.parseInstructions("Instructions"),
+    EXPECT_THROW(parser.parseInstructions(" Instructions"),
                  InstructionLexer::UnknownInstruction);
 }
 
@@ -136,4 +136,10 @@ TEST_F(InstructionLexerTest, ParserShouldParseDjnzInstruction)
 {
     const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz"));
+}
+
+TEST_F(InstructionLexerTest, ParserShouldParseALabel)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Label)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions("a:"));
 }

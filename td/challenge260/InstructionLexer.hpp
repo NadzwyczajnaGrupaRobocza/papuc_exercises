@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Token.hpp"
+
+#include <regex>
 #include <stdexcept>
 #include <string>
 
@@ -20,5 +22,7 @@ public:
 private:
     Tokens parseInstruction(const std::string&);
     Tokens parseLine(const std::string&);
-    std::string trimWhitespacesOnFront(const std::string& instruction);
+    Tokens parseLabel(const std::string&);
+    std::string trimWhitespacesOnFront(const std::string&);
+    bool regexMatcher(const std::string&, const std::regex&);
 };

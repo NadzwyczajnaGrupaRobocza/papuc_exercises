@@ -20,11 +20,32 @@ Tokens InstructionLexer::parseInstructions(const std::string& input)
     {
         if (line.at(0) != ' ')
         {
-            throw UnknownInstruction("Invalid line: " + line);
+            boost::copy(parseLabel(line), std::back_inserter(tokens));
         }
-        boost::copy(parseLine(line), std::back_inserter(tokens));
+        else
+        {
+            boost::copy(parseLine(line), std::back_inserter(tokens));
+        }
     }
     return tokens;
+}
+
+Tokens InstructionLexer::parseLabel(const std::string& label)
+{
+    if (regexMatcher(label, std::regex{R"!([a-zA-z]+:)!"}))
+    {
+        return {{TokenType::Label, 0}};
+    }
+    else
+    {
+        throw UnknownInstruction{"Invalid label: " + label};
+    }
+}
+
+bool InstructionLexer::regexMatcher(const std::string& text,
+                                    const std::regex& pattern)
+{
+    return std::regex_match(text, pattern);
 }
 
 Tokens InstructionLexer::parseLine(const std::string& line)
@@ -68,16 +89,17 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
         {std::regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"},
          TokenType::Number8Bit, convertToUnsigned}};
-    const auto noArgumentInstructionPosition = std::find_if(
+
+    const auto instructionPosition = std::find_if(
         acceptableInstructions.begin(), acceptableInstructions.end(),
         [&](const auto& tokenMap) {
-            return std::regex_match(trimmedInstruction, std::get<0>(tokenMap));
+            return regexMatcher(trimmedInstruction, std::get<0>(tokenMap));
         });
-    if (noArgumentInstructionPosition != acceptableInstructions.end())
+    if (instructionPosition != acceptableInstructions.end())
     {
         return {
-            {std::get<1>(*noArgumentInstructionPosition),
-             std::get<2>(*noArgumentInstructionPosition)(trimmedInstruction)}};
+            {std::get<1>(*instructionPosition),
+             std::get<2>(*instructionPosition)(trimmedInstruction)}};
     }
     throw UnknownInstruction{"Unknown instruction: " + instruction};
 }
