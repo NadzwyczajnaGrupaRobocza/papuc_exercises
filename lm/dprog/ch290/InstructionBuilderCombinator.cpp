@@ -206,7 +206,7 @@ void InstructionBuilderCombinator::Worker::processLabel(
         return copy;
     }(line);
 
-    const u8_t label = std::stoi(labelStr);
+    const u8_t label = static_cast<u8_t>(std::stoi(labelStr));
 
     throw_assert(labelToLoc.count(label) == 0, "redefinition of label "
                                                    << label << " at "

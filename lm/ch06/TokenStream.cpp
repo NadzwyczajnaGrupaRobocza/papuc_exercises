@@ -17,7 +17,8 @@ TokenStream::TokenStream(std::istream& inputInit)
 }
 
 TokenStream::TokenStream(std::stringstream&& inputInitVal)
-    : inputVal{std::make_unique<std::stringstream>(std::move(inputInitVal))},
+    : inputVal{std::make_unique<std::stringstream>(
+          std::move(inputInitVal))},
       input{*inputVal}, bufferFull{false}
 {
 }
@@ -56,8 +57,7 @@ Token TokenStream::getTokenFromStream()
         case '*':
         case '/':
         case '%':
-        case '!':
-            return Token{ch};
+        case '!': return Token{ch};
         case '.':
         case '0':
         case '1':
@@ -79,16 +79,16 @@ Token TokenStream::getTokenFromStream()
         {
             if (std::isalpha(ch) or ch == '_')
             {
-                std::vector<char> buffer;
-                buffer.reserve(32u);
-                buffer.push_back(ch);
+                std::vector<char> l_buffer;
+                l_buffer.reserve(32u);
+                l_buffer.push_back(ch);
 
-                ch = input.get();
+                ch = static_cast<char>(input.get());
                 while (ch != std::istream::traits_type::eof() and
                        (std::isalnum(ch) or ch == '_'))
                 {
-                    buffer.push_back(ch);
-                    ch = input.get();
+                    l_buffer.push_back(ch);
+                    ch = static_cast<char>(input.get());
                 }
 
                 if (not input.eof())
@@ -97,8 +97,8 @@ Token TokenStream::getTokenFromStream()
                 }
 
                 std::string idValue;
-                idValue.reserve(buffer.size());
-                boost::copy(buffer, std::back_inserter(idValue));
+                idValue.reserve(l_buffer.size());
+                boost::copy(l_buffer, std::back_inserter(idValue));
 
                 return Token('S', idValue);
             }

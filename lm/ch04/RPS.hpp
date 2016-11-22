@@ -51,6 +51,8 @@ private:
     std::uniform_int_distribution<> distribution;
 };
 
+std::vector<Move> createGameVector(std::vector<Move>::size_type size);
+
 std::vector<Move> createGameVector(std::vector<Move>::size_type size)
 {
     std::vector<Move> game{size};
@@ -65,6 +67,8 @@ enum class MatchResult
     lhsWins,
     rhsWins
 };
+
+MatchResult getMatchResult(Move lhsMove, Move rhsMove);
 
 MatchResult getMatchResult(Move lhsMove, Move rhsMove)
 {
@@ -90,6 +94,9 @@ MatchResult getMatchResult(Move lhsMove, Move rhsMove)
 }
 
 MatchResult getTournamentResult(const std::vector<Move>& lhs,
+                                const std::vector<Move>& rhs);
+
+MatchResult getTournamentResult(const std::vector<Move>& lhs,
                                 const std::vector<Move>& rhs)
 {
     std::vector<MatchResult> singleMatchResult{
@@ -101,8 +108,8 @@ MatchResult getTournamentResult(const std::vector<Move>& lhs,
 
     boost::for_each(singleMatchResult, [&](const auto& smr) { tally[smr]++; });
     auto maxElementIter =
-        boost::max_element(tally, [](const auto& lhs, const auto& rhs) {
-            return lhs.second < rhs.second;
+        boost::max_element(tally, [](const auto& l, const auto& r) {
+            return l.second < r.second;
         });
 
     return maxElementIter->first;
