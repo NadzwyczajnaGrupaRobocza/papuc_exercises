@@ -89,7 +89,8 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         {std::regex{"rrca"}, TokenType::Rrca, alwaysZeroValue},
         {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
         {std::regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"},
-         TokenType::Number8Bit, convertToUnsigned}};
+         TokenType::Number8Bit, convertToUnsigned},
+        {std::regex{"w"}, TokenType::LabelRef, alwaysZeroValue}};
 
     const auto instructionPosition = std::find_if(
         acceptableInstructions.begin(), acceptableInstructions.end(),

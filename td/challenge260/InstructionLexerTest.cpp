@@ -155,3 +155,10 @@ TEST_F(InstructionLexerTest, ParserShouldNotAcceptLabelWithWhitespaces)
     EXPECT_THROW(parser.parseInstructions(" label:"),
                  InstructionLexer::UnknownInstruction);
 }
+
+TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabel)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
+                                createTokenWithZeroValue(TokenType::LabelRef)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz w"));
+}
