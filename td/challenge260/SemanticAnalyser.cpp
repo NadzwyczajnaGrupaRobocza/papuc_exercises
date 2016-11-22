@@ -15,7 +15,7 @@ Instructions SemanticAnalyser::analyse(const Tokens& tokens)
             tokens.cbegin() + alreadyProcessedTokens;
         if (areTokensValidLdInstruction(firstTokenInInstruction))
         {
-            constexpr auto shiftToTokenWithValue = 2;
+            constexpr auto shiftToTokenWithValue = 1;
             instructions.push_back(
                 {InstructionType::LdA,
                  (firstTokenInInstruction + shiftToTokenWithValue)->value});
@@ -42,7 +42,5 @@ bool SemanticAnalyser::areTokensValidOutInstruction(
 
 bool SemanticAnalyser::areTokensValidLdInstruction(Tokens::const_iterator begin)
 {
-    return (begin++)->type == TokenType::Ld &&
-           (begin++)->type == TokenType::A &&
-           (begin++)->type == TokenType::Number8Bit;
+    return (begin++)->type == TokenType::Ld && (begin++)->type == TokenType::A;
 }

@@ -38,8 +38,7 @@ TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
 TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstruction)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
-                  createTokenWithZeroValue(TokenType::A),
-                  createTokenWithZeroValue(TokenType::Number8Bit)};
+                  createTokenWithZeroValue(TokenType::A)};
     Instructions instructions{
         createInstructionWithZeroValue(InstructionType::LdA)};
     ASSERT_EQ(instructions, analyser.analyse(tokens));
@@ -48,8 +47,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstruction)
 TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
-                  createTokenWithZeroValue(TokenType::ZeroWithBracketsA),
-                  createTokenWithZeroValue(TokenType::A)};
+                  createTokenWithZeroValue(TokenType::ZeroWithBracketsA)};
     Instructions instructions{
         createInstructionWithZeroValue(InstructionType::OutA)};
     ASSERT_EQ(instructions, analyser.analyse(tokens));
@@ -58,8 +56,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
 TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstruction)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
-                  createTokenWithZeroValue(TokenType::Number8Bit),
-                  createTokenWithZeroValue(TokenType::A)};
+                  createTokenWithZeroValue(TokenType::Number8Bit)};
     ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
 
@@ -75,10 +72,8 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLd)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
                   createTokenWithZeroValue(TokenType::ZeroWithBracketsA),
-                  createTokenWithZeroValue(TokenType::A),
                   createTokenWithZeroValue(TokenType::Ld),
-                  createTokenWithZeroValue(TokenType::A),
-                  createTokenWithZeroValue(TokenType::Number8Bit)};
+                  createTokenWithZeroValue(TokenType::A)};
     Instructions instructions{
         createInstructionWithZeroValue(InstructionType::OutA),
         createInstructionWithZeroValue(InstructionType::LdA)};
@@ -89,8 +84,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptLdInstructionWithValue)
 {
     constexpr auto number = 42u;
     Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
-                  createTokenWithZeroValue(TokenType::A),
-                  {TokenType::Number8Bit, number}};
+                  {TokenType::A, number}};
     Instructions instructions{{InstructionType::LdA, number}};
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
@@ -100,10 +94,8 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLdWithValue)
     constexpr auto number = 42u;
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
                   createTokenWithZeroValue(TokenType::ZeroWithBracketsA),
-                  createTokenWithZeroValue(TokenType::A),
                   createTokenWithZeroValue(TokenType::Ld),
-                  createTokenWithZeroValue(TokenType::A),
-                  {TokenType::Number8Bit, number}};
+                  {TokenType::A, number}};
     Instructions instructions{
         createInstructionWithZeroValue(InstructionType::OutA),
         {InstructionType::LdA, number}};
