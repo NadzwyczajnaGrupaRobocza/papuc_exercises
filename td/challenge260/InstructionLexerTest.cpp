@@ -143,3 +143,9 @@ TEST_F(InstructionLexerTest, ParserShouldParseALabel)
     const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Label)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions("a:"));
 }
+
+TEST_F(InstructionLexerTest, ParserShouldNotAcceptLabelWithWhitespaces)
+{
+    EXPECT_THROW(parser.parseInstructions(" label:"),
+                 InstructionLexer::UnknownInstruction);
+}
