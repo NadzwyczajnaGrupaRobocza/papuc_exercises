@@ -14,12 +14,6 @@ struct InstructionLexerTest : public Test
     }
 };
 
-TEST_F(InstructionLexerTest, ParserShouldDeclineUnknownInstruction)
-{
-    EXPECT_THROW(parser.parseInstructions(" Instructions"),
-                 InstructionLexer::UnknownInstruction);
-}
-
 TEST_F(InstructionLexerTest, ParserShouldRejectNotFullInstuctionLd)
 {
     EXPECT_THROW(parser.parseInstructions(" ld a,"),
@@ -151,7 +145,7 @@ TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabelRefW)
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz w"));
 }
 
-TEST_F(InstructionLexerTest, DISABLED_ParserShouldParseDjnzWithLabelRefA)
+TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabelRefA)
 {
     const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
                                 createTokenWithZeroValue(TokenType::LabelRef)};
