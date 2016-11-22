@@ -4,6 +4,21 @@
 
 namespace ltm
 {
+
+inline std::string smatch_print(const std::smatch& m)
+{
+    std::stringstream content;
+    for (auto i = 0u; i < m.size(); ++i)
+    {
+        if (i > 0u)
+        {
+            content << " ";
+        }
+        content << "m[" << i << "]=" << m[i];
+    }
+    return content.str();
+}
+
 class InstructionBuilder
 {
 public:
