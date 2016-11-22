@@ -112,3 +112,10 @@ TEST_F(InstructionLexerTest, ParserShouldAbleToGet256AsToken)
     EXPECT_THROW(parser.parseInstructions(" 256"),
                  InstructionLexer::UnknownInstruction);
 }
+
+TEST_F(InstructionLexerTest, ParserShouldParseLdBInstruction)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Ld),
+                                createTokenWithZeroValue(TokenType::B)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions(" ld b,"));
+}
