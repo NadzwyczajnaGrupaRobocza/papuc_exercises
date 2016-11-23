@@ -1,9 +1,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/w60tweadwobb5tvv/branch/master?svg=true)](https://ci.appveyor.com/project/lukasz-m-maciejewski/papuc-exercises/branch/master)
 [![Build Status](https://travis-ci.org/NadzwyczajnaGrupaRobocza/papuc_exercises.svg?branch=master)](https://travis-ci.org/NadzwyczajnaGrupaRobocza/papuc_exercises)
 # papuc_exercises
-Programming: Principles and Practice Using C++ - Exercises
-
-User prefix will be written as \<user-prefix\>. 
+Programming: Principles and Practice Using C++ - Exercises... and more.
 
 ## Update your fork with changes from the common repository
 
