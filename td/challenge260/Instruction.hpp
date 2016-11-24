@@ -5,7 +5,8 @@
 enum class InstructionType
 {
     LdA,
-    OutA
+    OutA,
+    Rlca
 };
 
 struct Instruction

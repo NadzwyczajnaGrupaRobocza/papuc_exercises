@@ -2,17 +2,21 @@
 
 Instructions SemanticAnalyser::analyse(const Tokens& tokens)
 {
-    if (tokens.empty())
+    return analyse(tokens.cbegin(), tokens.cend());
+}
+
+Instructions SemanticAnalyser::analyse(Tokens::const_iterator begin,
+                                       Tokens::const_iterator end)
+{
+    if (begin == end)
     {
         return {};
     }
     Instructions instructions;
-    unsigned alreadyProcessedTokens = 0;
-    while (tokens.size() - alreadyProcessedTokens % sizeOfInstruction &&
-           tokens.size() != alreadyProcessedTokens)
+    const auto size = end - begin;
+    if (size % sizeOfInstruction == 0)
     {
-        const auto firstTokenInInstruction =
-            tokens.cbegin() + alreadyProcessedTokens;
+        const auto firstTokenInInstruction = begin;
         if (areTokensValidLdInstruction(firstTokenInInstruction))
         {
             constexpr auto shiftToTokenWithValue = 1;
@@ -28,8 +32,14 @@ Instructions SemanticAnalyser::analyse(const Tokens& tokens)
         {
             throw InvalidSemantic{"Invalid instruction"};
         }
-        alreadyProcessedTokens += sizeOfInstruction;
     }
+    else
+    {
+        throw InvalidSemantic{"Invalid instruction size"};
+    }
+    const auto& nextInstructions = analyse(begin + sizeOfInstruction, end);
+    std::move(nextInstructions.begin(), nextInstructions.end(),
+              std::back_inserter(instructions));
     return instructions;
 }
 

@@ -19,6 +19,8 @@ public:
 private:
     static constexpr auto sizeOfInstruction = 2u;
 
+    Instructions analyse(Tokens::const_iterator begin,
+                         Tokens::const_iterator end);
     bool areTokensValidOutInstruction(Tokens::const_iterator begin);
     bool areTokensValidLdInstruction(Tokens::const_iterator begin);
 };

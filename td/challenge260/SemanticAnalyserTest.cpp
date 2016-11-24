@@ -101,3 +101,12 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLdWithValue)
         {InstructionType::LdA, number}};
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
+
+TEST_F(SemanticAnalyserTest, DISABLED_ShouldAccepRlcaInsruction)
+{
+    Tokens tokens{createTokenWithZeroValue(TokenType::Rlca)};
+    Instructions instructions{
+        createInstructionWithZeroValue(InstructionType::Rlca)};
+
+    ASSERT_EQ(instructions, analyser.analyse(tokens));
+}

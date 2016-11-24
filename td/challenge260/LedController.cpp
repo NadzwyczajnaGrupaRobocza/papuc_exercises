@@ -23,6 +23,7 @@ void LedController::runInstruction(const Instruction& instruction)
     case InstructionType::LdA:
         ledState = getLedStateFromInteger(instruction.value);
         break;
+    case InstructionType::Rlca: break;
     }
 }
 
