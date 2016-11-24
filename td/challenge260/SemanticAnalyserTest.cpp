@@ -56,7 +56,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstruction)
 TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstruction)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Out),
-                  createTokenWithZeroValue(TokenType::Number8Bit)};
+                  createTokenWithZeroValue(TokenType::Ld)};
     ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
 }
 
