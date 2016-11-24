@@ -21,6 +21,9 @@ SemanticAnalyser::SemanticAnalyser()
           InstructionInfo{{TokenType::Ld, TokenType::A},
                           InstructionType::LdA,
                           nthTokenValueGetter<2>},
+          InstructionInfo{{TokenType::Ld, TokenType::B},
+                          InstructionType::LdB,
+                          nthTokenValueGetter<2>},
           InstructionInfo{
               {TokenType::Rlca}, InstructionType::Rlca, alwaysZeroValue}}
 {

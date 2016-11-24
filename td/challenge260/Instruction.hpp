@@ -5,6 +5,7 @@
 enum class InstructionType
 {
     LdA,
+    LdB,
     OutA,
     Rlca
 };

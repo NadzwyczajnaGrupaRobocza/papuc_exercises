@@ -110,3 +110,12 @@ TEST_F(SemanticAnalyserTest, ShouldAccepRlcaInsruction)
 
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
+
+TEST_F(SemanticAnalyserTest, ShouldAcceptLdBInstructionWithValue)
+{
+    constexpr auto number = 42u;
+    Tokens tokens{createTokenWithZeroValue(TokenType::Ld),
+                  {TokenType::B, number}};
+    Instructions instructions{{InstructionType::LdB, number}};
+    ASSERT_EQ(instructions, analyser.analyse(tokens));
+}
