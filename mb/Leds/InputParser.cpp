@@ -1,65 +1,40 @@
 #include "InputParser.hpp"
 
 #include <regex>
-#include <fstream>
 #include <iostream>
 
 InputParser::InputParser() {}
 
-void InputParser::parseFile(std::string inputFile)
-{
-    convertFileToStringVector(inputFile);
-    changeInputIntoSetOfInstructions();
-}
 
 std::vector<std::string> InputParser::returnParsedFile()
 {
     return outputInstrunctions;
 }
 
-void InputParser::convertFileToStringVector(std::string fileName)
+void InputParser::changeInputIntoSetOfInstructions(const std::vector<std::string>& inputInstructions)
 {
-    std::ifstream inputFile{fileName};
-    if( inputFile.is_open() )
+    for(const auto& instruction : inputInstructions)
     {
-        std::string line;
-        while( getline(inputFile,line) )
+        switch (checkLine(instruction))
         {
-            parsedInputFile.push_back(line);
-        }
-        inputFile.close();
-    }
-    else
-    {
-        std::cout << "Unable to open file " << fileName;
-    }
-}
-
-void InputParser::changeInputIntoSetOfInstructions()
-{
-    for(auto& line : parsedInputFile)
-    {
-        switch (checkLine(line))
-        {
-            case LineContaint::empty: 
+            case LineContent::empty: 
             {
                 break;
             }
-            case LineContaint::setRegister: 
+            case LineContent::setRegister: 
             {
-                trimWhitespacesFromFrontAndBack(line);
-                currentInstruction = line;
+                currentInstruction = trimWhitespacesFromFrontAndBack(instruction);
                 break;
             }
-            case LineContaint::updateLeds: 
+            case LineContent::updateLeds: 
             {
                 outputInstrunctions.push_back(currentInstruction);
                 break;
                 
             }
-            case LineContaint::unknown:
+            case LineContent::unknown:
             {
-                std::cout << "Unknown instruction:" << line << std::endl;
+                std::cout << "Unknown instruction:" << instruction << std::endl;
                 break;
             }
             default: break;
@@ -67,23 +42,23 @@ void InputParser::changeInputIntoSetOfInstructions()
     }
 }
 
-LineContaint InputParser::checkLine(std::string line)
+LineContent InputParser::checkLine(std::string line)
 {
     const std::regex empty{"^$"};
     const std::regex setRegister{"^[ \t]+ld a,[[:digit:]]+$"};
     const std::regex updateLeds{"^[ \t]+out \\(0\\),a$"};
 
     if (std::regex_search(line, empty))
-        return LineContaint::empty;
+        return LineContent::empty;
     if (std::regex_search(line, setRegister))
-        return LineContaint::setRegister;
+        return LineContent::setRegister;
     if (std::regex_search(line, updateLeds))
-        return LineContaint::updateLeds;
-    return LineContaint::unknown;
+        return LineContent::updateLeds;
+    return LineContent::unknown;
     
 }
 
-void InputParser::trimWhitespacesFromFrontAndBack(std::string& line)
+std::string InputParser::trimWhitespacesFromFrontAndBack(const std::string& line)
 {
     const std::string whitespace = " \t";
     
@@ -93,6 +68,7 @@ void InputParser::trimWhitespacesFromFrontAndBack(std::string& line)
         const auto strEnd = line.find_last_not_of(whitespace);
         const auto strRange = strEnd - firstAlphaChar + 1;
 
-        line = line.substr(firstAlphaChar, strRange);
+        return line.substr(firstAlphaChar, strRange);
     }
+    return "";
 }

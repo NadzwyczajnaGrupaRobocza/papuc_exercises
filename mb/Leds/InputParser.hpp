@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-enum class LineContaint : uint
+enum class LineContent : uint
 {
     empty = 0,
     setRegister = 1,
@@ -16,15 +16,14 @@ class InputParser
 public:
     InputParser();
 
-    void parseFile(std::string inputFile);
+    void changeInputIntoSetOfInstructions(const std::vector<std::string>& inputInstructions);
     std::vector<std::string> returnParsedFile();
+
 private:
-    std::vector<std::string> parsedInputFile;
     std::vector<std::string> outputInstrunctions;
     std::string currentInstruction;
     
-    void convertFileToStringVector(std::string inputFile);
-    void changeInputIntoSetOfInstructions();
-    LineContaint checkLine(std::string line);
-    void trimWhitespacesFromFrontAndBack(std::string& line);
+
+    LineContent checkLine(std::string line);
+    std::string trimWhitespacesFromFrontAndBack(const std::string& line);
 };
