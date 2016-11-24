@@ -1,5 +1,26 @@
 #include "SemanticAnalyser.hpp"
 
+const auto alwaysZeroValue = [](Tokens::const_iterator) { return 0 }
+
+template <int N>
+nthTokenValueCopier(Tokens::const_iterator it)
+{
+    for (int i = 0; i < N; ++i)
+    {
+        ++it;
+    }
+    return it->value;
+}
+
+SemanticAnalyser::SemanticAnalyser()
+    : instructions{
+          InstructionInfo{{TokenType::Out, TokenType::ZeroWithBracketsA},
+                          InstructionType::OutA},
+          InstructionInfo{{TokenType::Ld, TokenType::A}, InstructionType::LdA},
+          InstructionInfo{{TokenType::Rlca}, InstructionType::Rlca}}
+{
+}
+
 Instructions SemanticAnalyser::analyse(const Tokens& tokens)
 {
     return analyse(tokens.cbegin(), tokens.cend());
@@ -12,25 +33,40 @@ Instructions SemanticAnalyser::analyse(Tokens::const_iterator begin,
     {
         return {};
     }
-    Instructions instructions;
-    if (areTokensValidLdInstruction(begin, end))
-    {
-        constexpr auto shiftToTokenWithValue = 1;
-        instructions.push_back(
-            {InstructionType::LdA, (begin + shiftToTokenWithValue)->value});
-    }
-    else if (areTokensValidOutInstruction(begin, end))
-    {
-        instructions.push_back({InstructionType::OutA, 0});
-    }
-    else
-    {
-        throw InvalidSemantic{"Invalid instruction"};
-    }
-    const auto& nextInstructions = analyse(begin + sizeOfInstruction, end);
+    const auto instruction = findInstruction(begin, end);
+    Instructions currentInstructions{instruction};
+    const auto& nextInstructions = analyse(begin + instruction.size, end);
     std::move(nextInstructions.begin(), nextInstructions.end(),
-              std::back_inserter(instructions));
-    return instructions;
+              std::back_inserter(currentInstructions));
+    return currentInstructions;
+}
+
+SemanticAnalyser::InstructionInfo
+SemanticAnalyser::findInstruction(Tokens::const_iterator begin,
+                                  Tokens::const_iterator end)
+{
+    for (const auto instruction : instructions)
+    {
+        if (areTokensCreatesInstruction(begin, end, instruction))
+        {
+            return instruction;
+        }
+    }
+    throw InvalidSemantic{"Invalid instruction"};
+}
+
+bool SemanticAnalyser::areTokensCreatesInstruction(
+    Tokens::const_iterator begin, Tokens::const_iterator end,
+    const InstructionInfo& instruction)
+{
+    if (end - begin >= instruction.size)
+    {
+        auto nextExpectedToken = instruction.expectedTokens.cbegin();
+        while ((begin++)->type == nextExpectedToken++)
+            ;
+        return nextExpectedToken == instruction.expectedTokens.cend();
+    }
+    return false;
 }
 
 bool SemanticAnalyser::areTokensValidOutInstruction(
@@ -48,4 +84,12 @@ bool SemanticAnalyser::areTokensValidLdInstruction(Tokens::const_iterator begin,
     constexpr auto sizeOfInstruction = 2;
     return end - begin >= sizeOfInstruction &&
            (begin++)->type == TokenType::Ld && (begin++)->type == TokenType::A;
+}
+
+bool SemanticAnalyser::areTokensValidRlcaInstruction(
+    Tokens::const_iterator begin, Tokens::const_iterator end)
+{
+    constexpr auto sizeOfInstruction = 1;
+    return end - begin >= sizeOfInstruction &&
+           (begin++)->type == TokenType::Rlca;
 }
