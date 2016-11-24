@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <utility>
 
-#include "EnumClassHash.hpp"
 #include "LedTokenParser.hpp"
 
 namespace lz

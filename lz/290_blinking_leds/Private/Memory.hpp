@@ -1,6 +1,8 @@
 #pragma once
 #include "IMemory.hpp"
+
 #include "Byte.hpp"
+#include "Register.hpp"
 
 namespace lz
 {

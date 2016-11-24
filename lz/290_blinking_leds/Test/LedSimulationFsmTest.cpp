@@ -6,8 +6,8 @@
 #include "LedTokenParserMock.hpp"
 #include "MemoryMock.hpp"
 #include "UniqueMock.hpp"
-
 #include "LedToken.hpp"
+
 #include "Byte.hpp"
 
 using namespace ::testing;

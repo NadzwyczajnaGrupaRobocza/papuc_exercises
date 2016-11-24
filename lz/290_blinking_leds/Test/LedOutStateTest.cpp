@@ -110,6 +110,7 @@ TEST(LedOutStateTest, test)
 
         EXPECT_CALL(*memory, get_register_a())
             .WillOnce(ReturnRefOfCopy(Byte(test.first)));
+
         EXPECT_EQ(LedTokenState::Recognize, outState.parse(LedToken{"(0),a"}));
         EXPECT_EQ(test.second, ::testing::internal::GetCapturedStdout());
     }

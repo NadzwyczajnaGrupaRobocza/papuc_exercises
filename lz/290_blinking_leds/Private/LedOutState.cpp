@@ -16,6 +16,7 @@ LedOutState::LedOutState(std::shared_ptr<const IMemory> mem) : memory{mem}
 
 LedTokenState LedOutState::parse(const LedToken& token)
 {
+
     validateOutCommand(token);
     printRegisterA();
     return LedTokenState::Recognize;
