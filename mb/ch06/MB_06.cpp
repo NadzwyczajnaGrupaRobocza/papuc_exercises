@@ -5,6 +5,37 @@
 #include "TokenStream.hpp"
 #include "Calculator.hpp"
 
+void cleanUpMess(ITokenStream& tokenStream);
+void calculate(ITokenStream& tokenStream);
+TokenStream passArgsToTokenStream(const char* argv[]);
+
+int main(int argc, const char* argv[])
+{
+    if(argc < 2)
+    {
+        std::cout << "There aren't any operations send to Calculator" << std::endl;
+        return 1;
+    }
+
+    TokenStream tokenStream = passArgsToTokenStream(argv);
+    
+    try
+    {
+        calculate(tokenStream);
+        return 0;
+    }
+    catch (std::logic_error& error)
+    {
+        std::cerr << error.what() << std::endl;
+        clean(tokenStream);
+        return 1;
+    }
+    catch (...)
+    {
+        std::cerr << "Unexpected exception";
+        return 2;
+    }
+}
 
 void cleanUpMess(ITokenStream& tokenStream)
 {
@@ -48,33 +79,3 @@ TokenStream passArgsToTokenStream(const char* argv[])
     TokenStream tokenStream{expression + END_OF_EXPR + QUIT};
     return tokenStream;
 }
-
-int main(int argc, const char* argv[])
-{
-    if(argc < 2)
-    {
-        std::cout << "There aren't any operations send to Calculator" << std::endl;
-        return 1;
-    }
-
-    TokenStream tokenStream = passArgsToTokenStream(argv);
-    
-    try
-    {
-        calculate(tokenStream);
-        return 0;
-    }
-    catch (std::logic_error& error)
-    {
-        std::cerr << error.what() << std::endl;
-        clean(tokenStream);
-        return 1;
-    }
-    catch (...)
-    {
-        std::cerr << "Unexpected exception";
-        return 2;
-    }
-    
-}
-

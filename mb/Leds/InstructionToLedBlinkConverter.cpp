@@ -26,7 +26,6 @@ void InstructionToLedBlinkConverter::convertInstructionToValue(std::string& line
     else
     {
         std::cout << "Wrong instrunction format" << std::endl;
-        //throw
     }
 }
 

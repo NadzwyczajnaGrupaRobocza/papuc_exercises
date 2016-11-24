@@ -45,48 +45,54 @@ double Calculator::term()
     {
         switch (token.kind)
         {
-        case '*':
-            left *= primary();
-            token = tokenStream.get();
-            break;
-        case '/':
-        {
-            double right = primary();
-            if (std::fabs(right) < std::numeric_limits<double>::epsilon())
+            case '*':
             {
-                throw std::logic_error("Dividing by 0");
+                left *= primary();
+                token = tokenStream.get();
+                break;
             }
-            left /= right;
-            token = tokenStream.get();
-            break;
-        }
-        case '%':
-        {
-            double right = primary();
+            case '/':
+            {
+                double right = primary();
+                if (std::fabs(right) < std::numeric_limits<double>::epsilon())
+                {
+                    throw std::logic_error("Dividing by 0");
+                }
+                left /= right;
+                token = tokenStream.get();
+                break;
+            }
+            case '%':
+            {
+                double right = primary();
 
-            int iLeft = static_cast<int>(left);
-            if (std::fabs(left - iLeft) >
-                std::numeric_limits<double>::epsilon())
-            {
-                throw std::logic_error(
-                    "Left side of operation % should be integer number");
+                int iLeft = static_cast<int>(left);
+                if (std::fabs(left - iLeft) >
+                    std::numeric_limits<double>::epsilon())
+                {
+                    throw std::logic_error(
+                        "Left side of operation % should be integer number");
+                }
+                int iRight = static_cast<int>(right);
+                if (std::fabs(right - iRight) >
+                    std::numeric_limits<double>::epsilon())
+                {
+                    throw std::logic_error(
+                        "Right side of operation % should be integer number");
+                }
+                if (std::fabs(iRight) < std::numeric_limits<double>::epsilon())
+                {
+                    throw std::logic_error("Dividing by 0");
+                }
+                left = iLeft % iRight;
+                token = tokenStream.get();
+                break;
             }
-            int iRight = static_cast<int>(right);
-            if (std::fabs(right - iRight) >
-                std::numeric_limits<double>::epsilon())
+            default: 
             {
-                throw std::logic_error(
-                    "Right side of operation % should be integer number");
+                tokenStream.putback(token);
+                return left;
             }
-            if (std::fabs(iRight) < std::numeric_limits<double>::epsilon())
-            {
-                throw std::logic_error("Dividing by 0");
-            }
-            left = iLeft % iRight;
-            token = tokenStream.get();
-            break;
-        }
-        default: tokenStream.putback(token); return left;
         }
     }
 }
@@ -132,42 +138,16 @@ double Calculator::primary()
         }
         case QUIT:
         {
-            throw std::logic_error("Expected ')'");
+            tokenStream.putback(token);
+            return 0.0;
         }
-        return calculteValue(value);
-    }
-    case '{':
-    {
-        value = expression();
-        token = tokenStream.get();
-        if (token.kind != '}')
+        default:
         {
             tokenStream.putback(token);
-            std::string cause{"Expected factor, passed "};
+            std::string cause{"Expected czynnika, przekazano "};
             cause += token.kind;
             throw std::logic_error(cause);
-            //return 0.0;
         }
-        return calculteValue(value);
-    }
-    case NUMBER:
-    {
-        value = token.value;
-        return calculteValue(value);
-    }
-    case QUIT:
-    {
-        tokenStream.putback(token);
-        return 0.0;
-    }
-    default:
-    {
-        tokenStream.putback(token);
-        std::string cause{"Expected czynnika, przekazano "};
-        cause += token.kind;
-        throw std::logic_error(cause);
-        // return 0.0;
-    }
     }
 }
 

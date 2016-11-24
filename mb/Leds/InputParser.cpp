@@ -72,7 +72,6 @@ LineContaint InputParser::checkLine(std::string line)
     const std::regex empty{"^$"};
     const std::regex setRegister{"^[ \t]+ld a,[[:digit:]]+$"};
     const std::regex updateLeds{"^[ \t]+out \\(0\\),a$"};
-    //std::regex updateLeds{"^[ \t]+out [(]{1}0[)]{1},a$"};
 
     if (std::regex_search(line, empty))
         return LineContaint::empty;
@@ -83,17 +82,17 @@ LineContaint InputParser::checkLine(std::string line)
     return LineContaint::unknown;
     
 }
-//MBB
+
 void InputParser::trimWhitespacesFromFrontAndBack(std::string& line)
 {
     const std::string whitespace = " \t";
     
-    const auto strBegin = line.find_first_not_of(whitespace);
-    if (strBegin != std::string::npos)
+    const auto firstAlphaChar = line.find_first_not_of(whitespace);
+    if (firstAlphaChar != std::string::npos)
     {
-            const auto strEnd = line.find_last_not_of(whitespace);
-        const auto strRange = strEnd - strBegin + 1;
+        const auto strEnd = line.find_last_not_of(whitespace);
+        const auto strRange = strEnd - firstAlphaChar + 1;
 
-        line = line.substr(strBegin, strRange);
+        line = line.substr(firstAlphaChar, strRange);
     }
 }

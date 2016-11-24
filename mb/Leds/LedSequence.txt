@@ -1,5 +1,5 @@
-  ld a,14
-  out (0),a
+   ld a,14
+     out (0),a
   ld a,12
   out (0),a
   ld a,8
