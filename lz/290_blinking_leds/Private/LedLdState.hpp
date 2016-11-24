@@ -5,12 +5,13 @@
 #include <unordered_map>
 #include <utility>
 
+#include "EnumClassHash.hpp"
 #include "LedTokenParser.hpp"
 
 namespace lz
 {
 class IMemory;
-class Register;
+class Byte;
 class LedLdState : public LedTokenParser
 {
 public:
@@ -20,7 +21,7 @@ public:
 private:
     std::pair<std::string, int> splitToken(const LedToken&);
     std::shared_ptr<IMemory> memory;
-    std::unordered_map<std::string, std::function<void(Register&&)>>
+    std::unordered_map<std::string, std::function<void(Byte&&)>>
         save_in_register;
 };
 }

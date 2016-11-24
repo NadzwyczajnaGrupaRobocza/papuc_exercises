@@ -5,13 +5,13 @@
 
 #include "IMemory.hpp"
 #include "LedToken.hpp"
-#include "Register.hpp"
+#include "Byte.hpp"
 
 namespace lz
 {
 LedLdState::LedLdState(std::shared_ptr<IMemory> mem) : memory{mem}
 {
-    save_in_register.emplace("a", [this](Register&& reg) {
+    save_in_register.emplace("a", [this](Byte&& reg) {
         this->memory->set_register_a(std::move(reg));
     });
 }
@@ -26,7 +26,7 @@ LedTokenState LedLdState::parse(const LedToken& token)
 
     try
     {
-        save_in_register.at(reg)(Register{static_cast<uint8_t>(value)});
+        save_in_register.at(reg)(Byte{static_cast<uint8_t>(value)});
     }
     catch (std::out_of_range&)
     {

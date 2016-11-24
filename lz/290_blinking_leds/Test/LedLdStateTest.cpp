@@ -5,7 +5,7 @@
 #include "LedLdState.hpp"
 #include "LedToken.hpp"
 #include "MemoryMock.hpp"
-#include "Register.hpp"
+#include "Byte.hpp"
 
 using namespace ::testing;
 namespace lz
@@ -13,7 +13,7 @@ namespace lz
 class LedLdStateTest : public ::Test
 {
 public:
-    void expectSetRegisterA(const Register& reg)
+    void expectSetRegisterA(const Byte& reg)
     {
         EXPECT_CALL(*memory, set_register_a(reg));
         EXPECT_EQ(
@@ -38,10 +38,10 @@ public:
 
 TEST_F(LedLdStateTest, parse)
 {
-    expectSetRegisterA(Register{255});
-    expectSetRegisterA(Register{0});
-    expectSetRegisterA(Register{133});
-    expectSetRegisterA(Register{85});
+    expectSetRegisterA(Byte{255});
+    expectSetRegisterA(Byte{0});
+    expectSetRegisterA(Byte{133});
+    expectSetRegisterA(Byte{85});
 }
 
 TEST_F(LedLdStateTest, invalidRange)

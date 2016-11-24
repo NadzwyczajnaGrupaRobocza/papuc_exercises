@@ -1,16 +1,16 @@
 #pragma once
 #include "IMemory.hpp"
-#include "Register.hpp"
+#include "Byte.hpp"
 
 namespace lz
 {
 class Memory : public IMemory
 {
 public:
-    void set_register_a(const Register&) override;
-    const Register& get_register_a() const override;
+    void set_register_a(const Byte&) override;
+    const Byte& get_register_a() const override;
 
 private:
-    Register register_a;
+    Byte register_a;
 };
 }

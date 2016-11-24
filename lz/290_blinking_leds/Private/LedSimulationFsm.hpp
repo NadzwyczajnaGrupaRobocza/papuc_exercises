@@ -2,6 +2,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "EnumClassHash.hpp"
 #include "ILedSimulationFsm.hpp"
 #include "LedTokenParser.hpp"
 #include "LedTokenState.hpp"
@@ -18,7 +19,9 @@ public:
 
 private:
     std::shared_ptr<IMemory> memory;
-    std::unordered_map<LedTokenState, std::unique_ptr<LedTokenParser>> fsm;
+    std::unordered_map<LedTokenState, std::unique_ptr<LedTokenParser>,
+                       utils::EnumClassHash>
+        fsm;
     LedTokenParser* currentParser;
 };
 }

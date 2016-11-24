@@ -2,12 +2,12 @@
 
 namespace lz
 {
-class Register;
+class Byte;
 class IMemory
 {
 public:
     virtual ~IMemory() = default;
-    virtual void set_register_a(const Register&) = 0;
-    virtual const Register& get_register_a() const = 0;
+    virtual void set_register_a(const Byte&) = 0;
+    virtual const Byte& get_register_a() const = 0;
 };
 }
