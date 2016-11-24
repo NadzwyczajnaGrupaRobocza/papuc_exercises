@@ -13,29 +13,19 @@ Instructions SemanticAnalyser::analyse(Tokens::const_iterator begin,
         return {};
     }
     Instructions instructions;
-    const auto size = end - begin;
-    if (size % sizeOfInstruction == 0)
+    if (areTokensValidLdInstruction(begin, end))
     {
-        const auto firstTokenInInstruction = begin;
-        if (areTokensValidLdInstruction(firstTokenInInstruction))
-        {
-            constexpr auto shiftToTokenWithValue = 1;
-            instructions.push_back(
-                {InstructionType::LdA,
-                 (firstTokenInInstruction + shiftToTokenWithValue)->value});
-        }
-        else if (areTokensValidOutInstruction(firstTokenInInstruction))
-        {
-            instructions.push_back({InstructionType::OutA, 0});
-        }
-        else
-        {
-            throw InvalidSemantic{"Invalid instruction"};
-        }
+        constexpr auto shiftToTokenWithValue = 1;
+        instructions.push_back(
+            {InstructionType::LdA, (begin + shiftToTokenWithValue)->value});
+    }
+    else if (areTokensValidOutInstruction(begin, end))
+    {
+        instructions.push_back({InstructionType::OutA, 0});
     }
     else
     {
-        throw InvalidSemantic{"Invalid instruction size"};
+        throw InvalidSemantic{"Invalid instruction"};
     }
     const auto& nextInstructions = analyse(begin + sizeOfInstruction, end);
     std::move(nextInstructions.begin(), nextInstructions.end(),
@@ -44,13 +34,18 @@ Instructions SemanticAnalyser::analyse(Tokens::const_iterator begin,
 }
 
 bool SemanticAnalyser::areTokensValidOutInstruction(
-    Tokens::const_iterator begin)
+    Tokens::const_iterator begin, Tokens::const_iterator end)
 {
-    return (begin++)->type == TokenType::Out &&
+    constexpr auto sizeOfInstruction = 2;
+    return end - begin >= sizeOfInstruction &&
+           (begin++)->type == TokenType::Out &&
            (begin++)->type == TokenType::ZeroWithBracketsA;
 }
 
-bool SemanticAnalyser::areTokensValidLdInstruction(Tokens::const_iterator begin)
+bool SemanticAnalyser::areTokensValidLdInstruction(Tokens::const_iterator begin,
+                                                   Tokens::const_iterator end)
 {
-    return (begin++)->type == TokenType::Ld && (begin++)->type == TokenType::A;
+    constexpr auto sizeOfInstruction = 2;
+    return end - begin >= sizeOfInstruction &&
+           (begin++)->type == TokenType::Ld && (begin++)->type == TokenType::A;
 }

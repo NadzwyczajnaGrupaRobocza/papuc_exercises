@@ -21,6 +21,8 @@ private:
 
     Instructions analyse(Tokens::const_iterator begin,
                          Tokens::const_iterator end);
-    bool areTokensValidOutInstruction(Tokens::const_iterator begin);
-    bool areTokensValidLdInstruction(Tokens::const_iterator begin);
+    bool areTokensValidOutInstruction(Tokens::const_iterator begin,
+                                      Tokens::const_iterator end);
+    bool areTokensValidLdInstruction(Tokens::const_iterator begin,
+                                     Tokens::const_iterator end);
 };
