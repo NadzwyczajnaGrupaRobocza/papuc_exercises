@@ -1,6 +1,8 @@
 #pragma once
-#include "LedTokenParser.hpp"
 #include <unordered_map>
+
+#include "LedTokenParser.hpp"
+#include "EnumClassHash.hpp"
 
 namespace lz
 {

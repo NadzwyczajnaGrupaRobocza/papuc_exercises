@@ -3,14 +3,14 @@
 
 namespace lz
 {
-class Register
+class Byte
 {
 public:
-    Register();
-    explicit Register(std::uint8_t);
+    Byte();
+    explicit Byte(std::uint8_t);
     const std::uint8_t& value() const;
 
-    friend bool operator==(const Register&, const Register&);
+    friend bool operator==(const Byte&, const Byte&);
 
 private:
     std::uint8_t _value;

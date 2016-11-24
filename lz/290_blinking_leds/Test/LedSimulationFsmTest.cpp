@@ -8,7 +8,7 @@
 #include "UniqueMock.hpp"
 
 #include "LedToken.hpp"
-#include "Register.hpp"
+#include "Byte.hpp"
 
 using namespace ::testing;
 

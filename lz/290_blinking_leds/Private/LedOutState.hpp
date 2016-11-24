@@ -13,6 +13,8 @@ public:
     LedTokenState parse(const LedToken&) override;
 
 private:
+    void validateOutCommand(const LedToken&) const;
+    void printRegisterA() const;
     std::shared_ptr<const IMemory> memory;
 };
 }

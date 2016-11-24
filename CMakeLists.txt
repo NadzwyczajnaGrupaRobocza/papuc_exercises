@@ -24,8 +24,6 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
   endif()
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-
   if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --driver-mode=cl -fms-compatibility-version=19")
   endif()
@@ -40,7 +38,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
  -Wno-error=covered-switch-default\
  -Wno-c++98-compat -Wno-c++98-compat-pedantic\
- -Wno-c++98-c++11-compat-pedantic -Wno-undefined-func-template\
+ -Wno-c++98-c++11-compat-pedantic\
  -Wno-exit-time-destructors -Wno-global-constructors\
  -Wno-unknown-pragmas -Wno-missing-prototypes -Wno-undef\
  -Wno-language-extension-token -Wno-missing-noreturn -Wno-missing-noreturn\
@@ -56,7 +54,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   message(STATUS "Detected system with Microsoft compiler.")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall\
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Wall\
  /wd4251 /wd4265 /wd4350 /wd4371 /wd4514 /wd5031 /wd5026 /wd5027\
  /wd4625 /wd4619 /wd4626 /wd4710 /wd4711 /wd4820 /wd4668")
 

@@ -3,7 +3,7 @@
 
 #include "LedOutState.hpp"
 #include "LedToken.hpp"
-#include "Register.hpp"
+#include "Byte.hpp"
 
 #include "MemoryMock.hpp"
 
@@ -109,7 +109,7 @@ TEST(LedOutStateTest, test)
         ::testing::internal::CaptureStdout();
 
         EXPECT_CALL(*memory, get_register_a())
-            .WillOnce(ReturnRefOfCopy(Register(test.first)));
+            .WillOnce(ReturnRefOfCopy(Byte(test.first)));
         EXPECT_EQ(LedTokenState::Recognize, outState.parse(LedToken{"(0),a"}));
         EXPECT_EQ(test.second, ::testing::internal::GetCapturedStdout());
     }

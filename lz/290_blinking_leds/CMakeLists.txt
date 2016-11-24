@@ -7,7 +7,7 @@ add_library(290_blinking_leds-lz-lib STATIC
   Private/LedSimulationFsm.cpp
   Private/LedSimulation.cpp
   Private/LedTokenParserFactory.cpp
-  Private/Register.cpp
+  Private/Byte.cpp
   Private/Memory.cpp
   Private/BlinkingLeds.cpp
   )
@@ -26,7 +26,7 @@ add_executable(290_blinking_leds-lz-ut
   Test/LedSimulationFsmTest.cpp
   Test/LedLdStateTest.cpp
   Test/LedOutStateTest.cpp
-  Test/RegisterTest.cpp
+  Test/ByteTest.cpp
   Test/MemoryTest.cpp
   Test/LedSimulationTest.cpp
   Test/RecognizeStateTest.cpp

@@ -26,4 +26,11 @@ public:
 private:
     const std::string value;
 };
+
+template <>
+std::pair<std::string, std::string> LedToken::split(const Delimiter&) const;
+
+template <>
+std::pair<std::string, int> LedToken::split(const Delimiter&) const;
+
 }
