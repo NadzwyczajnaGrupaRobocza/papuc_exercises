@@ -102,7 +102,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptOutInstructionFollowedByLdWithValue)
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
 
-TEST_F(SemanticAnalyserTest, DISABLED_ShouldAccepRlcaInsruction)
+TEST_F(SemanticAnalyserTest, ShouldAccepRlcaInsruction)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Rlca)};
     Instructions instructions{
