@@ -7,7 +7,10 @@ enum class InstructionType
     LdA,
     LdB,
     OutA,
-    Rlca
+    Rlca,
+    Rrca,
+    Djnz,
+    Label
 };
 
 struct Instruction

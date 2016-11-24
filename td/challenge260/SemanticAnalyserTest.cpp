@@ -119,3 +119,33 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptLdBInstructionWithValue)
     Instructions instructions{{InstructionType::LdB, number}};
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
+
+TEST_F(SemanticAnalyserTest, ShouldAccepRrcaInsruction)
+{
+    Tokens tokens{createTokenWithZeroValue(TokenType::Rrca)};
+    Instructions instructions{
+        createInstructionWithZeroValue(InstructionType::Rrca)};
+
+    ASSERT_EQ(instructions, analyser.analyse(tokens));
+}
+
+TEST_F(SemanticAnalyserTest, ShouldAccepDjnzInsruction)
+{
+    Tokens tokens{
+        createTokenWithZeroValue(TokenType::Djnz),
+        createTokenWithZeroValue(TokenType::LabelRef),
+    };
+    Instructions instructions{
+        createInstructionWithZeroValue(InstructionType::Djnz)};
+
+    ASSERT_EQ(instructions, analyser.analyse(tokens));
+}
+
+TEST_F(SemanticAnalyserTest, ShouldAccepLabelInsruction)
+{
+    Tokens tokens{createTokenWithZeroValue(TokenType::Label)};
+    Instructions instructions{
+        createInstructionWithZeroValue(InstructionType::Label)};
+
+    ASSERT_EQ(instructions, analyser.analyse(tokens));
+}

@@ -25,7 +25,14 @@ SemanticAnalyser::SemanticAnalyser()
                           InstructionType::LdB,
                           nthTokenValueGetter<2>},
           InstructionInfo{
-              {TokenType::Rlca}, InstructionType::Rlca, alwaysZeroValue}}
+              {TokenType::Rlca}, InstructionType::Rlca, alwaysZeroValue},
+          InstructionInfo{
+              {TokenType::Rrca}, InstructionType::Rrca, alwaysZeroValue},
+          InstructionInfo{{TokenType::Djnz, TokenType::LabelRef},
+                          InstructionType::Djnz,
+                          alwaysZeroValue},
+          InstructionInfo{
+              {TokenType::Label}, InstructionType::Label, alwaysZeroValue}}
 {
 }
 
