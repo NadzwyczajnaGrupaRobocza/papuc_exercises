@@ -9,14 +9,6 @@ LedToken::LedToken(std::string v) : value{v}
 {
 }
 
-LedToken::LedToken(const LedToken& token) : value{token.value}
-{
-}
-
-LedToken::LedToken(LedToken&& token) : value{std::move(token.value)}
-{
-}
-
 const std::string& LedToken::str() const &
 {
     return value;

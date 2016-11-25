@@ -11,8 +11,6 @@ public:
     using Delimiter = char;
 
     LedToken(std::string);
-    LedToken(const LedToken&);
-    LedToken(LedToken&&);
 
     friend std::ostream& operator<<(std::ostream&, const LedToken&);
     friend bool operator==(const LedToken&, const LedToken&);
@@ -24,7 +22,7 @@ public:
     std::pair<F, S> split(const Delimiter&) const;
 
 private:
-    const std::string value;
+    std::string value;
 };
 
 
