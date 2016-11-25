@@ -34,17 +34,15 @@ endif()
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
   message(STATUS "Detected system with clang compiler.")
 
-  #add Werror when warnings will be fixed -Werror
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
- -Wno-error=covered-switch-default\
  -Wno-c++98-compat -Wno-c++98-compat-pedantic\
- -Wno-c++98-c++11-compat-pedantic\
+ -Wno-c++98-c++11-compat-pedantic -Wno-undefined-internal\
  -Wno-exit-time-destructors -Wno-global-constructors\
  -Wno-unknown-pragmas -Wno-missing-prototypes -Wno-undef\
  -Wno-language-extension-token -Wno-missing-noreturn -Wno-missing-noreturn\
  -Wno-language-extension-token -Wno-used-but-marked-unused\
  -Wno-shift-sign-overflow -Wno-deprecated\
- -Wno-weak-vtables -Wno-sign-conversion")
+ -Wno-weak-vtables -Wno-sign-conversion -Wno-padded -Wno-covered-switch-default")
 
   target_compile_options(gtest PRIVATE "-Wno-deprecated-declarations")
   target_compile_options(gmock PRIVATE "-Wno-deprecated-declarations")
