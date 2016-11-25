@@ -18,7 +18,7 @@ int RiceFromChessboard::getNumberOfSquares(long long riceGrains)
     while (numberOfGrainsFromAllSquares < riceGrains)
     {
         ++currentSquare;
-        numberOfGrainsOnCurrentSquare = std::pow(2, currentSquare);
+        numberOfGrainsOnCurrentSquare = static_cast<long long>(std::pow(2, currentSquare));
         numberOfGrainsFromAllSquares += numberOfGrainsOnCurrentSquare;
     }
 

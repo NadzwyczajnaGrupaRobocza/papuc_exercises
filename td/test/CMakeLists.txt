@@ -1,13 +1,13 @@
 include_directories(${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(
-  test
+  td-test
     test.cpp
   )
-target_link_libraries(test gtest_main)
+target_link_libraries(td-test gtest_main)
 
 
 add_custom_target(runTest
-  COMMAND test
+  COMMAND td-test
   COMMENT "Run test"
 )

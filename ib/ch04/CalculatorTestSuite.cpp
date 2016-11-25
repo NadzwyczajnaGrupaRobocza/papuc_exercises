@@ -1,21 +1,9 @@
-#include "gtest/gtest.h"
 #include "ch_04_05.hpp"
+#include "gtest/gtest.h"
 
-
-class CalculatorTest: public ::testing::Test
+TEST(CalculatorTest, first)
 {
-public:
+    calculator cal('+');
 
-
-void SetUp()
-{
-}
-
-};
-
-TEST_F(CalculatorTest, first)
-{
-calculator cal('+');
-
-EXPECT_EQ(cal.compute(2.8, 1.6), 4.4);
+    EXPECT_DOUBLE_EQ(cal.compute(2.8, 1.6), 4.4);
 }

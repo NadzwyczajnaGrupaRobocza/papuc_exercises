@@ -62,11 +62,17 @@ else()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -Wall \
 -Wextra \
+-Wconversion \
+-Wfloat-equal \
+-Wunreachable-code \
+-Wswitch-enum \
+-Wmissing-declarations \
+-Wshadow \
 -Wnon-virtual-dtor \
 -std=c++14 \
 -pedantic \
 -g \
--Werror=pedantic")
+-Werror")
 endif()
 
 include_directories(${GSL_INCLUDE_DIR})
@@ -75,6 +81,7 @@ set(MB-UT-RUN "mb-ut-run")
 set(LM-UT-RUN "lm-ut-run")
 set(IB-UT-RUN "ib-ut-run")
 set(LZ-UT-RUN "lz-ut-run")
+set(TD-UT-RUN "td-ut-run")
 
 add_subdirectory(mb)
 add_subdirectory(lm)
