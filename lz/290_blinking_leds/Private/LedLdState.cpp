@@ -3,9 +3,9 @@
 #include <gsl/gsl_assert>
 #include <iostream>
 
+#include "Byte.hpp"
 #include "IMemory.hpp"
 #include "LedToken.hpp"
-#include "Byte.hpp"
 
 namespace lz
 {
