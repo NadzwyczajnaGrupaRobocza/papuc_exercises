@@ -6,7 +6,6 @@ add_library(290_blinking_leds-lz-lib STATIC
   Private/LedOutState.cpp
   Private/LedSimulationFsm.cpp
   Private/LedSimulation.cpp
-  Private/LedTokenParserFactory.cpp
   Private/Byte.cpp
   Private/Memory.cpp
   Private/BlinkingLeds.cpp

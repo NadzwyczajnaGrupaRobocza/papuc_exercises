@@ -3,20 +3,18 @@
 #include <iostream>
 
 #include "LedLdState.hpp"
-#include "LedTokenParserFactory.hpp"
-#include "IMemory.hpp"
 #include "RecognizeState.hpp"
 
 namespace lz
 {
-LedSimulationFsm::LedSimulationFsm(const LedTokenParserFactory& factory,
-                                   std::shared_ptr<IMemory> mem)
-    : memory{mem}
+LedSimulationFsm::LedSimulationFsm(
+    std::unique_ptr<LedTokenParser> recognizeState,
+    std::unique_ptr<LedTokenParser> ledLdState,
+    std::unique_ptr<LedTokenParser> ledOutState)
 {
-    fsm.emplace(LedTokenState::Recognize, factory.createRecognizeState());
-    fsm.emplace(LedTokenState::LedLdCommand, factory.createLedLdState(memory));
-    fsm.emplace(LedTokenState::LedOutCommand,
-                factory.createLedOutState(memory));
+    fsm.emplace(LedTokenState::Recognize, std::move(recognizeState));
+    fsm.emplace(LedTokenState::LedLdCommand, std::move(ledLdState));
+    fsm.emplace(LedTokenState::LedOutCommand, std::move(ledOutState));
     currentParser = fsm.at(LedTokenState::Recognize).get();
 }
 

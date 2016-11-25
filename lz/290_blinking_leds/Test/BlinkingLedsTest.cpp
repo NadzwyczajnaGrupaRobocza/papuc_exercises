@@ -1,34 +1,52 @@
 #include <gtest/gtest.h>
+#include <iostream>
+#include <sstream>
 
-#include "LedSimulation.hpp"
-#include "LedSimulationFsm.hpp"
-#include "LedTokenParserFactory.hpp"
-#include "Memory.hpp"
+#include "BlinkingLeds.hpp"
 
 namespace lz
 {
-TEST(BlinkingLedsTest, part_one)
+class BlinkingLedsTest : public ::testing::Test
 {
-    ::testing::internal::CaptureStdout();
-    std::stringstream input{"out (0),a\n"
-                            "ld a,12\n"
-                            "ld a,6\n"
-                            "out (0),a\n"
-                            "out (0),a\n"
-                            "ld a,77\n"
-                            "out (0),a\n"
-                            "ld a,255\n"
-                            "out (0),a\n"};
+public:
+    void SetUp() override
+    {
+        cin_buffer = std::cin.rdbuf(input.rdbuf());
+        cout_buffer = std::cout.rdbuf(output.rdbuf());
+    }
 
-    LedSimulation led{std::make_unique<LedSimulationFsm>(
-        LedTokenParserFactory{}, std::make_shared<Memory>())};
-    led.readCommands(input);
-    led.run();
+    void TearDown() override
+    {
+        std::cout.rdbuf(cout_buffer);
+        std::cin.rdbuf(cin_buffer);
+    }
+
+    std::istringstream input{};
+    std::ostringstream output{};
+
+private:
+    decltype(std::cout.rdbuf()) cout_buffer;
+    decltype(std::cin.rdbuf()) cin_buffer;
+};
+TEST_F(BlinkingLedsTest, part_one)
+{
+    input = std::istringstream{"out (0),a\n"
+                               "ld a,12\n"
+                               "ld a,6\n"
+                               "out (0),a\n"
+                               "out (0),a\n"
+                               "ld a,77\n"
+                               "out (0),a\n"
+                               "ld a,255\n"
+                               "out (0),a\n"};
+
+    lz::BlinkingLeds::run();
+
     EXPECT_EQ("........\n"
               ".....**.\n"
               ".....**.\n"
               ".*..**.*\n"
               "********\n",
-              ::testing::internal::GetCapturedStdout());
+              output.str());
 }
 }

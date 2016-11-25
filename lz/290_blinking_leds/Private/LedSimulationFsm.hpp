@@ -8,16 +8,15 @@
 
 namespace lz
 {
-class IMemory;
-class LedTokenParserFactory;
 class LedSimulationFsm : public ILedSimulationFsm
 {
 public:
-    LedSimulationFsm(const LedTokenParserFactory&, std::shared_ptr<IMemory>);
+    LedSimulationFsm(std::unique_ptr<LedTokenParser> recognizeState,
+                     std::unique_ptr<LedTokenParser> ledLdState,
+                     std::unique_ptr<LedTokenParser> ledOutState);
     void parse(const LedToken&) override;
 
 private:
-    std::shared_ptr<IMemory> memory;
     std::unordered_map<LedTokenState, std::unique_ptr<LedTokenParser>> fsm;
     LedTokenParser* currentParser;
 };
