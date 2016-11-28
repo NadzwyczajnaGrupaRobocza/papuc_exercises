@@ -1,13 +1,25 @@
 #include "Board.hpp"
+#include <iostream>
 
 namespace lmg01
 {
-Board::Board()
-    : N{4}, M{3}
+Board::Board() : N{10}, M{10}
 {
 }
 
 void Board::drawOn(sf::RenderWindow& target)
+{
+    if (needsRedraw)
+    {
+        std::cout << "drawing\n";
+        target.clear();
+        drawEmptyBoard(target);
+        drawPlayer(target);
+        needsRedraw = false;
+    }
+}
+
+void Board::drawEmptyBoard(sf::RenderWindow& target)
 {
     for (auto i = 0; i < N; i++)
     {
@@ -23,5 +35,34 @@ void Board::drawOn(sf::RenderWindow& target)
             target.draw(rectangle);
         }
     }
+}
+
+void Board::drawPlayer(sf::RenderWindow& target)
+{
+    float x_pos = 50.0f * static_cast<float>(playerPos.x);
+    float y_pos = 50.0f * static_cast<float>(playerPos.y);
+    sf::CircleShape player{20.0f};
+    player.setPosition(55.0f + x_pos, 55.f + y_pos);
+    player.setFillColor(sf::Color::Red);
+    target.draw(player);
+}
+
+void Board::movePlayer(const sf::Vector2i& transl)
+{
+    std::cout << "N:" << N << " M:" << M  << '\n';
+    std::cout << "pp:" << playerPos.x << ":" << playerPos.y  << '\n';
+    std::cout << "pp:" << transl.x << ":" << transl.y  << '\n';
+    playerPos.x += transl.x;
+    playerPos.y += transl.y;
+    std::cout << "pp:" << playerPos.x << ":" << playerPos.y  << '\n';
+    while (playerPos.x < 0) playerPos.x += N;
+    while (playerPos.y < 0) playerPos.y += M;
+
+    if (playerPos.x >= N) playerPos.x %= N;
+    if (playerPos.y >= M) playerPos.y %= M;
+
+    std::cout << "pp:" << playerPos.x << ":" << playerPos.y  << '\n';
+
+    needsRedraw = true;
 }
 }
