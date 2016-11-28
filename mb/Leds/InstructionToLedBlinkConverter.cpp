@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <stdexcept>
 
 
 InstructionToLedBlinkConverter::InstructionToLedBlinkConverter()
@@ -19,18 +20,26 @@ void InstructionToLedBlinkConverter::convert(std::string& line)
 
 void InstructionToLedBlinkConverter::convertInstructionToValue(std::string& line)
 {
-    if( line.find(instructionPrefix) != std::string::npos )
+    if( line.substr( 0, instructionPrefixLength ) == instructionPrefix )
     {
         line = line.substr( instructionPrefixLength );
     }
     else
     {
-        std::cout << "Wrong instrunction format" << std::endl;
+        throw std::invalid_argument{"Wrong instruction: " + line};
     }
 }
 
 void InstructionToLedBlinkConverter::convertLineToLedSequence(std::string& line)
 {
     const uint value = static_cast<uint>( std::stoi(line) );
-    line = std::bitset<8>(value).to_string('.', '*');
+    if (value < 256)
+    {
+        line = std::bitset<8>(value).to_string('.', '*');
+    }
+    else
+    {
+        //throw std::out_of_range{"To high value: " + value};
+        throw std::out_of_range{"To high value"};
+    }
 }

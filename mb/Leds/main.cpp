@@ -9,22 +9,31 @@ std::vector<std::string> convertFileToStringVector(std::string);
 
 int main()
 {
+
     std::string inputFile = "LedSequence.txt";
     auto convertedFile = convertFileToStringVector("LedSequence.txt");
 
-    InputParser parser{};
-    parser.changeInputIntoSetOfInstructions(convertedFile);
-    std::vector<std::string> ledBlinks = parser.returnParsedFile();
-
-    InstructionToLedBlinkConverter converter{};
-    for(auto& instruction : ledBlinks)
+    try
     {
-        converter.convert(instruction);
-    }
+        InputParser parser{};
+        parser.changeInputIntoSetOfInstructions(convertedFile);
+        std::vector<std::string> ledBlinks = parser.returnParsedFile();
 
-    LedBlinker blinker{ledBlinks};
-    blinker.showLeds();
-    return 0;
+        InstructionToLedBlinkConverter converter{};
+        for(auto& instruction : ledBlinks)
+        {
+            converter.convert(instruction);
+        }
+
+        LedBlinker blinker{ledBlinks};
+        blinker.showLeds();
+        return 0;
+    }
+    catch (const std::logic_error& ex)
+    {
+        std::cout << "Catched exception: " << ex.what() << std::endl;
+        return 1;
+    }
 }
 
 std::vector<std::string> convertFileToStringVector(std::string fileName)
