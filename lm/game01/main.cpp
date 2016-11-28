@@ -1,4 +1,3 @@
-#include "World.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
