@@ -44,9 +44,9 @@ void InputParser::changeInputIntoSetOfInstructions(const std::vector<std::string
 
 LineContent InputParser::checkLine(std::string line)
 {
-    const std::regex empty{"^$"};
-    const std::regex setRegister{"^[ \t]+ld a,[[:digit:]]+$"};
-    const std::regex updateLeds{"^[ \t]+out \\(0\\),a$"};
+    const std::regex empty{"^[ \t]*$"};
+    const std::regex setRegister{"^[ \t]+ld a,[[:digit:]]+[ \t]*$"};
+    const std::regex updateLeds{"^[ \t]+out \\(0\\),a[ \t]*$"};
 
     if (std::regex_search(line, empty))
         return LineContent::empty;

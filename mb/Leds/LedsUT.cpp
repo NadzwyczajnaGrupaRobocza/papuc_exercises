@@ -11,6 +11,54 @@ using testing::Return;
 
 using Converter = InstructionToLedBlinkConverter;
 
+TEST(MBB_Led_Converter, convertinggInstruction_1)
+{
+    const std::vector<std::string> input{
+        "     ld a,10      ",
+        "  out (0),a  "};
+
+    const std::vector<std::string> expectedOut{
+        "ld a,10"};
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    EXPECT_EQ( parser.returnParsedFile(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, convertinggInstruction_2)
+{
+    const std::vector<std::string> input{
+        " ld a,10",
+        " ld a,12",
+        " out (0),a"};
+
+    const std::vector<std::string> expectedOut{
+        "ld a,12"};
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    EXPECT_EQ( parser.returnParsedFile(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, convertinggInstruction_3)
+{
+    const std::vector<std::string> input{
+        " ld a,10",
+        "    ",
+        " out (0),a",
+        " ld a,12",
+        " out (0),a",
+        " ld a,24",
+        "eeee",
+        " out (0),a"};
+
+    const std::vector<std::string> expectedOut{
+        "ld a,10",
+        "ld a,12",
+        "ld a,24"};
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    EXPECT_EQ( parser.returnParsedFile(), expectedOut);
+}
+
 TEST(MBB_Led_Converter, convertingInstructionToLedsBlinks)
 {
     std::string line = "ld a,21";
