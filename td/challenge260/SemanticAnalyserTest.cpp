@@ -158,3 +158,15 @@ TEST_F(SemanticAnalyserTest, ShouldAccepLabelInsructionWithNonZeroValue)
 
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
+
+TEST_F(SemanticAnalyserTest, ShouldAccepDjnzInsructionWIthNonZeroValue)
+{
+    constexpr auto number = 42u;
+    Tokens tokens{
+        createTokenWithZeroValue(TokenType::Djnz),
+        {TokenType::LabelRef, number},
+    };
+    Instructions instructions{{InstructionType::Djnz, number}};
+
+    ASSERT_EQ(instructions, analyser.analyse(tokens));
+}

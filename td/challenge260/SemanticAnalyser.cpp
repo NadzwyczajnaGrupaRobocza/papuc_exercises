@@ -30,7 +30,7 @@ SemanticAnalyser::SemanticAnalyser()
               {TokenType::Rrca}, InstructionType::Rrca, alwaysZeroValue},
           InstructionInfo{{TokenType::Djnz, TokenType::LabelRef},
                           InstructionType::Djnz,
-                          alwaysZeroValue},
+                          nthTokenValueGetter<2>},
           InstructionInfo{{TokenType::Label},
                           InstructionType::Label,
                           nthTokenValueGetter<1>}}
