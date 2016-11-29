@@ -65,6 +65,11 @@ const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType {
     return 0;
 };
 
+Token::ValueType InstructionLexer::incrementValue(const std::string&)
+{
+    return labelValue++;
+}
+
 const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType {
     return std::stoi(text.substr(text.find_first_of(',') + 1));
 };
@@ -80,6 +85,7 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         std::tuple<std::regex, TokenType,
                    std::function<Token::ValueType(const std::string&)>>>;
     const std::string u8Regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"};
+    using std::placeholders::_1;
     const TextToTokens acceptableInstructions{
         {std::regex{"out"}, TokenType::Out, alwaysZeroValue},
         {std::regex{"\\(0\\),a"}, TokenType::ZeroWithBracketsA,
@@ -90,7 +96,8 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         {std::regex{"rlca"}, TokenType::Rlca, alwaysZeroValue},
         {std::regex{"rrca"}, TokenType::Rrca, alwaysZeroValue},
         {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
-        {std::regex{"[a-zA-Z_]+"}, TokenType::LabelRef, alwaysZeroValue}};
+        {std::regex{"[a-zA-Z_]+"}, TokenType::LabelRef,
+         std::bind(&InstructionLexer::incrementValue, this, _1)}};
 
     const auto instructionPosition = std::find_if(
         acceptableInstructions.begin(), acceptableInstructions.end(),

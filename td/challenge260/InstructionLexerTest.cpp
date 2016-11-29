@@ -12,6 +12,8 @@ struct InstructionLexerTest : public Test
     {
         return {type, 0};
     }
+
+    const Token::ValueType nextLabelValue{1};
 };
 
 TEST_F(InstructionLexerTest, ParserShouldRejectNotFullInstuctionLd)
@@ -157,4 +159,17 @@ TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabelRef_)
     const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
                                 createTokenWithZeroValue(TokenType::LabelRef)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz _"));
+}
+
+TEST_F(InstructionLexerTest, ParserShouldMakeLabelToHaveIncrementedValue)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
+                                createTokenWithZeroValue(TokenType::LabelRef)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz _"));
+
+    const Tokens expectedTokensFromSecondInstruction{
+        createTokenWithZeroValue(TokenType::Djnz),
+        {TokenType::LabelRef, nextLabelValue}};
+    EXPECT_EQ(expectedTokensFromSecondInstruction,
+              parser.parseInstructions(" djnz q"));
 }
