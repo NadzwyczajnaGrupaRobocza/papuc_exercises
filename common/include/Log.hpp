@@ -1,15 +1,15 @@
 #pragma once
 #include <chrono>
 #include <iomanip>
-#include <iosfwd>
 #include <iostream>
 #include <string>
 
-namespace util
+namespace common
 {
 using Clock = std::chrono::high_resolution_clock;
 using TimePoint = std::chrono::high_resolution_clock::time_point;
-
+namespace detail
+{
 class LogLine
 {
 public:
@@ -43,14 +43,15 @@ public:
 private:
     std::ostream& out;
 };
+}
 
 class Log
 {
 public:
     virtual ~Log() = default;
 
-    virtual LogLine info() = 0;
-    virtual LogLine error() = 0;
-    virtual LogLine debug() = 0;
+    virtual detail::LogLine info() = 0;
+    virtual detail::LogLine error() = 0;
+    virtual detail::LogLine debug() = 0;
 };
 }

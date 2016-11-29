@@ -14,8 +14,8 @@ namespace calc
 class ASTBuilder
 {
 public:
-    ASTBuilder(util::Log&, TokenStream&);
-    ASTBuilder(util::Log&, TokenStream&&);
+    ASTBuilder(common::Log&, TokenStream&);
+    ASTBuilder(common::Log&, TokenStream&&);
 
     std::unique_ptr<ASTNode> getAST();
 
@@ -27,7 +27,7 @@ private:
     void processBinaryPop(const Token&);
     void processUnaryPop(const Token& opTok);
 
-    util::Log& log;
+    common::Log& log;
     std::unique_ptr<TokenStream> tsVal;
     TokenStream& ts;
 
@@ -38,11 +38,11 @@ private:
 class ASTEvaluator
 {
 public:
-    ASTEvaluator(util::Log&, SymbolTable&);
+    ASTEvaluator(common::Log&, SymbolTable&);
 
     double evaluate(ASTNode*);
 private:
-    util::Log& log;
+    common::Log& log;
     SymbolTable& st;
 };
 }

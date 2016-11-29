@@ -6,6 +6,10 @@
 #include <sstream>
 #include <string>
 
+namespace common
+{
+namespace detail
+{
 /// Exception type for assertion failures
 class AssertionFailureException : public std::exception
 {
@@ -50,7 +54,8 @@ public:
     /// Construct an assertion failure exception
     AssertionFailureException(const char* p_expression, const char* p_file,
                               int p_line, const std::string& p_message)
-        : expression(p_expression), file(p_file), line(p_line), message(p_message)
+        : expression(p_expression), file(p_file), line(p_line),
+          message(p_message)
     {
         std::ostringstream outputStream;
 
@@ -111,19 +116,19 @@ public:
     {
     }
 };
-
+}
+}
 /// Assert that EXPRESSION evaluates to true, otherwise raise
 /// AssertionFailureException with associated MESSAGE (which may use C++
 /// stream-style message formatting)
-#define throw_assert(EXPRESSION, MESSAGE)                                  \
-    do                                                                     \
-    {                                                                      \
-        if (!(EXPRESSION))                                                 \
-        {                                                                  \
-            throw AssertionFailureException(                               \
-                #EXPRESSION, __FILE__, __LINE__,                           \
-                (AssertionFailureException::StreamFormatter()              \
-                 << MESSAGE));                                             \
-        }                                                                  \
-    } while (0)
-
+#define throw_assert(EXPRESSION, MESSAGE)                                      \
+    do                                                                         \
+    {                                                                          \
+        if (!(EXPRESSION))                                                     \
+        {                                                                      \
+            throw common::detail::AssertionFailureException(                   \
+                #EXPRESSION, __FILE__, __LINE__,                               \
+                (common::detail::AssertionFailureException::StreamFormatter()  \
+                 << MESSAGE));                                                 \
+        }                                                                      \
+    } while (false)
