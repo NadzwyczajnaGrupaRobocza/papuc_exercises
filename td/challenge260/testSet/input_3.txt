@@ -1,0 +1,14 @@
+ ld a,3
+ out (0),a
+ rlca
+ out (0),a
+
+ ld a,5
+ out (0),a
+ rlca
+ out (0),a
+
+ ld a,255
+ out (0),a
+ rlca
+ out (0),a
