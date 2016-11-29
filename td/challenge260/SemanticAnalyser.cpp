@@ -67,7 +67,7 @@ SemanticAnalyser::InstructionInfo
 SemanticAnalyser::findInstruction(Tokens::const_iterator begin,
                                   Tokens::const_iterator end)
 {
-    for (const auto instruction : instructions)
+    for (const auto& instruction : instructions)
     {
         if (areTokensCreatesInstruction(begin, end, instruction))
         {
