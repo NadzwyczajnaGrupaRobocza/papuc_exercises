@@ -15,14 +15,14 @@ do
 	if [ $? -ne 0 ]
 	then
 		echo "Test failed for ${inputFile} : ${expectedOutputFile} Check ${diffResultFile}"
-		let "testFailCount++"
+		let "testsFailCount++"
 	fi
 	let "testAllCount++"
 done
 
 if [ $testsFailCount -ne 0 ]
 then
-	echo "${testFailCount}/${testAllCount} TESTS FAILED"
+	echo "${testsFailCount}/${testAllCount} TESTS FAILED"
 	exit -1
 else
 	echo "${testAllCount} TESTS PASSED"
