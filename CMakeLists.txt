@@ -76,8 +76,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -pedantic \
 -g \
 -Werror")
-include_directories(${GSL_INCLUDE_DIR})
 endif()
+
+include_directories(SYSTEM ${GSL_INCLUDE_DIR})
 include_directories(${PAPUC_COMMON_INCLUDE_DIR})
 
 set(MB-UT-RUN "mb-ut-run")

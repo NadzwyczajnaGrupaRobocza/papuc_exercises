@@ -5,6 +5,7 @@
 #include <regex>
 #include <sstream>
 #include <string>
+#include <gsl/gsl_assert>
 
 namespace common
 {
@@ -124,7 +125,7 @@ public:
 #define throw_assert(EXPRESSION, MESSAGE)                                      \
     do                                                                         \
     {                                                                          \
-        if (!(EXPRESSION))                                                     \
+        if (GSL_UNLIKELY(!(EXPRESSION)))                                       \
         {                                                                      \
             throw common::detail::AssertionFailureException(                   \
                 #EXPRESSION, __FILE__, __LINE__,                               \
