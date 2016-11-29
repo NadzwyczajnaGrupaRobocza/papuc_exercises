@@ -65,9 +65,17 @@ const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType {
     return 0;
 };
 
-Token::ValueType InstructionLexer::incrementValue(const std::string&)
+Token::ValueType InstructionLexer::getLabelValue(const std::string& label)
 {
-    return labelValue++;
+    const auto labelPosition = labels.find(label);
+    if (labelPosition == labels.end())
+    {
+        return labels[label] = nextLabelValue++;
+    }
+    else
+    {
+        return labelPosition->second;
+    }
 }
 
 const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType {
@@ -97,7 +105,7 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         {std::regex{"rrca"}, TokenType::Rrca, alwaysZeroValue},
         {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
         {std::regex{"[a-zA-Z_]+"}, TokenType::LabelRef,
-         std::bind(&InstructionLexer::incrementValue, this, _1)}};
+         std::bind(&InstructionLexer::getLabelValue, this, _1)}};
 
     const auto instructionPosition = std::find_if(
         acceptableInstructions.begin(), acceptableInstructions.end(),

@@ -173,3 +173,16 @@ TEST_F(InstructionLexerTest, ParserShouldMakeLabelToHaveIncrementedValue)
     EXPECT_EQ(expectedTokensFromSecondInstruction,
               parser.parseInstructions(" djnz q"));
 }
+
+TEST_F(InstructionLexerTest, ParserShouldMakeSameLabelToHaveSameValue)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
+                                createTokenWithZeroValue(TokenType::LabelRef)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz _"));
+
+    const Tokens expectedTokensFromSecondInstruction{
+        createTokenWithZeroValue(TokenType::Djnz),
+        createTokenWithZeroValue(TokenType::LabelRef)};
+    EXPECT_EQ(expectedTokensFromSecondInstruction,
+              parser.parseInstructions(" djnz _"));
+}

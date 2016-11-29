@@ -25,7 +25,8 @@ private:
     Tokens parseLabel(const std::string&);
     std::string trimWhitespacesOnFront(const std::string&);
     bool regexMatcher(const std::string&, const std::regex&);
-    Token::ValueType incrementValue(const std::string&);
+    Token::ValueType getLabelValue(const std::string&);
 
-    int labelValue{0};
+    std::map<std::string, Token::ValueType> labels;
+    Token::ValueType nextLabelValue{0};
 };
