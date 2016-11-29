@@ -108,11 +108,12 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         {std::regex{"[a-zA-Z_]+"}, TokenType::LabelRef,
          std::bind(&InstructionLexer::getLabelValue, this, _1)}};
 
-    const auto instructionPosition = std::find_if(
-        acceptableInstructions.begin(), acceptableInstructions.end(),
-        [&](const auto& tokenMap) {
-            return regexMatcher(trimmedInstruction, std::get<0>(tokenMap));
-        });
+    const auto instructionPosition =
+        std::find_if(acceptableInstructions.begin(),
+                     acceptableInstructions.end(), [&](const auto& tokenMap) {
+                         return this->regexMatcher(trimmedInstruction,
+                                                   std::get<0>(tokenMap));
+                     });
     if (instructionPosition != acceptableInstructions.end())
     {
         return {{std::get<1>(*instructionPosition),
