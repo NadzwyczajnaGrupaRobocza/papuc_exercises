@@ -31,8 +31,9 @@ SemanticAnalyser::SemanticAnalyser()
           InstructionInfo{{TokenType::Djnz, TokenType::LabelRef},
                           InstructionType::Djnz,
                           alwaysZeroValue},
-          InstructionInfo{
-              {TokenType::Label}, InstructionType::Label, alwaysZeroValue}}
+          InstructionInfo{{TokenType::Label},
+                          InstructionType::Label,
+                          nthTokenValueGetter<1>}}
 {
 }
 

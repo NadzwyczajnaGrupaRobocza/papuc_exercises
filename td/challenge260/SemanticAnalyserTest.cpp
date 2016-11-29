@@ -149,3 +149,12 @@ TEST_F(SemanticAnalyserTest, ShouldAccepLabelInsruction)
 
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
+
+TEST_F(SemanticAnalyserTest, ShouldAccepLabelInsructionWithNonZeroValue)
+{
+    constexpr auto number = 42u;
+    Tokens tokens{{TokenType::Label, number}};
+    Instructions instructions{{InstructionType::Label, number}};
+
+    ASSERT_EQ(instructions, analyser.analyse(tokens));
+}
