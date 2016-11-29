@@ -186,3 +186,12 @@ TEST_F(InstructionLexerTest, ParserShouldMakeSameLabelToHaveSameValue)
     EXPECT_EQ(expectedTokensFromSecondInstruction,
               parser.parseInstructions(" djnz _"));
 }
+
+TEST_F(InstructionLexerTest, ParserShouldReturnDifferentValueForDifferntLabels)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Label)};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions("_:"));
+
+    const Tokens expectedTokensSecond{{TokenType::Label, nextLabelValue}};
+    EXPECT_EQ(expectedTokensSecond, parser.parseInstructions("q:"));
+}

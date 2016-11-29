@@ -35,7 +35,7 @@ Tokens InstructionLexer::parseLabel(const std::string& label)
     const auto labelRegEx = std::regex{R"!([a-zA-Z_]+:)!"};
     if (regexMatcher(label, labelRegEx))
     {
-        return {{TokenType::Label, 0}};
+        return {{TokenType::Label, getLabelValue(label)}};
     }
     else
     {
