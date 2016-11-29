@@ -1,5 +1,7 @@
 #include "SemanticAnalyser.hpp"
 
+#include <iterator>
+
 template <int N>
 Instruction::ValueType nthTokenValueGetter(Tokens::const_iterator it)
 {
