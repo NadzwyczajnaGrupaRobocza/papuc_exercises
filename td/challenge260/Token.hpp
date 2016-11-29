@@ -19,7 +19,7 @@ enum class TokenType
 
 struct Token
 {
-    using ValueType = unsigned;
+    using ValueType = unsigned char;
     TokenType type;
     ValueType value;
 };

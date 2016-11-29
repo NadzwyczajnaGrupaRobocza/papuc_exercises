@@ -80,7 +80,8 @@ Token::ValueType InstructionLexer::getLabelValue(const std::string& label)
 }
 
 const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType {
-    return std::stoi(text.substr(text.find_first_of(',') + 1));
+    return static_cast<unsigned char>(
+        std::stoi(text.substr(text.find_first_of(',') + 1)));
 };
 
 Tokens InstructionLexer::parseInstruction(const std::string& instruction)

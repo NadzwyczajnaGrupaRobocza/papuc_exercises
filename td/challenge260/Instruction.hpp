@@ -15,7 +15,7 @@ enum class InstructionType
 
 struct Instruction
 {
-    using ValueType = unsigned;
+    using ValueType = unsigned char;
     InstructionType type;
     ValueType value;
 };

@@ -58,3 +58,13 @@ TEST_F(LedControllerTest,
 
     EXPECT_THAT(stream.str(), Eq("..*.*.*.\n"));
 }
+
+TEST_F(LedControllerTest, RlcaShouldRotateRegisterALeft)
+{
+    controller.runProgram(
+        Instructions{{InstructionType::LdA, 136},
+                     createInstructionWithZeroValue(InstructionType::Rlca),
+                     createInstructionWithZeroValue(InstructionType::OutA)});
+
+    EXPECT_THAT(stream.str(), Eq("...*...*\n"));
+}

@@ -12,7 +12,7 @@ public:
 
 private:
     std::ostream& out;
-    std::string ledState{getLedStateFromInteger(0)};
+    unsigned char ledState{0};
 
     void runInstruction(const Instruction& instruction);
     static std::string getLedStateFromInteger(unsigned value);
