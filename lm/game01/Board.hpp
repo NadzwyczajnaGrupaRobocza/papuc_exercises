@@ -6,7 +6,7 @@ namespace lmg01
 class Board
 {
 public:
-    Board();
+    Board(int, int);
 
     void drawOn(sf::RenderWindow&);
     void movePlayer(const sf::Vector2i& transl);
