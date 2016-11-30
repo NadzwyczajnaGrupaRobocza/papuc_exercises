@@ -11,8 +11,7 @@ void Board::drawOn(sf::RenderWindow& target)
 {
     if (needsRedraw)
     {
-        std::cout << "drawing\n";
-        target.clear();
+        target.clear(sf::Color::Black);
         drawEmptyBoard(target);
         drawPlayer(target);
         needsRedraw = false;
@@ -49,19 +48,13 @@ void Board::drawPlayer(sf::RenderWindow& target)
 
 void Board::movePlayer(const sf::Vector2i& transl)
 {
-    std::cout << "N:" << N << " M:" << M  << '\n';
-    std::cout << "pp:" << playerPos.x << ":" << playerPos.y  << '\n';
-    std::cout << "pp:" << transl.x << ":" << transl.y  << '\n';
-    playerPos.x += transl.x;
-    playerPos.y += transl.y;
-    std::cout << "pp:" << playerPos.x << ":" << playerPos.y  << '\n';
+    playerPos += transl;
+
     while (playerPos.x < 0) playerPos.x += N;
     while (playerPos.y < 0) playerPos.y += M;
 
     if (playerPos.x >= N) playerPos.x %= N;
     if (playerPos.y >= M) playerPos.y %= M;
-
-    std::cout << "pp:" << playerPos.x << ":" << playerPos.y  << '\n';
 
     needsRedraw = true;
 }
