@@ -6,6 +6,7 @@ int main(int /*argc*/, char** /*argv*/)
 {
 
     sf::RenderWindow mainWindow(sf::VideoMode(800, 600), "myproject");
+    mainWindow.setVerticalSyncEnabled(true);
     lmg01::Board b;
 
     while (mainWindow.isOpen())
