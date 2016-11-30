@@ -13,6 +13,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_THROW_ON_CONTRACT_VIOLATION")
 
 set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
 
+set(PAPUC_COMMON_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/common/include")
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   message(STATUS "Detected Windows system.")
 
@@ -75,7 +77,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -Werror")
 endif()
 
-include_directories(${GSL_INCLUDE_DIR})
+include_directories(SYSTEM ${GSL_INCLUDE_DIR})
+include_directories(${PAPUC_COMMON_INCLUDE_DIR})
 
 set(MB-UT-RUN "mb-ut-run")
 set(LM-UT-RUN "lm-ut-run")

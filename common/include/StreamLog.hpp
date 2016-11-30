@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-namespace util
+namespace common
 {
 
 class StreamLog : public Log
@@ -14,19 +14,19 @@ public:
         ourEpoch = Clock::now();
     }
 
-    LogLine info() override
+    detail::LogLine info() override
     {
-        return LogLine{out, ourEpoch, "INF "};
+        return detail::LogLine{out, ourEpoch, "INF "};
     }
 
-    LogLine error() override
+    detail::LogLine error() override
     {
-        return LogLine{out, ourEpoch, "ERR "};
+        return detail::LogLine{out, ourEpoch, "ERR "};
     }
 
-    LogLine debug() override
+    detail::LogLine debug() override
     {
-        return LogLine{out, ourEpoch, "DBG "};
+        return detail::LogLine{out, ourEpoch, "DBG "};
     }
 private:
 
