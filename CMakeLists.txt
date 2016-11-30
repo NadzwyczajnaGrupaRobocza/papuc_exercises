@@ -12,6 +12,8 @@ set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/GSL/")
 
 set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
 
+set(PAPUC_COMMON_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/common/include")
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   message(STATUS "Detected Windows system.")
 
@@ -74,8 +76,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -pedantic \
 -g \
 -Werror")
-  include_directories(${GSL_INCLUDE_DIR})
-  endif()
+endif()
+
+include_directories(SYSTEM ${GSL_INCLUDE_DIR})
+include_directories(${PAPUC_COMMON_INCLUDE_DIR})
 
 set(MB-UT-RUN "mb-ut-run")
 set(LM-UT-RUN "lm-ut-run")
