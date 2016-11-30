@@ -1,19 +1,20 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Board.hpp"
+#include "World.hpp"
 
 int main(int /*argc*/, char** /*argv*/)
 {
 
     sf::RenderWindow mainWindow(sf::VideoMode(800, 600), "myproject");
     mainWindow.setVerticalSyncEnabled(true);
-    lmg01::Board b;
+    lmg01::World w(mainWindow);
+
+    sf::Clock frameClock;
+
+    float speed = 40.f;
 
     while (mainWindow.isOpen())
     {
-        b.drawOn(mainWindow);
-        mainWindow.display();
-
         sf::Event event;
         while (mainWindow.pollEvent(event))
         {
@@ -22,30 +23,27 @@ int main(int /*argc*/, char** /*argv*/)
                 mainWindow.close();
             }
 
-            if (event.type == sf::Event::KeyPressed)
+            sf::Time frameTick = frameClock.restart();
+
+            sf::Vector2f movement{0.f, 0.f};
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
             {
-                switch (event.key.code)
-                {
-                case sf::Keyboard::Up:
-                    std::cout << "UP\n";
-                    b.movePlayer(sf::Vector2i{0, -1});
-                    break;
-                case sf::Keyboard::Down:
-                    std::cout << "DOWN\n";
-                    b.movePlayer(sf::Vector2i{0, 1});
-                    break;
-                case sf::Keyboard::Left:
-                    std::cout << "LEFT\n";
-                    b.movePlayer(sf::Vector2i{-1, 0});
-                    break;
-                case sf::Keyboard::Right:
-                    std::cout << "RIGHT\n";
-                    b.movePlayer(sf::Vector2i{1, 0});
-                    break;
-                default:
-                    (void)0;
-                }
+                movement.y -= speed;
             }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            {
+                movement.y += speed;
+            }
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            {
+                movement.x -= speed;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            {
+                movement.x += speed;
+            }
+
+            w.advance(frameTick, movement);
         }
     }
 }
