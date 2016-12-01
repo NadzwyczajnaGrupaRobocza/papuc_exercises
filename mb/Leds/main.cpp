@@ -2,7 +2,6 @@
 #include <fstream>
 
 #include "InputParser.hpp"
-#include "InstructionToLedBlinkConverter.hpp"
 #include "LedBlinker.hpp"
 
 std::vector<std::string> convertFileToStringVector(std::string);
@@ -16,9 +15,8 @@ int main()
     try
     {
         InputParser parser{};
-        parser.changeInputIntoSetOfInstructions(convertedFile);
-        std::vector<uint> ledBlinksValues = parser.returnParsedFileAsValues();
-//for(const auto& a : ledBlinksValues) std::cout << a << std::endl;
+        parser.getSetOfValuesFromInstructions(convertedFile);
+        std::vector<uint> ledBlinksValues = parser.getValues();
         LedBlinker blinker{};
         blinker.showLedsBlinks(ledBlinksValues);
 

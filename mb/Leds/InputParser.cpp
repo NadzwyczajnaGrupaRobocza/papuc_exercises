@@ -4,30 +4,35 @@
 
 InputParser::InputParser() {}
 
-std::vector<uint> InputParser::returnParsedFileAsValues()
+std::vector<uint> InputParser::getValues()
 {
-    return intOutputInstrunctions;
+    return outputValues;
 }
 
-void InputParser::changeInputIntoSetOfInstructions(const std::vector<std::string>& inputInstructions)
+void InputParser::getSetOfValuesFromInstructions(const std::vector<std::string>& inputInstructions)
 {
     for(const auto& instruction : inputInstructions)
     {
     std::string lineWithoutWS = trimWhitespacesFromFrontAndBack(instruction);
-        switch (checkLine(lineWithoutWS))
+        switch (checkLineContent(lineWithoutWS))
         {
             case LineContent::empty: 
             {
                 break;
             }
-            case LineContent::setRegister: 
+            case LineContent::setRegisterA: 
             {
                 setCurrentValueFromInstruction(lineWithoutWS);
                 break;
             }
+            case LineContent::setRegisterB: 
+            {
+                //TO DO
+                break;
+            }
             case LineContent::updateLeds: 
             {
-                intOutputInstrunctions.push_back(currentValue);
+                outputValues.push_back(currentValue);
                 break;
                 
             }
@@ -43,6 +48,16 @@ void InputParser::changeInputIntoSetOfInstructions(const std::vector<std::string
                 break;
                 
             }
+            case LineContent::label:
+            {
+                //TO DO
+                break;
+            }
+            case LineContent::endLabel:
+            {
+                //TO DO
+                break;
+            }
             case LineContent::unknown:
             {
                 std::cout << "Unknown instruction:" << instruction << std::endl;
@@ -53,16 +68,22 @@ void InputParser::changeInputIntoSetOfInstructions(const std::vector<std::string
     }
 }
 
-LineContent InputParser::checkLine(const std::string& line)
+LineContent InputParser::checkLineContent(const std::string& line)
 {
-    if (std::regex_search(line, setRegister))
-        return LineContent::setRegister;
+    if (std::regex_search(line, setRegisterA))
+        return LineContent::setRegisterA;
+    if (std::regex_search(line, setRegisterB))
+        return LineContent::setRegisterB;
     if (std::regex_search(line, updateLeds))
         return LineContent::updateLeds;
     if (std::regex_search(line, rlca))
         return LineContent::rlca;
     if (std::regex_search(line, rrca))
         return LineContent::rrca;
+    if (std::regex_search(line, label))
+        return LineContent::label;
+    if (std::regex_search(line, endLabel))
+        return LineContent::endLabel;
     if (std::regex_search(line, empty))
         return LineContent::empty;
     return LineContent::unknown;
