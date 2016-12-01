@@ -9,6 +9,7 @@ add_subdirectory(googletest)
 set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googletest/include/")
 set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googlemock/include/")
 set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/GSL/")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_THROW_ON_CONTRACT_VIOLATION")
 
 set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
 
@@ -24,8 +25,6 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     string(REPLACE "/MDd" "/MTd" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
   endif()
-
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
 
   if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --driver-mode=cl -fms-compatibility-version=19")
@@ -55,7 +54,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   message(STATUS "Detected system with Microsoft compiler.")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall\
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Wall\
  /wd4251 /wd4265 /wd4350 /wd4371 /wd4514 /wd5031 /wd5026 /wd5027\
  /wd4625 /wd4619 /wd4626 /wd4710 /wd4711 /wd4820 /wd4668")
 

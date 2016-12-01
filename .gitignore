@@ -28,11 +28,13 @@
 *.out
 *.app
 
+# Project help file
+*.clang_complete
+.dir-locals.el
+
 # Gtags
 */GPATH
 */GTAGS
 */GRTAGS
 
 build/*
-.dir-locals.el
-*/.clang_complete
