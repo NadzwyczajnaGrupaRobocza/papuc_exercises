@@ -1,7 +1,7 @@
 #include "InstructionToLedBlinkConverter.hpp"
 
 #include <bitset>
-#include <iostream>
+//#include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
@@ -39,7 +39,6 @@ void InstructionToLedBlinkConverter::convertLineToLedSequence(std::string& line)
     }
     else
     {
-        //throw std::out_of_range{"To high value: " + value};
         throw std::out_of_range{"To high value"};
     }
 }

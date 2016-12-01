@@ -1,15 +1,28 @@
 #include "LedBlinker.hpp"
 
 #include <iostream>
+#include <bitset>
 
-LedBlinker::LedBlinker(const std::vector<std::string>& input)
-    : ledsSequences{std::move( input )}
+LedBlinker::LedBlinker()
 {}
 
-void LedBlinker::showLeds()
+void LedBlinker::showLedsBlinks(const std::vector<uint>& ledsSequences)
 {
-    for( auto ledsBlinks : ledsSequences)
+    for( const auto& ledsBlinks : ledsSequences)
     {
-        std::cout << ledsBlinks << std::endl; 
+        showLedsSequence(ledsBlinks);
+    }
+}
+
+void LedBlinker::showLedsSequence(const uint& value)
+{
+    if (value < 256)
+    {
+        std::string ledsBlinks = std::bitset<8>(value).to_string('.', '*');
+        std::cout << ledsBlinks << std::endl;
+    }
+    else
+    {
+        throw std::out_of_range{"To high value"};
     }
 }

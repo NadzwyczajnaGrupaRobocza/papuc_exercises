@@ -17,16 +17,11 @@ int main()
     {
         InputParser parser{};
         parser.changeInputIntoSetOfInstructions(convertedFile);
-        std::vector<std::string> ledBlinks = parser.returnParsedFile();
+        std::vector<uint> ledBlinksValues = parser.returnParsedFileAsValues();
+//for(const auto& a : ledBlinksValues) std::cout << a << std::endl;
+        LedBlinker blinker{};
+        blinker.showLedsBlinks(ledBlinksValues);
 
-        InstructionToLedBlinkConverter converter{};
-        for(auto& instruction : ledBlinks)
-        {
-            converter.convert(instruction);
-        }
-
-        LedBlinker blinker{ledBlinks};
-        blinker.showLeds();
         return 0;
     }
     catch (const std::logic_error& ex)
@@ -42,6 +37,7 @@ std::vector<std::string> convertFileToStringVector(std::string fileName)
     std::ifstream inputFile{fileName};
     if( inputFile.is_open() )
     {
+        std::cout << "Reading file " << fileName << std::endl;
         std::string line;
         while( getline(inputFile,line) )
         {

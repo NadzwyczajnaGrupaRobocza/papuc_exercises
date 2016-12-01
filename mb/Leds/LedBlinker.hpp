@@ -6,9 +6,9 @@
 class LedBlinker
 {
 public:
-    LedBlinker(const std::vector<std::string>& input);
-    void showLeds();
+    LedBlinker();
+    void showLedsBlinks(const std::vector<uint>& ledsSequences);
 private:
-    std::vector<std::string> ledsSequences;
+    void showLedsSequence(const uint& ledsBlinks);
 };
 

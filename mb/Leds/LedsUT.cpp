@@ -11,34 +11,84 @@ using testing::Return;
 
 using Converter = InstructionToLedBlinkConverter;
 
-TEST(MBB_Led_Converter, convertinggInstruction_1)
+TEST(MBB_Led_Converter, convertingSingleInstruction)
 {
     const std::vector<std::string> input{
         "     ld a,10      ",
         "  out (0),a  "};
 
-    const std::vector<std::string> expectedOut{
-        "ld a,10"};
+    const std::vector<uint> expectedOut{ 10 };
     InputParser parser{};
     parser.changeInputIntoSetOfInstructions(input);
-    EXPECT_EQ( parser.returnParsedFile(), expectedOut);
+    EXPECT_EQ( parser.returnParsedFileAsValues(), expectedOut);
 }
 
-TEST(MBB_Led_Converter, convertinggInstruction_2)
+TEST(MBB_Led_Converter, movingBitsToRight)
+{
+    const std::vector<std::string> input{
+        "     ld a,10      ",
+        " rrca ",
+        "  out (0),a  "};
+
+    const std::vector<uint> expectedOut{ 5 };
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    EXPECT_EQ( parser.returnParsedFileAsValues(), expectedOut);
+
+}
+
+TEST(MBB_Led_Converter, movingMostRightBitToRight)
+{
+    const std::vector<std::string> input{
+        "     ld a,1      ",
+        " rrca ",
+        "  out (0),a  "};
+
+    const std::vector<uint> expectedOut{ 128 };
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    EXPECT_EQ( parser.returnParsedFileAsValues(), expectedOut);
+
+}
+
+TEST(MBB_Led_Converter, movingBitsToLeft)
+{
+    const std::vector<std::string> input{
+        "     ld a,200      ",
+        " rlca ",
+        "  out (0),a  "};
+    const std::vector<uint> expectedOut{ 145 };
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    EXPECT_EQ( parser.returnParsedFileAsValues(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, allBitsOnAreMovedToLeft)
+{
+    const std::vector<std::string> input{
+        "     ld a,255      ",
+        " rlca ",
+        "  out (0),a  "};
+    const std::vector<uint> expectedOut{ 255 };
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    EXPECT_EQ( parser.returnParsedFileAsValues(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, returnigLastSettedValue)
 {
     const std::vector<std::string> input{
         " ld a,10",
         " ld a,12",
         " out (0),a"};
 
-    const std::vector<std::string> expectedOut{
-        "ld a,12"};
+    const std::vector<uint> expectedOut{ 12 };
     InputParser parser{};
     parser.changeInputIntoSetOfInstructions(input);
-    EXPECT_EQ( parser.returnParsedFile(), expectedOut);
+    EXPECT_EQ( parser.returnParsedFileAsValues(), expectedOut);
 }
 
-TEST(MBB_Led_Converter, convertinggInstruction_3)
+TEST(MBB_Led_Converter, convertingSetOfInstructions)
 {
     const std::vector<std::string> input{
         " ld a,10",
@@ -50,51 +100,55 @@ TEST(MBB_Led_Converter, convertinggInstruction_3)
         "eeee",
         " out (0),a"};
 
-    const std::vector<std::string> expectedOut{
-        "ld a,10",
-        "ld a,12",
-        "ld a,24"};
+    const std::vector<uint> expectedOut{ 10, 12, 24 };
     InputParser parser{};
     parser.changeInputIntoSetOfInstructions(input);
-    EXPECT_EQ( parser.returnParsedFile(), expectedOut);
+    EXPECT_EQ( parser.returnParsedFileAsValues(), expectedOut);
 }
-
-TEST(MBB_Led_Converter, convertingInstructionToLedsBlinks)
-{
-    std::string line = "ld a,21";
-
-    Converter converter{};
-    converter.convert(line);
-
-    EXPECT_EQ(line, "...*.*.*");
-}
-
-TEST(MBB_Led_Converter, shouldThrowErrorWhenWrongInstruction)
-{
-    std::string line = "lld a,21";
-
-    Converter converter{};
-
-    EXPECT_THROW(converter.convert(line), std::invalid_argument);
-}
-
-TEST(MBB_Led_Converter, shouldThrowErrorWhenNumberGreaterThan255)
-{
-    std::string line = "ld a,256";
-
-    Converter converter{};
-
-    EXPECT_THROW(converter.convert(line), std::out_of_range);
-}
-
 
 TEST(MBB_Led_LedBlinker, showLedBlinks)
 {
-    std::vector<std::string> inputData{ "..**.", "..***", "...**", "....*" };
+    std::vector<uint> inputData{ 14, 7, 3, 1 };
     
-    LedBlinker ledBlinker{ inputData };
-    ledBlinker.showLeds();
+    LedBlinker ledBlinker{};
+    ledBlinker.showLedsBlinks( inputData );
 
     EXPECT_EQ(1, static_cast<int>(1.00));
 }
 
+TEST(MBB_Led_LedBlinker, SCT)
+{
+    const std::vector<std::string> input{
+        " ld a,10",
+        "    ",
+        " out (0),a",
+        " ld a,12",
+        " out (0),a",
+        " ld a,15",
+        "eeee",
+        " out (0),a",
+        " rrca",
+        " out (0),a",
+        " rrca",
+        " out (0),a",
+        " rrca",
+        " out (0),a",
+        " rrca",
+        " out (0),a",
+        " rrca",
+        " out (0),a",
+        " rrca",
+        " out (0),a",
+        " rrca",
+        " out (0),a"};
+
+    //const std::vector<uint> expectedOut{ 10, 12, 24 };
+    InputParser parser{};
+    parser.changeInputIntoSetOfInstructions(input);
+    const std::vector<uint> expectedOut = parser.returnParsedFileAsValues();
+
+    LedBlinker ledBlinker{};
+    ledBlinker.showLedsBlinks( expectedOut );
+
+    EXPECT_EQ(1, static_cast<int>(1.00));
+}
