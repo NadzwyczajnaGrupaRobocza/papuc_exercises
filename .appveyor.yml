@@ -26,8 +26,6 @@ install:
   - set PATH=C:\projects\deps\ninja;%PATH%
   - ninja --version
 
-  - cmake --version
-
   ############################################################################
   # Setup the path to Clang-cl
   ############################################################################
@@ -37,8 +35,6 @@ install:
   ############################################################################
   # Setup the path to Boost
   ############################################################################
-  - cd C:\Libraries\boost_1_62_0\
-  - mklink libboost_regex-vc140-mt-gd-1_62.lib lib64-msvc-14.0
   - set INCLUDE=%INCLUDE%;C:\Libraries\boost_1_62_0
   - set LIB=%LIB%;C:\Libraries\boost_1_62_0
 
@@ -51,8 +47,8 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
-  - ninja
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
+  - cmake --build .
 
 test_script:
   - ps: |
