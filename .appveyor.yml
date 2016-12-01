@@ -20,20 +20,12 @@ install:
   ############################################################################
   # Install Ninja
   ############################################################################
-  - ninja --version
   - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-win.zip"
   - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
   - 7z x ninja.zip -oC:\projects\deps\ninja > nul
   - set PATH=C:\projects\deps\ninja;%PATH%
   - ninja --version
 
-  ############################################################################
-  # Install a recent CMake
-  ############################################################################
-  - set CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.0-win32-x86.zip"
-  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
-  - 7z x cmake.zip -oC:\projects\deps\cmake > nul
-  - set PATH=C:\projects\deps\cmake\bin;%PATH%
   - cmake --version
 
   ############################################################################
@@ -61,4 +53,11 @@ build_script:
   - cd build
   - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
   - ninja
-  - ninja ut-run
+
+test_script:
+  - ps: |
+      if ($env:CONFIGURATION -eq "Debug")
+      {
+          & ninja ut-run
+      }
+
