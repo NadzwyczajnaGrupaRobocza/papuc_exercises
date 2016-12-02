@@ -29,7 +29,7 @@ TEST_F(SemanticAnalyserTest, ShouldAcceptEmptyTokens)
     ASSERT_EQ(instructions, analyser.analyse(tokens));
 }
 
-TEST_F(SemanticAnalyserTest, ShouldNotAcceptInvalidInstructionSet)
+TEST_F(SemanticAnalyserTest, DISABLED_ShouldNotAcceptInvalidInstructionSet)
 {
     Tokens tokens{createTokenWithZeroValue(TokenType::Ld)};
     ASSERT_THROW(analyser.analyse(tokens), SemanticAnalyser::InvalidSemantic);
