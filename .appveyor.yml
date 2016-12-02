@@ -9,6 +9,8 @@ environment:
     Configuration: Debug
   - Build: ib
     Configuration: Debug
+  - Build: mb
+    Configuration: Debug
   - Build: lm
     Configuration: Debug
   - Build: lz
