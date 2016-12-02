@@ -27,15 +27,6 @@ install:
   - ninja --version
 
   ############################################################################
-  # Install a recent CMake
-  ############################################################################
-  - set CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.0-win32-x86.zip"
-  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
-  - 7z x cmake.zip -oC:\projects\deps\cmake > nul
-  - set PATH=C:\projects\deps\cmake\bin;%PATH%
-  - cmake --version
-
-  ############################################################################
   # Setup the path to Clang-cl
   ############################################################################
   - set PATH="C:\Program Files\LLVM\bin";%PATH%
@@ -44,8 +35,6 @@ install:
   ############################################################################
   # Setup the path to Boost
   ############################################################################
-  - cd C:\Libraries\boost_1_62_0\
-  - mklink libboost_regex-vc140-mt-gd-1_62.lib lib64-msvc-14.0
   - set INCLUDE=%INCLUDE%;C:\Libraries\boost_1_62_0
   - set LIB=%LIB%;C:\Libraries\boost_1_62_0
 
@@ -58,6 +47,13 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
-  - ninja
-  - ninja ut-run
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
+  - cmake --build .
+
+test_script:
+  - ps: |
+      if ($env:CONFIGURATION -eq "Debug")
+      {
+          & ninja ut-run
+      }
+
