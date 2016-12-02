@@ -6,16 +6,16 @@ build:
 environment:
   matrix:
   - Build: td
+    Configuration: Debug
   - Build: ib
+    Configuration: Debug
   - Build: lm
+    Configuration: Debug
   - Build: lz
+    Configuration: Debug
   
 platform:
 - x64
-
-configuration:
-  - Debug
-  - Release
 
 install:
   ############################################################################
@@ -54,7 +54,7 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%Configuration% -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
   - cmake --build . --target %Build%/all
 
 test_script:
