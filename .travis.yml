@@ -38,4 +38,4 @@ script:
   - env CC=${C_COMPILER} CXX=${CXX_COMPILER} cmake ..
   - echo "We have" `nproc` "cores here"
   - make -j `nproc`
-  - make -j `nproc` ut-run
+  - ctest -j `nproc`
