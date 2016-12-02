@@ -5,10 +5,10 @@ build:
 
 environment:
   matrix:
-  - Test: td
-  - Test: ib
-  - Test: lm
-  - Test: lz
+  - Build: td
+  - Build: ib
+  - Build: lm
+  - Build: lz
   
 platform:
 - x64
@@ -55,12 +55,12 @@ build_script:
   - mkdir build
   - cd build
   - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
-  - cmake --build .
+  - cmake --build . --target $env:Build/all
 
 test_script:
   - ps: |
       if ($env:CONFIGURATION -eq "Debug")
       {
-          & ctest -V -R $env:Test
+          & ctest -V -R $env:Build
       }
 
