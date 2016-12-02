@@ -54,6 +54,6 @@ test_script:
   - ps: |
       if ($env:CONFIGURATION -eq "Debug")
       {
-          & ninja ut-run
+          & ctest
       }
 
