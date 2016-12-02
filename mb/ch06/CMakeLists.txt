@@ -10,3 +10,4 @@ add_executable(mb-06-ut Token.cpp
                         UTs.cpp)
 
 target_link_libraries(mb-06-ut gtest_main gmock)
+add_test(mb-06-ut ${EXECUTABLE_OUTPUT_PATH}/mb-06-ut)

@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.8.11)
 project("PaPuC++")
 
+enable_testing()
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
@@ -80,18 +82,8 @@ endif()
 include_directories(SYSTEM ${GSL_INCLUDE_DIR})
 include_directories(${PAPUC_COMMON_INCLUDE_DIR})
 
-set(MB-UT-RUN "mb-ut-run")
-set(LM-UT-RUN "lm-ut-run")
-set(IB-UT-RUN "ib-ut-run")
-set(LZ-UT-RUN "lz-ut-run")
-set(TD-UT-RUN "td-ut-run")
-
 add_subdirectory(mb)
 add_subdirectory(lm)
 add_subdirectory(ib)
 add_subdirectory(lz)
 add_subdirectory(td)
-
-add_custom_target(ut-run
-  DEPENDS ${MB-UT-RUN} ${LM-UT-RUN} ${IB-UT-RUN} ${LZ-UT-RUN}
-)

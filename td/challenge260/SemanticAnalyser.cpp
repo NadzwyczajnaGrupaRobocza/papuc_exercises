@@ -37,7 +37,7 @@ bool SemanticAnalyser::areTokensValidOutInstruction(
     Tokens::const_iterator begin)
 {
     return (begin++)->type == TokenType::Out &&
-           (begin++)->type == TokenType::ZeroWithBrackets &&
+           (begin++)->type == TokenType::ZeroWithBrackets && //ShouldNotAcceptInvalidInstructionSet test crash at this line
            (begin++)->type == TokenType::A;
 }
 
