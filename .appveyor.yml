@@ -55,7 +55,7 @@ build_script:
   - mkdir build
   - cd build
   - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
-  - cmake --build . --target $env:Build/all
+  - cmake --build . --target ($env:Build)/all
 
 test_script:
   - ps: |
