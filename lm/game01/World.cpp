@@ -9,8 +9,6 @@ World::World(sf::RenderWindow& targetInit)
     : target{targetInit}, b{target.getView()}, player{20.f},
       player_position{50.f, 50.f}, obstacle_container{createObstacles()}
 {
-    // obstacle.setPosition(230.f, 145.f);
-    // obstacle.setFillColor(sf::Color::Blue);
     player.setFillColor(sf::Color::Red);
     draw();
 }
