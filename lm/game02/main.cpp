@@ -35,6 +35,7 @@ int main(int /*argc*/, char** /*argv*/)
 
         sf::Vector2f movement{processUserInput(baseSpeed)};
         w.advance(duration, movement);
+
         w.display_on(mainWindow);
         mainWindow.display();
     }
