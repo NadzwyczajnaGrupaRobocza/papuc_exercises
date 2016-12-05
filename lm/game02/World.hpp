@@ -16,6 +16,7 @@ public:
 
 private:
     MassRegistry registry;
+    sf::FloatRect mass_box{{380.f, 280.f}, {40.f, 40.f}};
     std::vector<PhysicalEntity> entities;
 };
 
