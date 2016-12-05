@@ -7,7 +7,8 @@ namespace lmg02
 {
 World::World()
     : entities{PhysicalEntity{{200.f, 100.f}, {40.f, -30.f}, registry},
-               PhysicalEntity{{700.f, 500.f}, {0.f, -100.f}, registry}}
+               PhysicalEntity{{599.f, 500.f}, {0.f, -100.f}, registry},
+               PhysicalEntity{{300.f, 500.f}, {100.f, -10.f}, registry}}
 {
 }
 
