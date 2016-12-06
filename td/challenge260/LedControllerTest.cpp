@@ -78,3 +78,17 @@ TEST_F(LedControllerTest, RlcaShouldRotateRegisterARight)
 
     EXPECT_THAT(stream.str(), Eq("*....*..\n"));
 }
+
+TEST_F(LedControllerTest, DISABLED_ShouldJumpBackwardsUntilReach0From0)
+{
+    controller.runProgram(Instructions{{InstructionType::OutA, 9},
+                                       {InstructionType::Label, 0},
+                                       {InstructionType::Djnz, 0}});
+
+    std::string expectedString;
+    for (int i = 0; i < 255; ++i)
+    {
+        expectedString += "........\n";
+    }
+    EXPECT_THAT(stream.str(), Eq(expectedString));
+}

@@ -109,7 +109,7 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
         {std::regex{"rrca"}, TokenType::Rrca, alwaysZeroValue},
         {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
         {std::regex{"[a-zA-Z_]+"}, TokenType::LabelRef,
-         std::bind(&InstructionLexer::getLabelValue, this, _1)}};
+         std::bind(&InstructionLexer::getExistingLabelValue, this, _1)}};
 
     const auto instructionPosition =
         std::find_if(acceptableInstructions.begin(),
@@ -123,6 +123,19 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
                  std::get<2>(*instructionPosition)(trimmedInstruction)}};
     }
     throw UnknownInstruction{"Unknown instruction: " + instruction};
+}
+
+Token::ValueType
+InstructionLexer::getExistingLabelValue(const std::string& label)
+{
+    try
+    {
+        return labels.at(label);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw UnknownLabel{"Label: " + label + " is unknown"};
+    }
 }
 
 const std::string
