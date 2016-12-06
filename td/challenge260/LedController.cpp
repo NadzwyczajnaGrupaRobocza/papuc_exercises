@@ -30,12 +30,6 @@ void LedController::runProgram(const Instructions& instructions)
 
 void LedController::runInstruction(const Instruction& instruction)
 {
-    {
-        if (storeLabel)
-        {
-            storeLabel = false;
-        }
-    }
     switch (instruction.type)
     {
     case InstructionType::OutA: out << ledState.to_string(); break;

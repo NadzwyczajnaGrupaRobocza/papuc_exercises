@@ -31,11 +31,10 @@ private:
     void doDjnz(unsigned char);
 
     using Instructions = std::vector<Instruction>;
-    Instructions instructionsFromLabel;
     using LabelMapping = std::map<unsigned int, Instructions::const_iterator>;
+
+    Instructions instructionsFromLabel;
     LabelMapping labelMapping;
-    bool storeInstruction{true};
-    bool storeLabel{false};
     unsigned char b{0};
     std::ostream& out;
     LedState ledState;
