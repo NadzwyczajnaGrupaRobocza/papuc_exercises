@@ -30,7 +30,6 @@ void LedController::runProgram(const Instructions& instructions)
 
 void LedController::runInstruction(const Instruction& instruction)
 {
-    if (storeInstruction)
     {
         if (storeLabel)
         {
@@ -53,7 +52,6 @@ void LedController::doDjnz(unsigned char label)
 {
     try
     {
-        storeInstruction = false;
         if (--b)
         {
             std::for_each(labelMapping.at(label), instructionsFromLabel.cend(),
@@ -61,7 +59,6 @@ void LedController::doDjnz(unsigned char label)
                               runInstruction(instructionFromLabel);
                           });
         }
-        storeInstruction = true;
     }
     catch (const std::out_of_range&)
     {
