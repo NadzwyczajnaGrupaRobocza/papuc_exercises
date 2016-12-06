@@ -5,21 +5,17 @@
 
 LedController::LedController(std::ostream& stream) : out{stream}
 {
-    instructionsFromLabel.reserve(maxInstructions);
 }
 
 void LedController::runProgram(const Instructions& instructions)
 {
     for (const auto& instruction : instructions)
     {
-        instructionsFromLabel.push_back(instruction);
-        if (instructionsFromLabel.size() > maxInstructions)
-        {
-            throw std::runtime_error{"To much instructions"};
-        }
+        const auto newLabelPosition = instructionsFromLabel.insert(
+            instructionsFromLabel.end(), instruction);
         if (instruction.type == InstructionType::Label)
         {
-            labelMapping[instruction.value] = instructionsFromLabel.end() - 1;
+            labelMapping[instruction.value] = newLabelPosition;
         }
         else
         {

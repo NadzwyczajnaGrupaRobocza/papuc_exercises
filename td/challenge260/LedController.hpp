@@ -2,9 +2,9 @@
 
 #include "Instruction.hpp"
 
+#include <list>
 #include <map>
 #include <sstream>
-#include <vector>
 
 class LedController
 {
@@ -30,13 +30,13 @@ private:
     static std::string getLedStateFromInteger(LedState value);
     void doDjnz(unsigned char);
 
-    using Instructions = std::vector<Instruction>;
-    using LabelMapping = std::map<unsigned int, Instructions::const_iterator>;
+    using InstructionsFromLabel = std::list<Instruction>;
+    using LabelMapping =
+        std::map<unsigned int, InstructionsFromLabel::const_iterator>;
 
-    Instructions instructionsFromLabel;
+    InstructionsFromLabel instructionsFromLabel;
     LabelMapping labelMapping;
     unsigned char b{0};
     std::ostream& out;
     LedState ledState;
-    const std::size_t maxInstructions{10240};
 };
