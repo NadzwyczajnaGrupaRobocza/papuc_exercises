@@ -44,19 +44,12 @@ void LedController::runInstruction(const Instruction& instruction)
 
 void LedController::doDjnz(unsigned char label)
 {
-    try
+    if (--b)
     {
-        if (--b)
-        {
-            std::for_each(labelMapping.at(label), instructionsFromLabel.cend(),
-                          [&](const auto& instructionFromLabel) {
-                              runInstruction(instructionFromLabel);
-                          });
-        }
-    }
-    catch (const std::out_of_range&)
-    {
-        throw std::runtime_error{"Invalid label: " + std::to_string(label)};
+        std::for_each(labelMapping.at(label), instructionsFromLabel.cend(),
+                      [&](const auto& instructionFromLabel) {
+                          runInstruction(instructionFromLabel);
+                      });
     }
 }
 
