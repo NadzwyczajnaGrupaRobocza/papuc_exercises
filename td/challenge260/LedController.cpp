@@ -21,10 +21,7 @@ void LedController::runInstruction(const Instruction& instruction)
     {
     case InstructionType::OutA: out << getLedStateFromInteger(ledState); break;
     case InstructionType::LdA: ledState = instruction.value; break;
-    case InstructionType::Rlca:
-        ledState = static_cast<char>((ledState.ledState << 1)) |
-                   ((ledState.ledState & 0b10000000) != 0);
-        break;
+    case InstructionType::Rlca: ledState.rlca(); break;
     case InstructionType::Rrca: break;
     case InstructionType::LdB: break;
     case InstructionType::Djnz: break;
@@ -50,4 +47,10 @@ LedController::LedState::operator std::string() const
     constexpr auto ledOffChar = '.';
     constexpr auto lineEnding = '\n';
     return bitValue.to_string(ledOffChar, ledOnChar) + lineEnding;
+}
+
+void LedController::LedState::rlca()
+{
+    ledState =
+        static_cast<char>((ledState << 1)) | ((ledState & 0b10000000) != 0);
 }

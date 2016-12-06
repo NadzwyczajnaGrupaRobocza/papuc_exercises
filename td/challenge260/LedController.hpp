@@ -16,8 +16,9 @@ private:
     public:
         const LedState& operator=(unsigned char);
         operator std::string() const;
+        void rlca();
 
-        //    private:
+    private:
         unsigned char ledState{0};
     };
 
