@@ -20,15 +20,21 @@ struct Derivative
 class PhysicalEntity
 {
 public:
-    PhysicalEntity(const sf::Vector2f&, const sf::Vector2f&, const MassRegistry&);
+    PhysicalEntity(const sf::Vector2f&, const sf::Vector2f&, float, const MassRegistry&);
 
     void prepare_next_pos(float);
     void detect_colision(const sf::FloatRect&);
+    sf::Vector2f gravitational_pull_from(const PhysicalEntity&) const;
     void draw(sf::RenderTarget&);
 
     const State& get_state() const
     {
         return current_state;
+    }
+
+    float get_mass() const
+    {
+        return mass;
     }
 
 private:

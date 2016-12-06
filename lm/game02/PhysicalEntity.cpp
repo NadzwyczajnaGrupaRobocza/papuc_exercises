@@ -1,12 +1,17 @@
 #include "PhysicalEntity.hpp"
 #include "MassRegistry.hpp"
+#include "PhysicalConstants.hpp"
+#include "sfml_help.hpp"
+
+using namespace sfml_help;
 
 namespace lmg02
 {
 PhysicalEntity::PhysicalEntity(const sf::Vector2f& initialPosition,
                                const sf::Vector2f& initialVelocity,
+                               float initialMass,
                                const MassRegistry& registryInitializer)
-    : current_state{initialPosition, initialVelocity},
+    : current_state{initialPosition, initialVelocity}, mass{initialMass},
       registry{registryInitializer}
 {
 }
@@ -26,9 +31,21 @@ void PhysicalEntity::detect_colision(const sf::FloatRect& ent)
     }
     else
     {
-        
     }
+}
 
+sf::Vector2f
+PhysicalEntity::gravitational_pull_from(const PhysicalEntity& other) const
+{
+    const auto& other_pos = other.get_state().position;
+    const auto& this_pos = current_state.position;
+    auto direction = from_1_to_2_unit(this_pos, other_pos);
+
+    float numerator =
+        static_cast<float>(GRAVITATIONAL_CONSTANT * mass * other.mass);
+    float denominator = length_squared(other_pos - this_pos);
+
+    return direction * numerator / denominator;
 }
 
 void PhysicalEntity::draw(sf::RenderTarget& target)

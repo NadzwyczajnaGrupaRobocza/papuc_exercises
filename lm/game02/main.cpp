@@ -2,12 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-sf::Vector2f processUserInput(float baseSpeed);
+sf::Vector2f processUserInput(float baseSpeed, sf::RenderWindow& window);
 
 int main(int /*argc*/, char** /*argv*/)
 {
     sf::Vector2i screenSize{800, 600};
-    sf::RenderWindow mainWindow(sf::VideoMode(screenSize.x, screenSize.y), "myproject");
+    sf::RenderWindow mainWindow(sf::VideoMode(screenSize.x, screenSize.y),
+                                "myproject");
     mainWindow.setVerticalSyncEnabled(true);
     lmg02::World w{};
 
@@ -33,7 +34,7 @@ int main(int /*argc*/, char** /*argv*/)
 
         frameClock.restart();
 
-        sf::Vector2f movement{processUserInput(baseSpeed)};
+        sf::Vector2f movement{processUserInput(baseSpeed, mainWindow)};
         w.advance(duration, movement);
 
         w.display_on(mainWindow);
@@ -41,8 +42,9 @@ int main(int /*argc*/, char** /*argv*/)
     }
 }
 
-sf::Vector2f processUserInput(float speed)
+sf::Vector2f processUserInput(float speed, sf::RenderWindow& window)
 {
+    auto view = window.getView();
     sf::Vector2f movement{0.f, 0.f};
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
     {
@@ -50,20 +52,26 @@ sf::Vector2f processUserInput(float speed)
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
+        view.move(0.f, -5.f);
         movement.y -= speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
+        view.move(0.f, 5.f);
         movement.y += speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
+        view.move(-5.f, 0.f);
         movement.x -= speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
+        view.move(5.f, 0.f);
         movement.x += speed;
     }
+
+    window.setView(view);
 
     return movement;
 }
