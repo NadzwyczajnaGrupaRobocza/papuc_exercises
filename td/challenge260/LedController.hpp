@@ -2,7 +2,9 @@
 
 #include "Instruction.hpp"
 
+#include <map>
 #include <sstream>
+#include <vector>
 
 class LedController
 {
@@ -24,14 +26,18 @@ private:
         unsigned char ledState{0};
     };
 
-    std::ostream& out;
-    LedState ledState;
-
     void runInstruction(const Instruction& instruction);
     static std::string getLedStateFromInteger(LedState value);
-    void doDjnz();
+    void doDjnz(unsigned char);
 
-    std::vector<Instruction> instructionsFromLabel;
-    bool wasLabelUsed{false};
+    using Instructions = std::vector<Instruction>;
+    Instructions instructionsFromLabel;
+    using LabelMapping = std::map<unsigned int, Instructions::const_iterator>;
+    LabelMapping labelMapping;
+    bool storeInstruction{true};
+    bool storeLabel{false};
     unsigned char b{0};
+    std::ostream& out;
+    LedState ledState;
+    const std::size_t maxInstructions{10240};
 };

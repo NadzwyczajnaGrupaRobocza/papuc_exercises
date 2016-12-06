@@ -104,7 +104,7 @@ TEST_F(LedControllerTest, ShouldJumpBackwardsUntilReach0From1)
     EXPECT_THAT(stream.str(), Eq(expectedString));
 }
 
-TEST_F(LedControllerTest, DjnzShouldJumpToCorrectLabel)
+TEST_F(LedControllerTest, DjnzShouldJumpToSecondLabel)
 {
     controller.runProgram(Instructions{{InstructionType::LdB, 2},
                                        {InstructionType::Label, 0},
@@ -115,6 +115,23 @@ TEST_F(LedControllerTest, DjnzShouldJumpToCorrectLabel)
 
     std::string expectedString;
     for (int i = 0; i < 3; ++i)
+    {
+        expectedString += "........\n";
+    }
+    EXPECT_THAT(stream.str(), Eq(expectedString));
+}
+
+TEST_F(LedControllerTest, DjnzShouldJumpToFirstLabel)
+{
+    controller.runProgram(Instructions{{InstructionType::LdB, 2},
+                                       {InstructionType::Label, 0},
+                                       {InstructionType::OutA, 0},
+                                       {InstructionType::Label, 1},
+                                       {InstructionType::OutA, 0},
+                                       {InstructionType::Djnz, 0}});
+
+    std::string expectedString;
+    for (int i = 0; i < 4; ++i)
     {
         expectedString += "........\n";
     }

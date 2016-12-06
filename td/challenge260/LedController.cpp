@@ -3,25 +3,39 @@
 #include <algorithm>
 #include <bitset>
 
-#include <iostream>
-
 LedController::LedController(std::ostream& stream) : out{stream}
 {
+    instructionsFromLabel.reserve(maxInstructions);
 }
 
 void LedController::runProgram(const Instructions& instructions)
 {
     for (const auto& instruction : instructions)
     {
-        runInstruction(instruction);
+        instructionsFromLabel.push_back(instruction);
+        if (instructionsFromLabel.size() > maxInstructions)
+        {
+            throw std::runtime_error{"To much instructions"};
+        }
+        if (instruction.type == InstructionType::Label)
+        {
+            labelMapping[instruction.value] = instructionsFromLabel.end() - 1;
+        }
+        else
+        {
+            runInstruction(instruction);
+        }
     }
 }
 
 void LedController::runInstruction(const Instruction& instruction)
 {
-    if (wasLabelUsed)
+    if (storeInstruction)
     {
-        instructionsFromLabel.push_back(instruction);
+        if (storeLabel)
+        {
+            storeLabel = false;
+        }
     }
     switch (instruction.type)
     {
@@ -30,23 +44,28 @@ void LedController::runInstruction(const Instruction& instruction)
     case InstructionType::Rlca: ledState.rlca(); break;
     case InstructionType::Rrca: ledState.rrca(); break;
     case InstructionType::LdB: b = instruction.value; break;
-    case InstructionType::Djnz: doDjnz(); break;
-    case InstructionType::Label:
-        instructionsFromLabel.clear();
-        wasLabelUsed = true;
-        break;
+    case InstructionType::Djnz: doDjnz(instruction.value); break;
+    case InstructionType::Label: break;
     }
 }
 
-void LedController::doDjnz()
+void LedController::doDjnz(unsigned char label)
 {
-    wasLabelUsed = false;
-    if (--b)
+    try
     {
-        for (const auto& instructionFromLabel : instructionsFromLabel)
+        storeInstruction = false;
+        if (--b)
         {
-            runInstruction(instructionFromLabel);
+            std::for_each(labelMapping.at(label), instructionsFromLabel.cend(),
+                          [&](const auto& instructionFromLabel) {
+                              runInstruction(instructionFromLabel);
+                          });
         }
+        storeInstruction = true;
+    }
+    catch (const std::out_of_range&)
+    {
+        throw std::runtime_error{"Invalid label: " + std::to_string(label)};
     }
 }
 
