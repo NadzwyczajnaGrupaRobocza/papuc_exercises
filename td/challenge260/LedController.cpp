@@ -31,7 +31,10 @@ void LedController::runInstruction(const Instruction& instruction)
     case InstructionType::Rrca: ledState.rrca(); break;
     case InstructionType::LdB: b = instruction.value; break;
     case InstructionType::Djnz: doDjnz(); break;
-    case InstructionType::Label: wasLabelUsed = true; break;
+    case InstructionType::Label:
+        instructionsFromLabel.clear();
+        wasLabelUsed = true;
+        break;
     }
 }
 
