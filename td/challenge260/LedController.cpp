@@ -29,7 +29,7 @@ void LedController::runInstruction(const Instruction& instruction)
     case InstructionType::LdA: ledState = instruction.value; break;
     case InstructionType::Rlca: ledState.rlca(); break;
     case InstructionType::Rrca: ledState.rrca(); break;
-    case InstructionType::LdB: break;
+    case InstructionType::LdB: b = instruction.value; break;
     case InstructionType::Djnz: doDjnz(); break;
     case InstructionType::Label: wasLabelUsed = true; break;
     }

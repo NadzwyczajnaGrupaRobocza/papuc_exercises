@@ -92,3 +92,14 @@ TEST_F(LedControllerTest, ShouldJumpBackwardsUntilReach0From0)
     }
     EXPECT_THAT(stream.str(), Eq(expectedString));
 }
+
+TEST_F(LedControllerTest, ShouldJumpBackwardsUntilReach0From1)
+{
+    controller.runProgram(Instructions{{InstructionType::LdB, 1},
+                                       {InstructionType::Label, 0},
+                                       {InstructionType::OutA, 0},
+                                       {InstructionType::Djnz, 0}});
+
+    std::string expectedString{"........\n"};
+    EXPECT_THAT(stream.str(), Eq(expectedString));
+}
