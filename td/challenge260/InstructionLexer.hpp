@@ -2,6 +2,7 @@
 
 #include "Token.hpp"
 
+#include <map>
 #include <regex>
 #include <stdexcept>
 #include <string>

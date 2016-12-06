@@ -48,7 +48,7 @@ void LedController::doDjnz(unsigned char label)
     {
         std::for_each(labelMapping.at(label), instructionsFromLabel.cend(),
                       [&](const auto& instructionFromLabel) {
-                          runInstruction(instructionFromLabel);
+                          this->runInstruction(instructionFromLabel);
                       });
     }
 }
@@ -77,7 +77,7 @@ LedController::LedState::operator std::string() const
 void LedController::LedState::rlca()
 {
     ledState =
-        static_cast<char>((ledState << 1)) | ((ledState & 0b10000000) != 0);
+        static_cast<char>((ledState << 1) | ((ledState & 0b10000000) != 0));
 }
 
 void LedController::LedState::rrca()
