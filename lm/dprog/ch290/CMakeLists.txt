@@ -22,3 +22,4 @@ add_executable(lm-ch290
   main.cpp)
 
 target_link_libraries(lm-ch290 lm-ch290-lib)
+add_test(lm-ch290-test ${EXECUTABLE_OUTPUT_PATH}/lm-ch290-test)

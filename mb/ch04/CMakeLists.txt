@@ -39,7 +39,4 @@ add_executable(mb-04-08-bin MB_04_08.cpp MB_04_08_main.cpp)
 #add_executable(ch04-mb-XX-bin NGR_04_XX_01.cpp NGR_04_XX_main.cpp)
 ##target_link_libraries(ch04-mb-XX gtest)
 
-add_custom_target(ch04-mb-ut-run
-  COMMAND mb-04
-  COMMENT "Run ch04-mb-ut"
-)
+add_test(mb-04 ${EXECUTABLE_OUTPUT_PATH}/mb-04)
