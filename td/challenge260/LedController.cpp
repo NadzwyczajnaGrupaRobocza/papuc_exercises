@@ -19,7 +19,7 @@ void LedController::runInstruction(const Instruction& instruction)
 {
     switch (instruction.type)
     {
-    case InstructionType::OutA: out << getLedStateFromInteger(ledState); break;
+    case InstructionType::OutA: out << ledState.to_string(); break;
     case InstructionType::LdA: ledState = instruction.value; break;
     case InstructionType::Rlca: ledState.rlca(); break;
     case InstructionType::Rrca: break;
@@ -29,9 +29,9 @@ void LedController::runInstruction(const Instruction& instruction)
     }
 }
 
-std::string LedController::getLedStateFromInteger(LedState value)
+std::string LedController::LedState::to_string() const
 {
-    return value;
+    return *this;
 }
 
 const LedController::LedState& LedController::LedState::
@@ -40,6 +40,7 @@ operator=(unsigned char value)
     ledState = value;
     return *this;
 }
+
 LedController::LedState::operator std::string() const
 {
     const std::bitset<8> bitValue{ledState};
