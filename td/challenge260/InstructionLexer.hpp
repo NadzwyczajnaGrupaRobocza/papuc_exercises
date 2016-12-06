@@ -26,6 +26,7 @@ private:
     std::string trimWhitespacesOnFront(const std::string&);
     bool regexMatcher(const std::string&, const std::regex&);
     Token::ValueType getLabelValue(const std::string&);
+    const std::string getUint8RegexWithPrefix(const std::string &);
 
     std::map<std::string, Token::ValueType> labels;
     Token::ValueType nextLabelValue{0};

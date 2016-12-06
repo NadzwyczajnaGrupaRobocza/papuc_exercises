@@ -208,3 +208,10 @@ TEST_F(InstructionLexerTest, ParserShouldMatchLabelWithLabelRef)
                                      {TokenType::LabelRef, nextLabelValue}};
     EXPECT_EQ(expectedTokensThird, parser.parseInstructions(" djnz q"));
 }
+
+TEST_F(InstructionLexerTest, ParserShouldParseLdAInstruction255)
+{
+    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Ld),
+                                {TokenType::A, 255}};
+    EXPECT_EQ(expectedTokens, parser.parseInstructions(" ld a,255"));
+}

@@ -94,15 +94,17 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
     using TextToTokens = std::vector<
         std::tuple<std::regex, TokenType,
                    std::function<Token::ValueType(const std::string&)>>>;
-    const std::string u8Regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"};
+
     using std::placeholders::_1;
     const TextToTokens acceptableInstructions{
         {std::regex{"out"}, TokenType::Out, alwaysZeroValue},
         {std::regex{"\\(0\\),a"}, TokenType::ZeroWithBracketsA,
          alwaysZeroValue},
         {std::regex{"ld"}, TokenType::Ld, alwaysZeroValue},
-        {std::regex{"a," + u8Regex}, TokenType::A, convertToUnsigned},
-        {std::regex{"b," + u8Regex}, TokenType::B, convertToUnsigned},
+        {std::regex{getUint8RegexWithPrefix("a,")}, TokenType::A,
+         convertToUnsigned},
+        {std::regex{getUint8RegexWithPrefix("b,")}, TokenType::B,
+         convertToUnsigned},
         {std::regex{"rlca"}, TokenType::Rlca, alwaysZeroValue},
         {std::regex{"rrca"}, TokenType::Rrca, alwaysZeroValue},
         {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
@@ -121,6 +123,13 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
                  std::get<2>(*instructionPosition)(trimmedInstruction)}};
     }
     throw UnknownInstruction{"Unknown instruction: " + instruction};
+}
+
+const std::string
+InstructionLexer::getUint8RegexWithPrefix(const std::string& prefix)
+{
+    return {prefix + "[0-9]{1,2}$|" + prefix + "1[0-9]{1,2}$|" + prefix +
+            "2[0-4][0-9]$|" + prefix + "25[0-5]$"};
 }
 
 std::string
