@@ -11,9 +11,19 @@ public:
     void runProgram(const Instructions& instructions);
 
 private:
+    class LedState
+    {
+    public:
+        const LedState& operator=(unsigned char);
+        operator std::string() const;
+
+        //    private:
+        unsigned char ledState{0};
+    };
+
     std::ostream& out;
-    unsigned char ledState{0};
+    LedState ledState;
 
     void runInstruction(const Instruction& instruction);
-    static std::string getLedStateFromInteger(unsigned value);
+    static std::string getLedStateFromInteger(LedState value);
 };
