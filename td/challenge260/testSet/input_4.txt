@@ -1,0 +1,13 @@
+ ld a,128
+ out (0),a
+ rrca
+ rrca
+ rrca
+ rrca
+ rrca
+ rrca
+ rrca
+ out (0),a
+ rrca
+ out (0),a
+

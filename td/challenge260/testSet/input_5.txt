@@ -1,15 +1,15 @@
- ld a,3
+ ld a,192
  out (0),a
- rlca
+ rrca
  out (0),a
 
- ld a,5
+ ld a,160
  out (0),a
- rlca
- rlca
+ rrca
+ rrca
  out (0),a
 
  ld a,255
  out (0),a
- rlca
+ rrca
  out (0),a
