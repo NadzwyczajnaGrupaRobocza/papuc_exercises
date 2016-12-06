@@ -1,14 +1,12 @@
 #include "SemanticAnalyser.hpp"
 
+#include <algorithm>
 #include <iterator>
 
 template <int N>
 Instruction::ValueType nthTokenValueGetter(Tokens::const_iterator it)
 {
-    for (int i = 1; i < N; ++i)
-    {
-        ++it;
-    }
+    std::advance(it, N - 1);
     return it->value;
 }
 
