@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <bitset>
 
+#include <iostream>
+
 LedController::LedController(std::ostream& stream) : out{stream}
 {
 }
@@ -17,6 +19,10 @@ void LedController::runProgram(const Instructions& instructions)
 
 void LedController::runInstruction(const Instruction& instruction)
 {
+    if (wasLabelUsed)
+    {
+        instructionsFromLabel.push_back(instruction);
+    }
     switch (instruction.type)
     {
     case InstructionType::OutA: out << ledState.to_string(); break;
@@ -24,8 +30,20 @@ void LedController::runInstruction(const Instruction& instruction)
     case InstructionType::Rlca: ledState.rlca(); break;
     case InstructionType::Rrca: ledState.rrca(); break;
     case InstructionType::LdB: break;
-    case InstructionType::Djnz: break;
-    case InstructionType::Label: break;
+    case InstructionType::Djnz: doDjnz(); break;
+    case InstructionType::Label: wasLabelUsed = true; break;
+    }
+}
+
+void LedController::doDjnz()
+{
+    wasLabelUsed = false;
+    if (--b)
+    {
+        for (const auto& instructionFromLabel : instructionsFromLabel)
+        {
+            runInstruction(instructionFromLabel);
+        }
     }
 }
 

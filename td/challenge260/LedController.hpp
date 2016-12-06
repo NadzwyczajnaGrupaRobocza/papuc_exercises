@@ -29,4 +29,9 @@ private:
 
     void runInstruction(const Instruction& instruction);
     static std::string getLedStateFromInteger(LedState value);
+    void doDjnz();
+
+    std::vector<Instruction> instructionsFromLabel;
+    bool wasLabelUsed{false};
+    unsigned char b{0};
 };
