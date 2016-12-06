@@ -1,0 +1,7 @@
+  ld a,1
+  ld b,9
+
+loop:
+  out (0),a
+  rlca
+  djnz loop
