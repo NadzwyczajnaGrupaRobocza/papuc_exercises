@@ -147,36 +147,34 @@ TEST_F(InstructionLexerTest,
                  InstructionLexer::UnknownLabel);
 }
 
-TEST_F(InstructionLexerTest, DISABLED_ParserShouldParseDjnzWithLabelRefA)
+TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabelRefA)
 {
+    const Tokens expectedTokensLabel{
+        createTokenWithZeroValue(TokenType::Label)};
+    EXPECT_EQ(expectedTokensLabel, parser.parseInstructions("a:"));
+
     const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
                                 createTokenWithZeroValue(TokenType::LabelRef)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz a"));
 }
 
-TEST_F(InstructionLexerTest, DISABLED_ParserShouldParseDjnzWithLabelRef_)
+TEST_F(InstructionLexerTest, ParserShouldParseDjnzWithLabelRef_)
 {
+    const Tokens expectedTokensLabel{
+        createTokenWithZeroValue(TokenType::Label)};
+    EXPECT_EQ(expectedTokensLabel, parser.parseInstructions("_:"));
+
     const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
                                 createTokenWithZeroValue(TokenType::LabelRef)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz _"));
 }
 
-TEST_F(InstructionLexerTest,
-       DISABLED_ParserShouldMakeLabelToHaveIncrementedValue)
+TEST_F(InstructionLexerTest, ParserShouldMakeSameLabelToHaveSameValue)
 {
-    const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
-                                createTokenWithZeroValue(TokenType::LabelRef)};
-    EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz _"));
+    const Tokens expectedTokensLabel{
+        createTokenWithZeroValue(TokenType::Label)};
+    EXPECT_EQ(expectedTokensLabel, parser.parseInstructions("_:"));
 
-    const Tokens expectedTokensFromSecondInstruction{
-        createTokenWithZeroValue(TokenType::Djnz),
-        {TokenType::LabelRef, nextLabelValue}};
-    EXPECT_EQ(expectedTokensFromSecondInstruction,
-              parser.parseInstructions(" djnz q"));
-}
-
-TEST_F(InstructionLexerTest, DISABLED_ParserShouldMakeSameLabelToHaveSameValue)
-{
     const Tokens expectedTokens{createTokenWithZeroValue(TokenType::Djnz),
                                 createTokenWithZeroValue(TokenType::LabelRef)};
     EXPECT_EQ(expectedTokens, parser.parseInstructions(" djnz _"));
