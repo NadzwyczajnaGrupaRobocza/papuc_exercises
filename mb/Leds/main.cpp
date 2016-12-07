@@ -4,34 +4,28 @@
 #include "InputParser.hpp"
 #include "LedBlinker.hpp"
 
+using namespace mb_led;
+
 std::vector<std::string> convertFileToStringVector(std::string);
 
 int main()
 {
 
     std::string inputFile = "LedSequence.txt";
-    auto convertedFile = convertFileToStringVector("LedSequence.txt");
+    auto fileAsVector = convertFileToStringVector("LedSequence.txt");
 
-    try
-    {
-        InputParser parser{};
-        parser.getSetOfValuesFromInstructions(convertedFile);
-        std::vector<uint> ledBlinksValues = parser.getValues();
-        LedBlinker blinker{};
-        blinker.showLedsBlinks(ledBlinksValues);
+    InputParser parser{};
+    parser.getSetOfValuesFromInstructions(fileAsVector);
+    std::vector<uint> ledBlinksValues = parser.getValues();
+    LedBlinker blinker{};
+    blinker.showLedsBlinks(ledBlinksValues);
 
-        return 0;
-    }
-    catch (const std::logic_error& ex)
-    {
-        std::cout << "Catched exception: " << ex.what() << std::endl;
-        return 1;
-    }
+    return 0;
 }
 
 std::vector<std::string> convertFileToStringVector(std::string fileName)
 {
-    std::vector<std::string> convertedFile;
+    std::vector<std::string> fileAsVector;
     std::ifstream inputFile{fileName};
     if( inputFile.is_open() )
     {
@@ -39,7 +33,7 @@ std::vector<std::string> convertFileToStringVector(std::string fileName)
         std::string line;
         while( getline(inputFile,line) )
         {
-            convertedFile.push_back(line);
+            fileAsVector.push_back(line);
         }
         inputFile.close();
     }
@@ -47,5 +41,5 @@ std::vector<std::string> convertFileToStringVector(std::string fileName)
     {
         std::cout << "Unable to open file " << fileName;
     }
-    return convertedFile;
+    return fileAsVector;
 }

@@ -3,6 +3,9 @@
 #include <iostream>
 #include <bitset>
 
+namespace mb_led
+{
+
 LedBlinker::LedBlinker()
 {}
 
@@ -25,4 +28,6 @@ void LedBlinker::showLedsSequence(const uint& value)
     {
         throw std::out_of_range{"To high value"};
     }
+}
+
 }

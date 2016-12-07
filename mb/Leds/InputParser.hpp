@@ -4,46 +4,27 @@
 #include <string>
 #include <vector>
 
-enum class LineContent : uint
+namespace mb_led
 {
-    empty = 0,
-    setRegisterA,
-    setRegisterB,
-    updateLeds,
-    rlca,
-    rrca,
-    label,
-    endLabel,
-    unknown
-};
+
+enum class LineContent : uint;
 
 class InputParser
 {
 public:
-    InputParser();
-
     void getSetOfValuesFromInstructions(const std::vector<std::string>& inputInstructions);
     std::vector<uint> getValues();
 
 private:
-    const std::regex empty{"^$"};
-    const std::regex setRegisterA{"^ld a,[[:digit:]]+$"};
-    const std::regex setRegisterB{"^ld b,[[:digit:]]+$"};
-    const std::regex updateLeds{"^out \\(0\\),a$"};
-    const std::regex rlca{"^rlca$"};
-    const std::regex rrca{"^rrca$"};
-    const std::regex label{"^[a-zA-Z_]+:$"};
-    std::regex endLabel{"^djnz$"};
-
     std::string currentLabel;
-    const std::string instructionPrefix{"ld a,"};
-
-    std::vector<uint> outputValues;
     uint currentValue;
+    std::vector<uint> outputValues;
 
     void moveBitsToLeft();
     void moveBitsToRight();
-    LineContent checkLineContent(const std::string& line);
-    void setCurrentValueFromInstruction(const std::string& instruction);
-    std::string trimWhitespacesFromFrontAndBack(const std::string& line);
+    void setCurrentValue(const std::string& instruction);
+    void setCurrentLabel(const std::string& instruction);
+    void setEndLabelRegExpr();
 };
+
+}

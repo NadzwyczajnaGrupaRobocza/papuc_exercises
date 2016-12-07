@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 
+namespace mb_led
+{
+
 class LedBlinker
 {
 public:
@@ -12,3 +15,4 @@ private:
     void showLedsSequence(const uint& ledsBlinks);
 };
 
+}
