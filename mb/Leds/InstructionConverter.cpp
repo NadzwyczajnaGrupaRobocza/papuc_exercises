@@ -56,13 +56,13 @@ void InstructionConverter::instructionsToLedsValues(const std::vector<std::strin
 
 void InstructionConverter::moveBitsToLeft()
 {
-    LedValue = (LedValue >= 128) ? (static_cast<unsigned8_t>(LedValue << 1) +1) :
+    LedValue = (LedValue >= 128) ? (static_cast<std::uint8_t>(LedValue << 1) +1) :
                                            (static_cast<unsigned>(LedValue) << 1);
 }
 
 void InstructionConverter::moveBitsToRight()
 {
-    LedValue = (LedValue % 2) ? (static_cast<unsigned8_t>(LedValue >> 1) + 128) :
+    LedValue = (LedValue % 2) ? (static_cast<std::uint8_t>(LedValue >> 1) + 128) :
                                         (static_cast<unsigned>(LedValue) >> 1);
 }
 
