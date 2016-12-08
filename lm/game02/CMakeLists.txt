@@ -4,7 +4,7 @@ add_executable(lm-game02
   Board.cpp
   World.cpp
   PhysicalEntity.cpp
-  MassRegistry.cpp)
+  HiggsField.cpp)
 
 target_compile_options(lm-game02 PRIVATE "-Wno-switch-enum")
 target_link_libraries(lm-game02 ${SFML_LIBRARIES})

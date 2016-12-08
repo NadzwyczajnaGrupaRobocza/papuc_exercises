@@ -1,10 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Log.hpp"
 
 namespace lmg02
 {
-class MassRegistry;
+class HiggsField;
 struct State
 {
     sf::Vector2f position;
@@ -20,7 +21,7 @@ struct Derivative
 class PhysicalEntity
 {
 public:
-    PhysicalEntity(const sf::Vector2f&, const sf::Vector2f&, float, const MassRegistry&);
+    PhysicalEntity(common::Log&, const sf::Vector2f&, const sf::Vector2f&, float, const HiggsField&);
 
     void prepare_next_pos(float);
     void detect_colision(const sf::FloatRect&);
@@ -38,13 +39,14 @@ public:
     }
 
 private:
+    common::Log& log;
     State compute_next_state(float dt);
     Derivative evaluate(float dt, const Derivative& d);
 
     State current_state;
     State next_state;
     float mass;
-    const MassRegistry& registry;
+    const HiggsField& registry;
 };
 
 }

@@ -3,19 +3,21 @@
 #include "Board.hpp"
 #include <vector>
 #include "PhysicalEntity.hpp"
-#include "MassRegistry.hpp"
+#include "HiggsField.hpp"
+#include "Log.hpp"
 
 namespace lmg02
 {
 class World
 {
 public:
-    World();
+    World(common::Log&);
     void advance(const sf::Time& , const sf::Vector2f& );
     void display_on(sf::RenderTarget&);
 
 private:
-    MassRegistry registry;
+    common::Log& log;
+    HiggsField registry;
     sf::FloatRect mass_box{{380.f, 280.f}, {40.f, 40.f}};
     std::vector<PhysicalEntity> entities;
 };
