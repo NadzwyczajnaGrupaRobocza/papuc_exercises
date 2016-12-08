@@ -21,7 +21,4 @@ add_executable(lm-calculator
 
 target_link_libraries(lm-calculator lm-calculator-lib)
 
-add_custom_target(ch06-lm-ut-run
-  COMMAND lm-ch06
-  COMMENT "Run ch06-lm-ut"
-)
+add_test(lm-ch06 ${EXECUTABLE_OUTPUT_PATH}/lm-ch06)

@@ -6,8 +6,4 @@ add_executable(
   )
 target_link_libraries(td-test gtest_main)
 
-
-add_custom_target(runTest
-  COMMAND td-test
-  COMMENT "Run test"
-)
+add_test(td-test ${EXECUTABLE_OUTPUT_PATH}/td-test)

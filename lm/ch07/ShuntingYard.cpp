@@ -3,12 +3,12 @@
 
 namespace calc
 {
-ASTBuilder::ASTBuilder(util::Log& logInit, TokenStream& tsInit)
+ASTBuilder::ASTBuilder(common::Log& logInit, TokenStream& tsInit)
     : log{logInit}, ts{tsInit}
 {
 }
 
-ASTBuilder::ASTBuilder(util::Log& logInit, TokenStream&& tsInit)
+ASTBuilder::ASTBuilder(common::Log& logInit, TokenStream&& tsInit)
     : log{logInit}, tsVal{std::make_unique<TokenStream>(std::move(tsInit))},
       ts{*tsVal}
 {

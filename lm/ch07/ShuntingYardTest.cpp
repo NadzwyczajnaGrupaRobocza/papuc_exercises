@@ -46,7 +46,7 @@ protected:
     }
 
     std::stringstream logSink;
-    util::StreamLog log{logSink};
+    common::StreamLog log{logSink};
     calc::MockTokenStream ts;
     calc::ASTBuilder astb{log, ts};
 };
