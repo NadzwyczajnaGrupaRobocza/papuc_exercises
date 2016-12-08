@@ -1,4 +1,5 @@
-#include "MassRegistry.hpp"
+#include "HiggsField.hpp"
+#include "Log.hpp"
 #include "PhysicalConstants.hpp"
 #include "sfml_help.hpp"
 #include <boost/range/adaptors.hpp>
@@ -9,7 +10,10 @@ using namespace sfml_help;
 
 namespace lmg02
 {
-void MassRegistry::add_entity(PhysicalEntity* e)
+HiggsField::HiggsField(common::Log& logInit) : log{logInit}
+{
+}
+void HiggsField::add_entity(PhysicalEntity* e)
 {
     entities.push_back(e);
 }
@@ -20,32 +24,33 @@ sf::Vector2f compute_boundry_accel(float pos_dif,
 sf::Vector2f compute_gravitational_attraction(const PhysicalEntity* const,
                                               const PhysicalEntity* const);
 
-sf::Vector2f compute_central_mass_accel(const sf::Vector2f& position,
-                                        float other_mass);
-sf::Vector2f compute_central_mass_accel(const sf::Vector2f& other_position,
-                                        float other_mass)
-{
-    sf::Vector2f large_mass_center{400.f, 300.f};
-    sf::Vector2f direction = large_mass_center - other_position;
-    sf::Vector2f direction_unit =
-        from_1_to_2_unit(other_position, large_mass_center);
-    double large_mass = 200000000000.f;
+// sf::Vector2f compute_central_mass_accel(const sf::Vector2f& position,
+//                                         float other_mass);
+// sf::Vector2f compute_central_mass_accel(const sf::Vector2f&
+// other_position,
+//                                         float other_mass)
+// {
+//     sf::Vector2f large_mass_center{400.f, 300.f};
+//     sf::Vector2f direction = large_mass_center - other_position;
+//     sf::Vector2f direction_unit =
+//         from_1_to_2_unit(other_position, large_mass_center);
+//     double large_mass = 200000000000.f;
 
-    float numerator = static_cast<float>(GRAVITATIONAL_CONSTANT *
-                                         large_mass * other_mass);
-    float denominator = length_squared(direction);
+//     float numerator = static_cast<float>(GRAVITATIONAL_CONSTANT *
+//                                          large_mass * other_mass);
+//     float denominator = length_squared(direction);
 
-    return direction_unit * numerator / denominator;
-}
+//     return direction_unit * numerator / denominator;
+// }
 
-sf::Vector2f MassRegistry::get_accel(const PhysicalEntity* const caller,
+sf::Vector2f HiggsField::get_accel(const PhysicalEntity* const caller,
                                      float /*dt*/) const
 {
-    const auto& caller_state = caller->get_state();
+    //const auto& caller_state = caller->get_state();
     sf::Vector2f base_accel{0.f, 0.f};
 
-    base_accel += compute_central_mass_accel(caller_state.position,
-                                             caller->get_mass());
+    // base_accel += compute_central_mass_accel(caller_state.position,
+    //                                          caller->get_mass());
     // base_accel += boundry_accel(caller_state);
     base_accel += other_entities_accel(caller);
 
@@ -53,7 +58,7 @@ sf::Vector2f MassRegistry::get_accel(const PhysicalEntity* const caller,
 }
 
 sf::Vector2f
-MassRegistry::other_entities_accel(const PhysicalEntity* const caller) const
+HiggsField::other_entities_accel(const PhysicalEntity* const caller) const
 {
     using boost::adaptors::filtered;
     sf::Vector2f accel{0.f, 0.f};
@@ -62,7 +67,7 @@ MassRegistry::other_entities_accel(const PhysicalEntity* const caller) const
         [&](const auto& e) {
             accel += caller->gravitational_pull_from(*e);
         });
-
+    log.info() << "other entities accel: {" << accel.x << ", " << accel.y << "}";
     return accel;
 }
 

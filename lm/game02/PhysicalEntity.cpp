@@ -1,5 +1,5 @@
 #include "PhysicalEntity.hpp"
-#include "MassRegistry.hpp"
+#include "HiggsField.hpp"
 #include "PhysicalConstants.hpp"
 #include "sfml_help.hpp"
 
@@ -7,11 +7,13 @@ using namespace sfml_help;
 
 namespace lmg02
 {
-PhysicalEntity::PhysicalEntity(const sf::Vector2f& initialPosition,
+PhysicalEntity::PhysicalEntity(common::Log& logInit,
+                               const sf::Vector2f& initialPosition,
                                const sf::Vector2f& initialVelocity,
                                float initialMass,
-                               const MassRegistry& registryInitializer)
-    : current_state{initialPosition, initialVelocity}, mass{initialMass},
+                               const HiggsField& registryInitializer)
+    : log{logInit},
+      current_state{initialPosition, initialVelocity}, mass{initialMass},
       registry{registryInitializer}
 {
 }
@@ -40,6 +42,7 @@ PhysicalEntity::gravitational_pull_from(const PhysicalEntity& other) const
     const auto& other_pos = other.get_state().position;
     const auto& this_pos = current_state.position;
     auto direction = from_1_to_2_unit(this_pos, other_pos);
+    log.info() << "direction:{" << direction.x << ", " << direction.y << "}";
 
     float numerator =
         static_cast<float>(GRAVITATIONAL_CONSTANT * mass * other.mass);

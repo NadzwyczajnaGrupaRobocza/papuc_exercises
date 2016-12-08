@@ -1,6 +1,8 @@
 #include "World.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <sstream>
+#include "StreamLog.hpp"
 
 sf::Vector2f processUserInput(float baseSpeed, sf::RenderWindow& window);
 
@@ -10,7 +12,9 @@ int main(int /*argc*/, char** /*argv*/)
     sf::RenderWindow mainWindow(sf::VideoMode(screenSize.x, screenSize.y),
                                 "myproject");
     mainWindow.setVerticalSyncEnabled(true);
-    lmg02::World w{};
+    std::stringstream s;
+    common::StreamLog slog{s};
+    lmg02::World w{slog};
 
     sf::Clock frameClock;
 
