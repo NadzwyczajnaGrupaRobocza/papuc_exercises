@@ -6,23 +6,20 @@
 namespace mb_led
 {
 
-LedBlinker::LedBlinker()
-{}
-
-void LedBlinker::showLedsBlinks(const std::vector<uint>& ledsSequences)
+void LedBlinker::showAllLedsSets(const std::vector<uint>& ledsSets)
 {
-    for( const auto& ledsBlinks : ledsSequences)
+    for( const auto& ledsSet : ledsSets)
     {
-        showLedsSequence(ledsBlinks);
+        showSingleLedsSet(ledsSet);
     }
 }
 
-void LedBlinker::showLedsSequence(const uint& value)
+void LedBlinker::showSingleLedsSet(const uint& value)
 {
     if (value < 256)
     {
-        std::string ledsBlinks = std::bitset<8>(value).to_string('.', '*');
-        std::cout << ledsBlinks << std::endl;
+        std::string ledsSet = std::bitset<8>(value).to_string('.', '*');
+        std::cout << ledsSet << std::endl;
     }
     else
     {

@@ -1,4 +1,4 @@
-#include "InstructionPreparer.hpp"
+#include "InstructionParser.hpp"
 
 #include <iostream>
 #include <regex>
@@ -8,13 +8,21 @@
 namespace mb_led
 {
 
-void InstructionPreparer::prepare(const std::vector<std::string>& rawInstructions)
+std::vector<std::string> InstructionParser::getFlatInstructions(const std::vector<std::string>& input)
+{
+    prework(input);
+    createFlatInstructions();
+    return flatInstructions;
+}
+
+
+void InstructionParser::prework(const std::vector<std::string>& rawInstructions)
 {
     bool isInstructionInLabel{false};
     for(const auto& line : rawInstructions)
     {
         std::string instructionFromLine = removeWhitespacesFromEnds(line);
-        switch (checkLineContent(instructionFromLine))
+        switch (checkLineContent(instructionFromLine, InstructionRegexp))
         {
             case LineContent::empty:
             {
@@ -26,14 +34,14 @@ void InstructionPreparer::prepare(const std::vector<std::string>& rawInstruction
             case LineContent::rrca:
             {
                 isInstructionInLabel ? labelContent.push_back(instructionFromLine)
-                                     : preparedInstructions.push_back(instructionFromLine);
+                                     : outOfLabelInstructions.push_back(instructionFromLine);
                 break;
             }
             case LineContent::setRegisterB:
             {
                 uint loopCount = getLoopCount(instructionFromLine);
-                std::vector<std::string> registerBLabels{loopCount, "label"};
-                preparedInstructions.insert(preparedInstructions.end(),
+                std::vector<std::string> registerBLabels{loopCount, ldbPrefix};
+                outOfLabelInstructions.insert(outOfLabelInstructions.end(),
                                             registerBLabels.begin(),
                                             registerBLabels.end());
                 break;
@@ -41,7 +49,7 @@ void InstructionPreparer::prepare(const std::vector<std::string>& rawInstruction
             case LineContent::label:
             {
                 setLabel(instructionFromLine);
-                setEndLabelRegExpr();
+                setEndLabelRegex();
                 isInstructionInLabel = true;
                 break;
             }
@@ -63,18 +71,9 @@ void InstructionPreparer::prepare(const std::vector<std::string>& rawInstruction
             }
         }
     }
-
-    replaceLdbByLabel();
-
 }
 
-std::vector<std::string> InstructionPreparer::getPreparedInstructions()
-{
-    return output;
-}
-
-
-std::string InstructionPreparer::removeWhitespacesFromEnds(const std::string& line)
+std::string InstructionParser::removeWhitespacesFromEnds(const std::string& line)
 {
     const std::string whitespace = " \t";
     const auto firstAlphaChar = line.find_first_not_of(whitespace);
@@ -87,35 +86,36 @@ std::string InstructionPreparer::removeWhitespacesFromEnds(const std::string& li
     return "";
 }
 
-uint InstructionPreparer::getLoopCount(std::string line)
+uint InstructionParser::getLoopCount(std::string line)
 {
     const std::string stringValue = line.substr( ldbPrefix.length() );
     return static_cast<uint>(std::stoi(stringValue));
 }
 
-void InstructionPreparer::setLabel(const std::string& line)
+void InstructionParser::setLabel(const std::string& line)
 {
     label = line.substr(0, line.length() - 1);
 }
 
-void InstructionPreparer::setEndLabelRegExpr()
+void InstructionParser::setEndLabelRegex()
 {
-    InstructionRegexp["endLabel"] = std::regex{"^djnz " + label + "$"};
+    const std::string endLabel = "^djnz " + label + "$";
+    InstructionRegexp["endLabel"] = std::regex{endLabel};
 }
 
-void InstructionPreparer::replaceLdbByLabel() //MBB rename
+void InstructionParser::createFlatInstructions()
 {
-    for(auto aaa : preparedInstructions)
+    for(auto instruction : outOfLabelInstructions)
     {
-        if(aaa == "label")
+        if(instruction == ldbPrefix)
         {
-            output.insert(output.end(),
-                          labelContent.begin(),
-                          labelContent.end());
+            flatInstructions.insert(flatInstructions.end(),
+                                    labelContent.begin(),
+                                    labelContent.end());
         }
         else
         {
-            output.push_back(aaa);
+            flatInstructions.push_back(instruction);
         }
     }
 }

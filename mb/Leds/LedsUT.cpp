@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
-#include "InputParser.hpp"
+#include "InstructionConverter.hpp"
 #include "LedBlinker.hpp"
-#include "InstructionPreparer.hpp"
+#include "InstructionParser.hpp"
 //#include "LedCommon.hpp"
 
 using testing::InSequence;
@@ -12,116 +12,9 @@ using testing::Return;
 
 using namespace mb_led;
 
-TEST(MBB_Led_Converter, convertingSingleInstruction)
+TEST(MBB_Led_Converter, parseSimpleInstructions)
 {
-    const std::vector<std::string> input{
-        "ld a,10",
-        "out (0),a"};
-
-    const std::vector<uint> expectedOut{ 10 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-}
-
-TEST(MBB_Led_Converter, oneRegisterIsTakenTwoTimes)
-{
-    const std::vector<std::string> input{
-        "ld a,10",
-        "out (0),a",
-        "out (0),a"};
-
-    const std::vector<uint> expectedOut{ 10, 10 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-}
-
-TEST(MBB_Led_Converter, movingBitsToRight)
-{
-    const std::vector<std::string> input{
-        "ld a,10",
-        "rrca",
-        "out (0),a"};
-
-    const std::vector<uint> expectedOut{ 5 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-
-}
-
-TEST(MBB_Led_Converter, movingMostRightBitToRight)
-{
-    const std::vector<std::string> input{
-        "ld a,1",
-        "rrca",
-        "out (0),a"};
-
-    const std::vector<uint> expectedOut{ 128 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-
-}
-
-TEST(MBB_Led_Converter, movingBitsToLeft)
-{
-    const std::vector<std::string> input{
-        "ld a,200",
-        "rlca",
-        "out (0),a"};
-    const std::vector<uint> expectedOut{ 145 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-}
-
-TEST(MBB_Led_Converter, allBitsOnAreMovedToLeft)
-{
-    const std::vector<std::string> input{
-        "ld a,255",
-        "rlca",
-        "out (0),a"};
-    const std::vector<uint> expectedOut{ 255 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-}
-
-TEST(MBB_Led_Converter, returnigLastSettedValue)
-{
-    const std::vector<std::string> input{
-        "ld a,10",
-        "ld a,12",
-        "out (0),a"};
-
-    const std::vector<uint> expectedOut{ 12 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-}
-
-TEST(MBB_Led_Converter, convertingSetOfInstructions)
-{
-    const std::vector<std::string> input{
-        "ld a,10",
-        "out (0),a",
-        "ld a,12",
-        "out (0),a",
-        "ld a,24",
-        "eeee",
-        "out (0),a"};
-
-    const std::vector<uint> expectedOut{ 10, 12, 24 };
-    InputParser parser{};
-    parser.getSetOfValuesFromInstructions(input);
-    EXPECT_EQ( parser.getValues(), expectedOut);
-}
-
-TEST(MBB_Led_Converter, test_01)
-{
-    InstructionPreparer ip{};
+    InstructionParser ip{};
     const std::vector<std::string> input{
         " ld a,10  ",
         "    ",
@@ -134,25 +27,25 @@ TEST(MBB_Led_Converter, test_01)
         "out (0),a",
         "rlca",
         "rrca"};
-    ip.prepare(input);
-    EXPECT_EQ(ip.getPreparedInstructions(), expectedOut);
+
+    EXPECT_EQ(ip.getFlatInstructions(input), expectedOut);
 }
-/*
-TEST(MBB_Led_Converter, test_02)
+
+TEST(MBB_Led_Converter, parseInstructionsWithoutLabel)
 {
-    InstructionPreparer ip{};
+    InstructionParser ip{};
     const std::vector<std::string> input{
         " ld a,10",
         " ld b,3"};
     const std::vector<std::string> expectedOut{
         "ld a,10"};
-    ip.prepare(input);
-    EXPECT_EQ(ip.getPreparedInstructions(), expectedOut);
+
+    EXPECT_EQ(ip.getFlatInstructions(input), expectedOut);
 }
 
-TEST(MBB_Led_Converter, test_03)
+TEST(MBB_Led_Converter, parseInstructionWithSimpleLabel)
 {
-    InstructionPreparer ip{};
+    InstructionParser ip{};
     const std::vector<std::string> input{
         " ld a,10",
         " ld b,2",
@@ -163,13 +56,13 @@ TEST(MBB_Led_Converter, test_03)
         "ld a,10",
         "rlca",
         "rlca"};
-    ip.prepare(input);
-    EXPECT_EQ(ip.getPreparedInstructions(), expectedOut);
+
+    EXPECT_EQ(ip.getFlatInstructions(input), expectedOut);
 }
 
-TEST(MBB_Led_Converter, test_04)
+TEST(MBB_Led_Converter, parseComplicatedInstructions)
 {
-    InstructionPreparer ip{};
+    InstructionParser ip{};
     const std::vector<std::string> input{
         " ld a,10",
         " out (0),a",
@@ -203,8 +96,113 @@ TEST(MBB_Led_Converter, test_04)
         "out (0),a",
         "ld a,111",
         "out (0),a"};
-    ip.prepare(input);
-    EXPECT_EQ(ip.getPreparedInstructions(), expectedOut);
+
+    EXPECT_EQ(ip.getFlatInstructions(input), expectedOut);
 }
 
-*/
+TEST(MBB_Led_Converter, convertingSingleInstruction)
+{
+    const std::vector<std::string> input{
+        "ld a,10",
+        "out (0),a"};
+
+    const std::vector<uint> expectedOut{ 10 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, oneRegisterIsTakenTwoTimes)
+{
+    const std::vector<std::string> input{
+        "ld a,10",
+        "out (0),a",
+        "out (0),a"};
+
+    const std::vector<uint> expectedOut{ 10, 10 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, movingBitsToRight)
+{
+    const std::vector<std::string> input{
+        "ld a,10",
+        "rrca",
+        "out (0),a"};
+
+    const std::vector<uint> expectedOut{ 5 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+
+}
+
+TEST(MBB_Led_Converter, movingMostRightBitToRight)
+{
+    const std::vector<std::string> input{
+        "ld a,1",
+        "rrca",
+        "out (0),a"};
+
+    const std::vector<uint> expectedOut{ 128 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+
+}
+
+TEST(MBB_Led_Converter, movingBitsToLeft)
+{
+    const std::vector<std::string> input{
+        "ld a,200",
+        "rlca",
+        "out (0),a"};
+    const std::vector<uint> expectedOut{ 145 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, allBitsOnAreMovedToLeft)
+{
+    const std::vector<std::string> input{
+        "ld a,255",
+        "rlca",
+        "out (0),a"};
+    const std::vector<uint> expectedOut{ 255 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, returnigLastSettedValue)
+{
+    const std::vector<std::string> input{
+        "ld a,10",
+        "ld a,12",
+        "out (0),a"};
+
+    const std::vector<uint> expectedOut{ 12 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+}
+
+TEST(MBB_Led_Converter, convertingSetOfInstructions)
+{
+    const std::vector<std::string> input{
+        "ld a,10",
+        "out (0),a",
+        "ld a,12",
+        "out (0),a",
+        "ld a,24",
+        "eeee",
+        "out (0),a"};
+
+    const std::vector<uint> expectedOut{ 10, 12, 24 };
+    InstructionConverter converter{};
+    converter.instructionsToLedsValues(input);
+    EXPECT_EQ( converter.getLedsValues(), expectedOut);
+}

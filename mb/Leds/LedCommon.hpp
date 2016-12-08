@@ -33,6 +33,9 @@ static std::map<std::string, std::regex> InstructionRegexp {
     {"label", std::regex{"^[a-zA-Z_]+:$"}},
     {"endLabel", std::regex{"^$"}}};
 
-LineContent checkLineContent(const std::string& line);
+LineContent checkLineContent(const std::string& line,
+                             std::map<std::string, std::regex>& regexMap);
+
+std::vector<std::string> convertFileToStringVector(std::string);
 
 }
