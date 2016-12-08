@@ -9,9 +9,9 @@ namespace mb_led
 class LedBlinker
 {
 public:
-    void showAllLedsSets(const std::vector<uint>& ledsSequences);
+    void showAllLedsSets(const std::vector<unsigned>& ledsSequences);
 private:
-    void showSingleLedsSet(const uint& ledsBlinks);
+    void showSingleLedsSet(const unsigned& ledsBlinks);
 };
 
 }

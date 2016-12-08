@@ -17,7 +17,7 @@ int main()
     const auto flatInstructions = parser.getFlatInstructions(vectorizedFile);
     InstructionConverter converter{};
     converter.instructionsToLedsValues(flatInstructions);
-    std::vector<uint> ledBlinksValues = converter.getLedsValues();
+    std::vector<unsigned> ledBlinksValues = converter.getLedsValues();
     LedBlinker blinker{};
     blinker.showAllLedsSets(ledBlinksValues);
 

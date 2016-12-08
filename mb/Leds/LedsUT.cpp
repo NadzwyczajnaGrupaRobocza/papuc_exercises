@@ -106,7 +106,7 @@ TEST(MBB_Led_Converter, convertingSingleInstruction)
         "ld a,10",
         "out (0),a"};
 
-    const std::vector<uint> expectedOut{ 10 };
+    const std::vector<unsigned> expectedOut{ 10 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);
@@ -119,7 +119,7 @@ TEST(MBB_Led_Converter, oneRegisterIsTakenTwoTimes)
         "out (0),a",
         "out (0),a"};
 
-    const std::vector<uint> expectedOut{ 10, 10 };
+    const std::vector<unsigned> expectedOut{ 10, 10 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);
@@ -132,7 +132,7 @@ TEST(MBB_Led_Converter, movingBitsToRight)
         "rrca",
         "out (0),a"};
 
-    const std::vector<uint> expectedOut{ 5 };
+    const std::vector<unsigned> expectedOut{ 5 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);
@@ -146,7 +146,7 @@ TEST(MBB_Led_Converter, movingMostRightBitToRight)
         "rrca",
         "out (0),a"};
 
-    const std::vector<uint> expectedOut{ 128 };
+    const std::vector<unsigned> expectedOut{ 128 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);
@@ -159,7 +159,7 @@ TEST(MBB_Led_Converter, movingBitsToLeft)
         "ld a,200",
         "rlca",
         "out (0),a"};
-    const std::vector<uint> expectedOut{ 145 };
+    const std::vector<unsigned> expectedOut{ 145 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);
@@ -171,7 +171,7 @@ TEST(MBB_Led_Converter, allBitsOnAreMovedToLeft)
         "ld a,255",
         "rlca",
         "out (0),a"};
-    const std::vector<uint> expectedOut{ 255 };
+    const std::vector<unsigned> expectedOut{ 255 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);
@@ -184,7 +184,7 @@ TEST(MBB_Led_Converter, returnigLastSettedValue)
         "ld a,12",
         "out (0),a"};
 
-    const std::vector<uint> expectedOut{ 12 };
+    const std::vector<unsigned> expectedOut{ 12 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);
@@ -201,7 +201,7 @@ TEST(MBB_Led_Converter, convertingSetOfInstructions)
         "eeee",
         "out (0),a"};
 
-    const std::vector<uint> expectedOut{ 10, 12, 24 };
+    const std::vector<unsigned> expectedOut{ 10, 12, 24 };
     InstructionConverter converter{};
     converter.instructionsToLedsValues(input);
     EXPECT_EQ( converter.getLedsValues(), expectedOut);

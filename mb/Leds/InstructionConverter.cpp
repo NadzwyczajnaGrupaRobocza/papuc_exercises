@@ -7,7 +7,7 @@
 namespace mb_led
 {
 
-std::vector<uint> InstructionConverter::getLedsValues()
+std::vector<unsigned> InstructionConverter::getLedsValues()
 {
     return ledsValues;
 }
@@ -56,20 +56,20 @@ void InstructionConverter::instructionsToLedsValues(const std::vector<std::strin
 
 void InstructionConverter::moveBitsToLeft()
 {
-    LedValue = (LedValue >= 128) ? (static_cast<uint8_t>(LedValue << 1) +1) :
-                                           (static_cast<uint>(LedValue) << 1);
+    LedValue = (LedValue >= 128) ? (static_cast<unsigned8_t>(LedValue << 1) +1) :
+                                           (static_cast<unsigned>(LedValue) << 1);
 }
 
 void InstructionConverter::moveBitsToRight()
 {
-    LedValue = (LedValue % 2) ? (static_cast<uint8_t>(LedValue >> 1) + 128) :
-                                        (static_cast<uint>(LedValue) >> 1);
+    LedValue = (LedValue % 2) ? (static_cast<unsigned8_t>(LedValue >> 1) + 128) :
+                                        (static_cast<unsigned>(LedValue) >> 1);
 }
 
 void InstructionConverter::setLedValue(const std::string& instruction)
 {
     const std::string stringValue = instruction.substr( ldaprefix.length() );
-    LedValue = static_cast<uint>( std::stoi(stringValue) );
+    LedValue = static_cast<unsigned>( std::stoi(stringValue) );
 }
 
 }

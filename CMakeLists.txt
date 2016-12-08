@@ -79,6 +79,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -Werror")
 endif()
 
+find_package(SFML 2 COMPONENTS system window graphics network audio)
+if(SFML_FOUND)
+  include_directories(${SFML_INCLUDE_DIR})
+endif()
+
 include_directories(SYSTEM ${GSL_INCLUDE_DIR})
 include_directories(${PAPUC_COMMON_INCLUDE_DIR})
 

@@ -39,7 +39,7 @@ void InstructionParser::prework(const std::vector<std::string>& rawInstructions)
             }
             case LineContent::setRegisterB:
             {
-                uint loopCount = getLoopCount(instructionFromLine);
+                unsigned loopCount = getLoopCount(instructionFromLine);
                 std::vector<std::string> registerBLabels{loopCount, ldbPrefix};
                 outOfLabelInstructions.insert(outOfLabelInstructions.end(),
                                             registerBLabels.begin(),
@@ -86,10 +86,10 @@ std::string InstructionParser::removeWhitespacesFromEnds(const std::string& line
     return "";
 }
 
-uint InstructionParser::getLoopCount(std::string line)
+unsigned InstructionParser::getLoopCount(std::string line)
 {
     const std::string stringValue = line.substr( ldbPrefix.length() );
-    return static_cast<uint>(std::stoi(stringValue));
+    return static_cast<unsigned>(std::stoi(stringValue));
 }
 
 void InstructionParser::setLabel(const std::string& line)

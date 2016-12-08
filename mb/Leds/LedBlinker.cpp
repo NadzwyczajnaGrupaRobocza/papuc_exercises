@@ -6,7 +6,7 @@
 namespace mb_led
 {
 
-void LedBlinker::showAllLedsSets(const std::vector<uint>& ledsSets)
+void LedBlinker::showAllLedsSets(const std::vector<unsigned>& ledsSets)
 {
     for( const auto& ledsSet : ledsSets)
     {
@@ -14,7 +14,7 @@ void LedBlinker::showAllLedsSets(const std::vector<uint>& ledsSets)
     }
 }
 
-void LedBlinker::showSingleLedsSet(const uint& value)
+void LedBlinker::showSingleLedsSet(const unsigned& value)
 {
     if (value < 256)
     {

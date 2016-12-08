@@ -7,17 +7,17 @@
 namespace mb_led
 {
 
-enum class LineContent : uint;
+enum class LineContent : unsigned;
 
 class InstructionConverter
 {
 public:
     void instructionsToLedsValues(const std::vector<std::string>& inputInstructions);
-    std::vector<uint> getLedsValues();
+    std::vector<unsigned> getLedsValues();
 
 private:
-    uint LedValue;
-    std::vector<uint> ledsValues;
+    unsigned LedValue;
+    std::vector<unsigned> ledsValues;
 
     void moveBitsToLeft();
     void moveBitsToRight();

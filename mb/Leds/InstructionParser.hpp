@@ -14,7 +14,7 @@ public:
 private:
     void prework(const std::vector<std::string>& rawInstructions);
     std::string removeWhitespacesFromEnds(const std::string& line);
-    uint getLoopCount(std::string);
+    unsigned getLoopCount(std::string);
     void setLabel(const std::string& line);
     void setEndLabelRegex();
     void createFlatInstructions();

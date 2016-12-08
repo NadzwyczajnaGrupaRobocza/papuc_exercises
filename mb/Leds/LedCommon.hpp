@@ -10,7 +10,7 @@ namespace mb_led
 const std::string ldaprefix = "ld a,";
 const std::string ldbPrefix = "ld b,";
 
-enum class LineContent : uint
+enum class LineContent : unsigned
 {
     empty = 0,
     setRegisterA,
