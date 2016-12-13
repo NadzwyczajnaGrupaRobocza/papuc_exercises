@@ -39,7 +39,8 @@ std::vector<std::string> ExpressionSplitter::split(const std::string& in)
     trim(inLocal);
     if (inLocal.length() == 0) return {};
 
-    unsigned long num_sep = std::count(in.begin(), in.end(), ';');
+    const auto num_sep =
+        static_cast<std::size_t>(std::count(in.begin(), in.end(), ';'));
     std::stringstream ss{in};
 
     std::vector<std::string> rv;

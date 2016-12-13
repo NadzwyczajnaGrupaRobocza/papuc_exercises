@@ -57,6 +57,5 @@ int main(int argc, char* argv[])
         std::cerr << "Unexpected exception";
         return 2;
     }
-    return 0;
 }
 
