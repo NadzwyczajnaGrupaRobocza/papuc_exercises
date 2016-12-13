@@ -54,22 +54,32 @@ void InstructionConverter::instructionsToLedsValues(const std::vector<std::strin
     }
 }
 
+bool InstructionConverter::isMostSignificantBitSet()
+{
+    return LedValue >= 128;
+}
+
 void InstructionConverter::moveBitsToLeft()
 {
-    LedValue = (LedValue >= 128) ? (static_cast<std::uint8_t>(LedValue << 1) +1) :
-                                   (static_cast<uint8_t>(LedValue) << 1);
+    LedValue = isMostSignificantBitSet() ? (static_cast<std::uint8_t>(LedValue << 1) +1) :
+                                           (static_cast<uint8_t>(LedValue) << 1);
+}
+
+bool InstructionConverter::isLessSignificantBitSet()
+{
+    return LedValue % 2;
 }
 
 void InstructionConverter::moveBitsToRight()
 {
-    LedValue = (LedValue % 2) ? (static_cast<std::uint8_t>(LedValue >> 1) + 128) :
-                                (static_cast<uint8_t>(LedValue) >> 1);
+    LedValue = isLessSignificantBitSet() ? (static_cast<std::uint8_t>(LedValue >> 1) + 128) :
+                                           (static_cast<uint8_t>(LedValue) >> 1);
 }
 
 void InstructionConverter::setLedValue(const std::string& instruction)
 {
     const std::string stringValue = instruction.substr( ldaprefix.length() );
-    LedValue = static_cast<unsigned>( std::stoi(stringValue) );
+    LedValue = stringToUnsigned(stringValue);
 }
 
 }

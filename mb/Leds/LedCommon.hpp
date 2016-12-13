@@ -27,6 +27,8 @@ enum class LineContent : unsigned
 
 InstructionRegexp initMap();
 
+unsigned stringToUnsigned(std::string);
+
 LineContent checkLineContent(const std::string& line,
                              std::map<std::string, std::regex>& regexMap);
 

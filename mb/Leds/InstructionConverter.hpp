@@ -19,6 +19,8 @@ private:
     unsigned LedValue;
     std::vector<unsigned> ledsValues;
 
+    bool isMostSignificantBitSet();
+    bool isLessSignificantBitSet();
     void moveBitsToLeft();
     void moveBitsToRight();
     void setLedValue(const std::string& instruction);

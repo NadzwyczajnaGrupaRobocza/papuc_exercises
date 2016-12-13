@@ -83,7 +83,7 @@ void InstructionParser::prework(const std::vector<std::string>& rawInstructions)
 unsigned InstructionParser::getLoopCount(std::string line)
 {
     const std::string stringValue = line.substr( ldbPrefix.length() );
-    return static_cast<unsigned>(std::stoi(stringValue));
+    return stringToUnsigned(stringValue);
 }
 
 void InstructionParser::setLabel(const std::string& line)

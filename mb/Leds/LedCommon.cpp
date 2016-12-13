@@ -42,6 +42,11 @@ LineContent checkLineContent(const std::string& line,
     return LineContent::unknown;
 }
 
+unsigned stringToUnsigned(std::string sValue)
+{
+    return static_cast<unsigned>(std::stoi(sValue));
+}
+
 std::vector<std::string> convertFileToStringVector(std::string fileName)
 {
     std::vector<std::string> fileAsVector;
