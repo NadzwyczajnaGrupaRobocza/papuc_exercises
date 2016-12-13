@@ -22,7 +22,7 @@ TEST(ProcessorTest, willProcessTwoInstructions)
 TEST(ProcessorTest, willRotateRegisterLeftWithoutCarry)
 {
     const auto initial_value = u8_t{1};
-    const auto expected_output = std::vector<u8_t>{{u8_t{2}}};
+    const auto expected_output = std::vector<u8_t>{static_cast<u8_t>(2)};
     Processor::Program testProgram = {
         Instruction{OperationType::load, Register::reg_a, initial_value,
                     Register::INVALID},
@@ -44,7 +44,7 @@ TEST(ProcessorTest, willRotateRegisterLeftWithoutCarry)
 TEST(ProcessorTest, willRotateRegisterLeftWithCarry)
 {
     const auto initial_value = u8_t{128 + 32};
-    const auto expected_output = std::vector<u8_t>{{u8_t{1 + 64}}};
+    const auto expected_output = std::vector<u8_t>{static_cast<u8_t>(1 + 64)};
     Processor::Program testProgram = {
         Instruction{OperationType::load, Register::reg_a, initial_value,
                     Register::INVALID},
@@ -66,7 +66,7 @@ TEST(ProcessorTest, willRotateRegisterLeftWithCarry)
 TEST(ProcessorTest, willRotateRegisterRightWithoutCarry)
 {
     const auto initial_value = u8_t{2};
-    const auto expected_output = std::vector<u8_t>{{u8_t{1}}};
+    const auto expected_output = std::vector<u8_t>{static_cast<u8_t>(1)};
     Processor::Program testProgram = {
         Instruction{OperationType::load, Register::reg_a, initial_value,
                     Register::INVALID},
@@ -88,7 +88,7 @@ TEST(ProcessorTest, willRotateRegisterRightWithoutCarry)
 TEST(ProcessorTest, willRotateRegisterRightWithCarry)
 {
     const auto initial_value = u8_t{16 + 1};
-    const auto expected_output = std::vector<u8_t>{{u8_t{8 + 128}}};
+    const auto expected_output = std::vector<u8_t>{static_cast<u8_t>(8 + 128)};
     Processor::Program testProgram = {
         Instruction{OperationType::load, Register::reg_a, initial_value,
                     Register::INVALID},

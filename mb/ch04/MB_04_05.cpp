@@ -73,7 +73,6 @@ double Calculator::calculate()
     default:
         std::string error = "Unexpected error!";
         throw error;
-        break;
     }
     return operationResult;
 }
@@ -103,7 +102,6 @@ std::string Calculator::printResult()
     default:
         std::string error = "Unexpected error!";
         throw error;
-        break;
     }
 
     return output.str();

@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/3ixd1v884qaqya37/branch/master?svg=true)](https://ci.appveyor.com/project/lukasz-m-maciejewski/papuc-exercises-29khe/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/fpp8cbc0575e0dd8/branch/master?svg=true)](https://ci.appveyor.com/project/Abergard/papuc-exercises-vj7j7/branch/master)
 [![Build Status](https://travis-ci.org/NadzwyczajnaGrupaRobocza/papuc_exercises.svg?branch=master)](https://travis-ci.org/NadzwyczajnaGrupaRobocza/papuc_exercises)
 # papuc_exercises
 Programming: Principles and Practice Using C++ - Exercises... and more.
