@@ -16,7 +16,8 @@ void InstructionConverter::instructionsToLedsValues(const std::vector<std::strin
 {
     for(const auto& instruction : inputInstructions)
     {
-        switch (checkLineContent(instruction, InstructionRegexp))
+        InstructionRegexp regexMap = initMap();
+        switch (checkLineContent(instruction, regexMap))
         {
             case LineContent::setRegisterA:
             {
@@ -49,7 +50,6 @@ void InstructionConverter::instructionsToLedsValues(const std::vector<std::strin
                           << "<=" << std::endl;
                 break;
             }
-            default: break;
         }
     }
 }
@@ -57,13 +57,13 @@ void InstructionConverter::instructionsToLedsValues(const std::vector<std::strin
 void InstructionConverter::moveBitsToLeft()
 {
     LedValue = (LedValue >= 128) ? (static_cast<std::uint8_t>(LedValue << 1) +1) :
-                                           (static_cast<unsigned>(LedValue) << 1);
+                                   (static_cast<uint8_t>(LedValue) << 1);
 }
 
 void InstructionConverter::moveBitsToRight()
 {
     LedValue = (LedValue % 2) ? (static_cast<std::uint8_t>(LedValue >> 1) + 128) :
-                                        (static_cast<unsigned>(LedValue) >> 1);
+                                (static_cast<uint8_t>(LedValue) >> 1);
 }
 
 void InstructionConverter::setLedValue(const std::string& instruction)

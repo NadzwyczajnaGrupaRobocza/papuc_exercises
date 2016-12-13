@@ -3,10 +3,17 @@
 #include <iostream>
 #include <regex>
 
+#include <boost/algorithm/string/trim.hpp>
+
 #include "LedCommon.hpp"
 
 namespace mb_led
 {
+
+InstructionParser::InstructionParser()
+{
+    regexMap = initMap();
+}
 
 std::vector<std::string> InstructionParser::getFlatInstructions(const std::vector<std::string>& input)
 {
@@ -21,8 +28,8 @@ void InstructionParser::prework(const std::vector<std::string>& rawInstructions)
     bool isInstructionInLabel{false};
     for(const auto& line : rawInstructions)
     {
-        std::string instructionFromLine = removeWhitespacesFromEnds(line);
-        switch (checkLineContent(instructionFromLine, InstructionRegexp))
+        std::string instructionFromLine = boost::algorithm::trim_copy(line);
+        switch (checkLineContent(instructionFromLine, regexMap))
         {
             case LineContent::empty:
             {
@@ -73,19 +80,6 @@ void InstructionParser::prework(const std::vector<std::string>& rawInstructions)
     }
 }
 
-std::string InstructionParser::removeWhitespacesFromEnds(const std::string& line)
-{
-    const std::string whitespace = " \t";
-    const auto firstAlphaChar = line.find_first_not_of(whitespace);
-    if (firstAlphaChar != std::string::npos)
-    {
-        const auto strEnd = line.find_last_not_of(whitespace);
-        const auto strRange = strEnd - firstAlphaChar + 1;
-        return line.substr(firstAlphaChar, strRange);
-    }
-    return "";
-}
-
 unsigned InstructionParser::getLoopCount(std::string line)
 {
     const std::string stringValue = line.substr( ldbPrefix.length() );
@@ -100,7 +94,7 @@ void InstructionParser::setLabel(const std::string& line)
 void InstructionParser::setEndLabelRegex()
 {
     const std::string endLabel = "^djnz " + label + "$";
-    InstructionRegexp["endLabel"] = std::regex{endLabel};
+    regexMap["endLabel"] = std::regex{endLabel};
 }
 
 void InstructionParser::createFlatInstructions()

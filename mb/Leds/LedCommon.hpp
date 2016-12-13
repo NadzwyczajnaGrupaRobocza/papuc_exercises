@@ -10,6 +10,8 @@ namespace mb_led
 const std::string ldaprefix = "ld a,";
 const std::string ldbPrefix = "ld b,";
 
+using InstructionRegexp = std::map<std::string, std::regex>;
+
 enum class LineContent : unsigned
 {
     empty = 0,
@@ -23,15 +25,7 @@ enum class LineContent : unsigned
     unknown
 };
 
-static std::map<std::string, std::regex> InstructionRegexp {
-    {"empty", std::regex{"^[ \t]*$"}},
-    {"setRegisterA", std::regex{"^ld a,[[:digit:]]+$"}},
-    {"setRegisterB", std::regex{"^ld b,[[:digit:]]+$"}},
-    {"updateLeds", std::regex{"^out \\(0\\),a$"}},
-    {"rlca", std::regex{"^rlca$"}},
-    {"rrca", std::regex{"^rrca$"}},
-    {"label", std::regex{"^[a-zA-Z_]+:$"}},
-    {"endLabel", std::regex{"^$"}}};
+InstructionRegexp initMap();
 
 LineContent checkLineContent(const std::string& line,
                              std::map<std::string, std::regex>& regexMap);

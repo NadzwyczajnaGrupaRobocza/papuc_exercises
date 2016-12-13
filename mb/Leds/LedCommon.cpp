@@ -6,6 +6,20 @@
 namespace mb_led
 {
 
+InstructionRegexp initMap()
+{
+    InstructionRegexp map = {
+                     {"empty", std::regex{"^[ \t]*$"}},
+                     {"setRegisterA", std::regex{"^ld a,[[:digit:]]+$"}},
+                     {"setRegisterB", std::regex{"^ld b,[[:digit:]]+$"}},
+                     {"updateLeds", std::regex{"^out \\(0\\),a$"}},
+                     {"rlca", std::regex{"^rlca$"}},
+                     {"rrca", std::regex{"^rrca$"}},
+                     {"label", std::regex{"^[a-zA-Z_]+:$"}},
+                     {"endLabel", std::regex{"^$"}}};
+    return map;
+}
+
 LineContent checkLineContent(const std::string& line,
                              std::map<std::string, std::regex>& regexMap)
 {
@@ -40,7 +54,6 @@ std::vector<std::string> convertFileToStringVector(std::string fileName)
         {
             fileAsVector.push_back(line);
         }
-        inputFile.close();
     }
     else
     {
