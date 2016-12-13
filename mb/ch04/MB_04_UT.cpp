@@ -7,9 +7,9 @@
 #include <stdexcept>
 #include <vector>
 
-std::vector<double> emptyData = {};
-std::vector<double> someData1 = {12.0, 33.5, 11.5, 24.45};
-std::vector<double> someData2 = {100.3, -23.2, -12.0, 23.6, 13.1};
+static std::vector<double> emptyData = {};
+static std::vector<double> someData1 = {12.0, 33.5, 11.5, 24.45};
+static std::vector<double> someData2 = {100.3, -23.2, -12.0, 23.6, 13.1};
 
 // Excercise 02
 //==============
