@@ -13,12 +13,12 @@ int main()
     std::string inputFile = "LedSequence.txt";
     const auto vectorizedFile = convertFileToStringVector("LedSequence.txt");
 
-    InstructionParser parser{};
+    InstructionParser parser;
     const auto flatInstructions = parser.getFlatInstructions(vectorizedFile);
-    InstructionConverter converter{};
+    InstructionConverter converter;
     converter.instructionsToLedsValues(flatInstructions);
     std::vector<unsigned> ledBlinksValues = converter.getLedsValues();
-    LedBlinker blinker{};
+    LedBlinker blinker;
     blinker.showAllLedsSets(ledBlinksValues);
 
     return 0;

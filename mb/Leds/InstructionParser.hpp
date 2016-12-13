@@ -8,6 +8,8 @@
 namespace mb_led
 {
 
+using flatInstructions = std::vector<std::string>;
+
 class InstructionParser
 {
 public:
@@ -19,13 +21,13 @@ private:
     unsigned getLoopCount(std::string);
     void setLabel(const std::string& line);
     void setEndLabelRegex();
-    void createFlatInstructions();
+    flatInstructions createFlatInstructions();
 
     InstructionRegexp regexMap;
     std::string label;
     std::vector<std::string> labelContent;
     std::vector<std::string> outOfLabelInstructions;
-    std::vector<std::string> flatInstructions;
+//    std::vector<std::string> flatInstructions;
 };
 
 }

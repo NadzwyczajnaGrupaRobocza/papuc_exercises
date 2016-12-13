@@ -18,8 +18,7 @@ InstructionParser::InstructionParser()
 std::vector<std::string> InstructionParser::getFlatInstructions(const std::vector<std::string>& input)
 {
     prework(input);
-    createFlatInstructions();
-    return flatInstructions;
+    return createFlatInstructions();
 }
 
 
@@ -97,21 +96,23 @@ void InstructionParser::setEndLabelRegex()
     regexMap["endLabel"] = std::regex{endLabel};
 }
 
-void InstructionParser::createFlatInstructions()
+flatInstructions InstructionParser::createFlatInstructions()
 {
+    flatInstructions instructions;
     for(auto instruction : outOfLabelInstructions)
     {
         if(instruction == ldbPrefix)
         {
-            flatInstructions.insert(flatInstructions.end(),
-                                    labelContent.begin(),
-                                    labelContent.end());
+            instructions.insert(instructions.end(),
+                                labelContent.begin(),
+                                labelContent.end());
         }
         else
         {
-            flatInstructions.push_back(instruction);
+            instructions.push_back(instruction);
         }
     }
+    return instructions;
 }
 
 }
