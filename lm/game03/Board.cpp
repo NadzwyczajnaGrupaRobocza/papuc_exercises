@@ -3,9 +3,10 @@
 
 namespace lmg03
 {
-Board::Board(const sf::View& initialView) : currentView{initialView},
-                                            N{static_cast<int>(currentView.getSize().x / 50.f) + 1},
-                                            M{static_cast<int>(currentView.getSize().y / 50.f) + 1}
+Board::Board(const sf::View& initialView)
+    : currentView{initialView},
+      N{static_cast<int>(currentView.getSize().x / 50.f) + 1},
+      M{static_cast<int>(currentView.getSize().y / 50.f) + 1}
 {
 }
 
@@ -32,5 +33,4 @@ void Board::drawEmptyBoard(sf::RenderTarget& target)
         }
     }
 }
-
 }

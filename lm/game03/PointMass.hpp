@@ -13,4 +13,5 @@ struct PointMass
 };
 }
 
-//static_assert(std::is_pod<lmg03::PointMass>::value, "PointMass should be a POD");
+// static_assert(std::is_pod<lmg03::PointMass>::value, "PointMass should be
+// a POD");

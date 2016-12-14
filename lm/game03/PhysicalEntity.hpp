@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Log.hpp"
-#include "QuantumField.hpp"
 #include "PointMass.hpp"
+#include "QuantumField.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace lmg03
@@ -22,7 +22,7 @@ public:
 
     void prepare_next_pos(float);
     void detect_colision(const sf::FloatRect&);
-    sf::Vector2f gravitational_pull_from(const PhysicalEntity&) const;
+    void advance_ignore_colistions();
     void draw(sf::RenderTarget&);
 
     const PointMass& get_state() const

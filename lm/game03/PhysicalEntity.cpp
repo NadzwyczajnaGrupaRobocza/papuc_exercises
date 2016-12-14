@@ -34,6 +34,11 @@ void PhysicalEntity::detect_colision(const sf::FloatRect& ent)
     }
 }
 
+void PhysicalEntity::advance_ignore_colistions()
+{
+    current_state = next_state;
+}
+
 void PhysicalEntity::draw(sf::RenderTarget& target)
 {
     sf::Vector2f size{20.f, 20.f};

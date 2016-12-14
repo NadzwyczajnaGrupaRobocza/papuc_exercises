@@ -1,8 +1,8 @@
+#include "StreamLog.hpp"
 #include "World.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sstream>
-#include "StreamLog.hpp"
 
 sf::Vector2f processUserInput(float baseSpeed, sf::RenderWindow& window);
 
@@ -12,13 +12,13 @@ int main(int /*argc*/, char** /*argv*/)
     sf::RenderWindow mainWindow(sf::VideoMode(screenSize.x, screenSize.y),
                                 "myproject");
     mainWindow.setVerticalSyncEnabled(true);
-    std::stringstream s;
-    common::StreamLog slog{s};
+    // std::stringstream s;
+    common::StreamLog slog{std::cout};
     lmg03::World w{slog};
 
     sf::Clock frameClock;
 
-    constexpr float baseSpeed = 200.f;
+    constexpr float baseSpeed = 50.f;
     constexpr float frameDuration = 1.f / 60.f;
 
     while (mainWindow.isOpen())
@@ -52,26 +52,40 @@ sf::Vector2f processUserInput(float speed, sf::RenderWindow& window)
     sf::Vector2f movement{0.f, 0.f};
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
     {
-        speed *= .5f;
+        speed *= 2.f;
     }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         view.move(0.f, -5.f);
-        movement.y -= speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         view.move(0.f, 5.f);
-        movement.y += speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         view.move(-5.f, 0.f);
-        movement.x -= speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         view.move(5.f, 0.f);
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+        movement.y -= speed;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    {
+        movement.y += speed;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        movement.x -= speed;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    {
         movement.x += speed;
     }
 
