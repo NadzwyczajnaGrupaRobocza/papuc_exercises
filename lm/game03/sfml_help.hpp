@@ -4,7 +4,8 @@
 
 namespace sfml_help
 {
-inline sf::Vector2f from_1_to_2_unit(const sf::Vector2f& v1, const sf::Vector2f& v2)
+inline sf::Vector2f from_1_to_2_unit(const sf::Vector2f& v1,
+                                     const sf::Vector2f& v2)
 {
     auto dir = v2 - v1;
     float len = std::hypot(dir.x, dir.y);
