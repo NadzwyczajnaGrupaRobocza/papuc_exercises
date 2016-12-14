@@ -1,0 +1,13 @@
+ ld a,1
+ out (0),a
+ rlca
+ rlca
+ rlca
+ rlca
+ rlca
+ rlca
+ rlca
+ out (0),a
+ rlca
+ out (0),a
+

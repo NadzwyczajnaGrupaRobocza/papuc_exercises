@@ -18,7 +18,9 @@ add_executable(td-challenge260
 target_link_libraries(td-challenge260 libtd-challenge260)
 
 #integration Test
-add_test(td-challenge260-test ${EXECUTABLE_OUTPUT_PATH}/td-challenge260-test)
+add_custom_target(td-challenge260-test-run
+	COMMAND "td-challenge260-test"
+	COMMENT "Run test for challenge 260 for td")
 
 add_custom_target(td-challenge260-prepare-integration-testrun
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/testSet ${CMAKE_BINARY_DIR}/bin
@@ -33,4 +35,3 @@ add_custom_command(TARGET td-challenge260-integration-testrun
 
 add_dependencies(td-challenge260-integration-testrun td-challenge260-prepare-integration-testrun)
 add_dependencies(td-challenge260-integration-testrun td-challenge260)
-    
