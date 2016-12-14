@@ -1,0 +1,10 @@
+  ld b,3
+
+triple:
+  ld a,126
+  out (0),a
+  ld a,60
+  out (0),a
+  ld a,24
+  out (0),a
+  djnz triple

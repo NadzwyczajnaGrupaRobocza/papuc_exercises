@@ -7,14 +7,19 @@ enum class TokenType
 {
     Ld,
     A,
+    B,
     Out,
-    ZeroWithBrackets,
-    Number8Bit
+    ZeroWithBracketsA,
+    Rlca,
+    Rrca,
+    Djnz,
+    Label,
+    LabelRef
 };
 
 struct Token
 {
-    using ValueType = unsigned;
+    using ValueType = unsigned char;
     TokenType type;
     ValueType value;
 };
@@ -33,8 +38,13 @@ inline std::ostream& operator<<(std::ostream& out, TokenType token)
     case TokenType::Ld: return out << "LD";
     case TokenType::Out: return out << "Out";
     case TokenType::A: return out << "A";
-    case TokenType::ZeroWithBrackets: return out << "ZeroWithBrackets";
-    case TokenType::Number8Bit: return out << "Number8Bit";
+    case TokenType::B: return out << "B";
+    case TokenType::ZeroWithBracketsA: return out << "ZeroWithBrackets";
+    case TokenType::Rlca: return out << "Rlca";
+    case TokenType::Rrca: return out << "Rrca";
+    case TokenType::Djnz: return out << "Djnz";
+    case TokenType::Label: return out << "Label";
+    case TokenType::LabelRef: return out << "LabelRef";
     }
     return out << "No known TokenType";
 }

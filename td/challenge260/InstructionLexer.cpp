@@ -20,17 +20,40 @@ Tokens InstructionLexer::parseInstructions(const std::string& input)
     {
         if (line.at(0) != ' ')
         {
-            throw UnknownInstruction("Invalid line: " + line);
+            boost::copy(parseLabel(line), std::back_inserter(tokens));
         }
-        boost::copy(parseLine(line), std::back_inserter(tokens));
+        else
+        {
+            boost::copy(parseLine(line), std::back_inserter(tokens));
+        }
     }
     return tokens;
+}
+
+Tokens InstructionLexer::parseLabel(const std::string& label)
+{
+    const auto labelRegEx = std::regex{R"!([a-zA-Z_]+:)!"};
+    if (regexMatcher(label, labelRegEx))
+    {
+        return {{TokenType::Label,
+                 getLabelValue(label.substr(0, label.size() - 1))}};
+    }
+    else
+    {
+        throw UnknownInstruction{"Invalid label: " + label};
+    }
+}
+
+bool InstructionLexer::regexMatcher(const std::string& text,
+                                    const std::regex& pattern)
+{
+    return std::regex_match(text, pattern);
 }
 
 Tokens InstructionLexer::parseLine(const std::string& line)
 {
     boost::tokenizer<boost::char_separator<char>> instructionTokenizer{
-        line, boost::char_separator<char>{", "}};
+        line, boost::char_separator<char>{" "}};
     Tokens tokens;
     for (const auto& token : instructionTokenizer)
     {
@@ -43,8 +66,22 @@ const auto alwaysZeroValue = [](const std::string&) -> Token::ValueType {
     return 0;
 };
 
+Token::ValueType InstructionLexer::getLabelValue(const std::string& label)
+{
+    const auto labelPosition = labels.find(label);
+    if (labelPosition == labels.end())
+    {
+        return labels[label] = nextLabelValue++;
+    }
+    else
+    {
+        return labelPosition->second;
+    }
+}
+
 const auto convertToUnsigned = [](const std::string& text) -> Token::ValueType {
-    return std::stoi(text);
+    return static_cast<unsigned char>(
+        std::stoi(text.substr(text.find_first_of(',') + 1)));
 };
 
 Tokens InstructionLexer::parseInstruction(const std::string& instruction)
@@ -57,25 +94,55 @@ Tokens InstructionLexer::parseInstruction(const std::string& instruction)
     using TextToTokens = std::vector<
         std::tuple<std::regex, TokenType,
                    std::function<Token::ValueType(const std::string&)>>>;
+
+    using std::placeholders::_1;
     const TextToTokens acceptableInstructions{
         {std::regex{"out"}, TokenType::Out, alwaysZeroValue},
-        {std::regex{"\\(0\\)"}, TokenType::ZeroWithBrackets, alwaysZeroValue},
+        {std::regex{"\\(0\\),a"}, TokenType::ZeroWithBracketsA,
+         alwaysZeroValue},
         {std::regex{"ld"}, TokenType::Ld, alwaysZeroValue},
-        {std::regex{"a"}, TokenType::A, alwaysZeroValue},
-        {std::regex{"[0-9]{1,2}|1[0-9]{1,2}|2[0-4][0-9]|25[0-5]"},
-         TokenType::Number8Bit, convertToUnsigned}};
-    const auto noArgumentInstructionPosition = std::find_if(
-        acceptableInstructions.begin(), acceptableInstructions.end(),
-        [&](const auto& tokenMap) {
-            return std::regex_match(trimmedInstruction, std::get<0>(tokenMap));
-        });
-    if (noArgumentInstructionPosition != acceptableInstructions.end())
+        {std::regex{getUint8RegexWithPrefix("a,")}, TokenType::A,
+         convertToUnsigned},
+        {std::regex{getUint8RegexWithPrefix("b,")}, TokenType::B,
+         convertToUnsigned},
+        {std::regex{"rlca"}, TokenType::Rlca, alwaysZeroValue},
+        {std::regex{"rrca"}, TokenType::Rrca, alwaysZeroValue},
+        {std::regex{"djnz"}, TokenType::Djnz, alwaysZeroValue},
+        {std::regex{"[a-zA-Z_]+"}, TokenType::LabelRef,
+         std::bind(&InstructionLexer::getExistingLabelValue, this, _1)}};
+
+    const auto instructionPosition =
+        std::find_if(acceptableInstructions.begin(),
+                     acceptableInstructions.end(), [&](const auto& tokenMap) {
+                         return this->regexMatcher(trimmedInstruction,
+                                                   std::get<0>(tokenMap));
+                     });
+    if (instructionPosition != acceptableInstructions.end())
     {
-        return {
-            {std::get<1>(*noArgumentInstructionPosition),
-             std::get<2>(*noArgumentInstructionPosition)(trimmedInstruction)}};
+        return {{std::get<1>(*instructionPosition),
+                 std::get<2>(*instructionPosition)(trimmedInstruction)}};
     }
     throw UnknownInstruction{"Unknown instruction: " + instruction};
+}
+
+Token::ValueType
+InstructionLexer::getExistingLabelValue(const std::string& label)
+{
+    try
+    {
+        return labels.at(label);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw UnknownLabel{"Label: " + label + " is unknown"};
+    }
+}
+
+const std::string
+InstructionLexer::getUint8RegexWithPrefix(const std::string& prefix)
+{
+    return {prefix + "[0-9]{1,2}$|" + prefix + "1[0-9]{1,2}$|" + prefix +
+            "2[0-4][0-9]$|" + prefix + "25[0-5]$"};
 }
 
 std::string
