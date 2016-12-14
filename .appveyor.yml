@@ -7,14 +7,33 @@ environment:
   matrix:
   - Build: td
     Configuration: Debug
+    only_commits:
+      files:
+      - td/
+
   - Build: ib
     Configuration: Debug
+    only_commits:
+      files:
+      - ib/
+
   - Build: mb
     Configuration: Debug
+    only_commits:
+      files:
+      - mb/
+
   - Build: lm
     Configuration: Debug
+    only_commits:
+      files:
+      - lm/
+      
   - Build: lz
     Configuration: Debug
+    only_commits:
+      files:
+      - lz/
   
 platform:
 - x64
