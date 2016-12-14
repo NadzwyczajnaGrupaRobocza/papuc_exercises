@@ -9,12 +9,12 @@ Board::Board(const sf::View& initialView) : currentView{initialView},
 {
 }
 
-void Board::drawOn(sf::RenderWindow& target)
+void Board::drawOn(sf::RenderTarget& target)
 {
-        drawEmptyBoard(target);
+    drawEmptyBoard(target);
 }
 
-void Board::drawEmptyBoard(sf::RenderWindow& target)
+void Board::drawEmptyBoard(sf::RenderTarget& target)
 {
     for (auto i = 0; i < N; i++)
     {

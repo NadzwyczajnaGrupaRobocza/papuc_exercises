@@ -5,58 +5,52 @@
 
 namespace lmg01
 {
-World::World(sf::RenderWindow& targetInit)
-    : target{targetInit}, b{target.getView()}, player{20.f},
+World::World(sf::View view_init)
+    : current_view{view_init}, b{current_view}, player{20.f},
       player_position{50.f, 50.f}, obstacle_container{createObstacles()}
 {
     player.setFillColor(sf::Color::Red);
-    draw();
 }
 
 void World::advance(const sf::Time& tick, const sf::Vector2f& playerMove)
 {
     movePlayer(playerMove * tick.asSeconds());
-    draw();
 }
 
 std::vector<sf::CircleShape> World::createObstacles()
 {
     std::mt19937 gen(std::random_device{}());
     std::uniform_real_distribution<float> x_distr(
-        20.f, target.getView().getSize().x - 20.f);
+        20.f, current_view.getSize().x - 20.f);
     std::uniform_real_distribution<float> y_distr(
-        20.f, target.getView().getSize().y - 20.f);
+        20.f, current_view.getSize().y - 20.f);
     std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
 
     std::vector<sf::CircleShape> obstacles;
-    std::generate_n(std::back_inserter(obstacles),
-                    30,
-                    [&]()
-                    {
-                        sf::CircleShape cs{radius_distr(gen)};
-                        cs.setPosition(x_distr(gen), y_distr(gen));
-                        cs.setFillColor(sf::Color::Blue);
-                        return cs;
-                    });
+    std::generate_n(std::back_inserter(obstacles), 30, [&]() {
+        sf::CircleShape cs{radius_distr(gen)};
+        cs.setPosition(x_distr(gen), y_distr(gen));
+        cs.setFillColor(sf::Color::Blue);
+        return cs;
+    });
     return obstacles;
 }
 
-void World::draw()
+void World::draw(sf::RenderTarget& target)
 {
     target.clear(sf::Color::Black);
     b.drawOn(target);
-    drawObstacles();
-    drawPlayer();
-    target.display();
+    drawObstacles(target);
+    drawPlayer(target);
 }
 
-void World::drawObstacles()
+void World::drawObstacles(sf::RenderTarget& target)
 {
     std::for_each(obstacle_container.begin(), obstacle_container.end(),
-                  [this](const auto& ob) { target.draw(ob); });
+                  [&](const auto& ob) { target.draw(ob); });
 }
 
-void World::drawPlayer()
+void World::drawPlayer(sf::RenderTarget& target)
 {
     player.setPosition(player_position);
     target.draw(player);
@@ -70,7 +64,7 @@ void World::movePlayer(const sf::Vector2f& transl)
         currentTranslation = validMovement(currentTranslation, obstacle);
 
     if (sf::FloatRect{{0.f, 0.f},
-                      target.getView().getSize() - sf::Vector2f{40.f, 40.f}}
+                      current_view.getSize() - sf::Vector2f{40.f, 40.f}}
             .contains(player_position + currentTranslation))
         player_position += currentTranslation;
 }
