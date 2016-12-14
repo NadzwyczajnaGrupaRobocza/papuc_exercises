@@ -1,0 +1,15 @@
+ ld a,192
+ out (0),a
+ rrca
+ out (0),a
+
+ ld a,160
+ out (0),a
+ rrca
+ rrca
+ out (0),a
+
+ ld a,255
+ out (0),a
+ rrca
+ out (0),a
