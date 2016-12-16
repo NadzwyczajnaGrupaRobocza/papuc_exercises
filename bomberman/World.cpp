@@ -6,11 +6,8 @@
 namespace lmg01
 {
 World::World(sf::View view_init)
-    : current_view{view_init}, b{current_view},
-      player{sf::Vector2f{20.f, 20.f}}, player_position{50.f, 50.f},
-      obstacle_container{createObstacles()}
+    : current_view{view_init}, obstacle_container{createObstacles()}
 {
-    player.setFillColor(sf::Color::Black);
 }
 
 std::vector<sf::RectangleShape> World::createObstacles()
@@ -35,32 +32,12 @@ std::vector<sf::RectangleShape> World::createObstacles()
 
 void World::draw(sf::RenderTarget& target)
 {
-    b.drawOn(target);
     drawObstacles(target);
-    drawPlayer(target);
 }
 
 void World::drawObstacles(sf::RenderTarget& target)
 {
     std::for_each(obstacle_container.begin(), obstacle_container.end(),
                   [&](const auto& ob) { target.draw(ob); });
-}
-
-void World::drawPlayer(sf::RenderTarget& target)
-{
-    player.setPosition(player_position);
-    target.draw(player);
-}
-
-void World::movePlayer(const sf::Vector2f& transl)
-{
-    auto currentTranslation{transl};
-
-    if (sf::FloatRect{{0.f, 0.f},
-                      current_view.getSize() - sf::Vector2f{40.f, 40.f}}
-            .contains(player_position + currentTranslation))
-    {
-        player_position += currentTranslation;
-    }
 }
 }
