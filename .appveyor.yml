@@ -64,11 +64,11 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%Configuration% \
-                     -DCMAKE_CXX_COMPILER=clang-cl \
-                     -DCMAKE_C_COMPILER=clang-cl \
-                     -DBUILD_SHARED_LIBS:BOOL=OFF  \
-                     -Wno-dev \
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%Configuration%
+                     -DCMAKE_CXX_COMPILER=clang-cl
+                     -DCMAKE_C_COMPILER=clang-cl
+                     -DBUILD_SHARED_LIBS:BOOL=OFF
+                     -Wno-dev
                      -DCMAKE_MODULE_PATH="C:\projects\deps\SFML-2.4.1\cmake\Modules"
   - cmake --build . --target %Build%/all
 
