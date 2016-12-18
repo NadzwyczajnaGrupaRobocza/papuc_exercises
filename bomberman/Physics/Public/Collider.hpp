@@ -13,8 +13,6 @@ class Entity;
 
 namespace physics
 {
-using Collisions = std::vector<Collider*>;
-
 class Collider
 {
 public:
@@ -30,7 +28,7 @@ public:
 
 private:
     AABB _aabb;
-    Collisions _collisions;
+    std::vector<Collider*> _collisions;
     bomberman::Entity* _entity;
     std::unique_ptr<CollisionScript> _script;
 };
