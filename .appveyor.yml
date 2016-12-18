@@ -49,7 +49,7 @@ install:
 
   #############################
   # Setup SFML
-  - cinst sfml
+  - nuget install sfml-window 
 
 
 before_build:
