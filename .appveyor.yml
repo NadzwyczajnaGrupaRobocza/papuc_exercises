@@ -14,12 +14,12 @@ environment:
   Configuration: Debug
 
   matrix:
+  - Build: bomberman
   - Build: td
   - Build: ib
   - Build: mb
   - Build: lm
   - Build: lz
-  - Build: bomberman
   
 platform:
 - x64
@@ -53,7 +53,6 @@ install:
   - set SFML_URL="http://www.sfml-dev.org/files/SFML-2.4.1-windows-vc14-64-bit.zip"
   - appveyor DownloadFile %SFML_URL% -FileName SFML.zip
   - 7z x SFML.zip -oC:\projects\deps\ > nul
-  - set PATH=C:\projects\deps\SFML-2.4.1\cmake\Modules;%PATH%
 
 
 before_build:
@@ -65,7 +64,12 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%Configuration% -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DBUILD_SHARED_LIBS:BOOL=OFF
+  - cmake .. -GNinja -DCMAKE_BUILD_TYPE=%Configuration% \
+                     -DCMAKE_CXX_COMPILER=clang-cl \
+                     -DCMAKE_C_COMPILER=clang-cl \
+                     -DBUILD_SHARED_LIBS:BOOL=OFF  \
+                     -Wno-dev \
+                     -DCMAKE_MODULE_PATH="C:\projects\deps\SFML-2.4.1\cmake\Modules"
   - cmake --build . --target %Build%/all
 
 test_script:
