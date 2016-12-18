@@ -2,19 +2,16 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "AABB.hpp"
 #include "Board.hpp"
+#include "Collision.hpp"
 #include "Entity.hpp"
-#include "IBomberman.hpp"
 
 namespace bomberman
 {
-
 using Shapes = std::vector<sf::RectangleShape>;
 using Entities = std::vector<Entity>;
-using Boundaries = std::vector<AABB>;
 
-class Bomberman : public IBomberman
+class Bomberman
 {
 public:
     Bomberman();
@@ -24,17 +21,16 @@ private:
     void updateInput();
     void updatePlayerInput();
     void updateMovement(float deltaTime);
-    void movePlayer(const sf::Vector2f& transl);
-    void triggerTest();
-    void render();
-    void renderShapes();
-    void clearDisplay();
-    void swapBuffer();
+    void updateRender();
+    void updatePhysics();
 
+    void swapBuffer();
+    void clearDisplay();
+
+    void movePlayer(const sf::Vector2f& transl);
+    void renderShapes();
     void generateRandomnlyArrangedStaticEntities(const std::size_t count);
     void generateDynamicEntities(const std::size_t count);
-
-     bool AABBvsAABB(const AABB&, const AABB&) const;
 
     sf::RenderWindow window;
     lmg01::Board board;
@@ -44,9 +40,8 @@ private:
     float bonusSpeed = 1.0f;
     sf::Vector2f movementDirection{0, 0};
     Shapes shapes;
-    Boundaries static_triggers;
     Entities static_entities;
-    Boundaries dynamic_colliders;
     Entities dynamic_entities;
+    physics::Collision collision;
 };
 }

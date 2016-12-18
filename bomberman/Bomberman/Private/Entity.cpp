@@ -6,7 +6,7 @@
 
 namespace bomberman
 {
-Entity::Entity(sf::RectangleShape& shape, AABB& aabb)
+Entity::Entity(sf::RectangleShape& shape, physics::AABB& aabb)
     : _shape{shape}, _aabb{aabb}
 {
 }
@@ -16,7 +16,7 @@ sf::RectangleShape& Entity::get_shape()
     return _shape;
 }
 
-AABB& Entity::get_aabb()
+physics::AABB& Entity::get_aabb()
 {
     return _aabb;
 }

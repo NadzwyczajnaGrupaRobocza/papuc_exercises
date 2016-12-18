@@ -8,7 +8,8 @@
 namespace bomberman
 {
 Bomberman::Bomberman()
-    : window{sf::VideoMode(800, 600), "bomberman"}, board{window.getView()}
+    : window{sf::VideoMode(800, 600), "bomberman"}, board{window.getView()},
+      collision{static_entity_count, dynamic_entity_count}
 {
     window.setVerticalSyncEnabled(true);
 
@@ -26,8 +27,8 @@ void Bomberman::run()
 
         updateInput();
         updateMovement(frameTick.asSeconds());
-        triggerTest();
-        render();
+        updatePhysics();
+        updateRender();
     }
 }
 
@@ -83,9 +84,9 @@ void Bomberman::updateMovement(float deltaTime)
 
 void Bomberman::movePlayer(const sf::Vector2f& transl)
 {
-    auto& player =
-        dynamic_entities
-            .back(); // TODO: for more dynamic entities it will be invalid
+    // TODO: for more dynamic entities it will be invalid
+    Expects(dynamic_entities.size() == 1);
+    auto& player = dynamic_entities.back();
 
     auto& p_shape = player.get_shape();
 
@@ -100,11 +101,16 @@ void Bomberman::movePlayer(const sf::Vector2f& transl)
     }
 }
 
-void Bomberman::render()
+void Bomberman::updateRender()
 {
     clearDisplay();
     renderShapes();
     swapBuffer();
+}
+
+void Bomberman::updatePhysics()
+{
+    collision.update();
 }
 
 void Bomberman::renderShapes()
@@ -124,9 +130,8 @@ void Bomberman::swapBuffer()
     window.display();
 }
 
-void Bomberman::generateDynamicEntities(const std::size_t count)
+void Bomberman::generateDynamicEntities(const std::size_t)
 {
-    dynamic_colliders.reserve(count);
     dynamic_entities.reserve(1);
 
     float x = 0.0f;
@@ -138,20 +143,13 @@ void Bomberman::generateDynamicEntities(const std::size_t count)
     player.setFillColor(sf::Color::Black);
     player.setPosition(x, y);
 
-    AABB aabb;
-    aabb.x_coord = x;
-    aabb.y_coord = y;
-    aabb.width = w;
-    aabb.height = h;
-
-    dynamic_colliders.emplace_back(std::move(aabb));
-    dynamic_entities.emplace_back(player, dynamic_colliders.back());
-    dynamic_colliders.back().entity = &dynamic_entities.back();
+    auto& collider = collision.addCollider(sf::Vector2f(x, y), w, h);
+    dynamic_entities.emplace_back(player, collider);
+    collider.entity = &dynamic_entities.back();
 }
 
 void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t count)
 {
-    static_triggers.reserve(count);
     static_entities.reserve(count);
 
     std::mt19937 gen(std::random_device{}());
@@ -171,53 +169,10 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t count)
         shapes.back().setPosition(x, y);
         shapes.back().setFillColor(sf::Color::Blue);
 
-        AABB aabb;
-        aabb.x_coord = x;
-        aabb.y_coord = y;
-        aabb.width = w;
-        aabb.height = h;
-
-        static_triggers.emplace_back(std::move(aabb));
-        static_entities.emplace_back(shapes.back(), static_triggers.back());
-        static_triggers.back().entity = &static_entities.back();
+        auto& trigger = collision.addTrigger(sf::Vector2f(x, y), w, h);
+        static_entities.emplace_back(shapes.back(), trigger);
+        trigger.entity = &static_entities.back();
     }
-}
-
-void Bomberman::triggerTest()
-{
-    boost::for_each(dynamic_entities, [this](auto& dynamic_entity) {
-        auto& aabb = dynamic_entity.get_aabb();
-        boost::for_each(static_triggers, [this, &aabb](auto const& trigger) {
-
-            Expects(trigger.entity != nullptr);
-            auto& entity = *trigger.entity;
-
-            if (AABBvsAABB(aabb, trigger))
-            {
-                entity.get_shape().setFillColor(sf::Color::Red);
-            }
-            else
-            {
-                entity.get_shape().setFillColor(sf::Color::Blue);
-            }
-        });
-    });
-}
-
-bool Bomberman::AABBvsAABB(const AABB& a, const AABB& b) const
-{
-    if (a.x_coord > (b.x_coord + b.width) || (a.x_coord + a.width) < b.x_coord)
-    {
-        return false;
-    }
-
-    if (a.y_coord > (b.y_coord + b.height) ||
-        (a.y_coord + a.height) < b.y_coord)
-    {
-        return false;
-    }
-
-    return true;
 }
 }
 

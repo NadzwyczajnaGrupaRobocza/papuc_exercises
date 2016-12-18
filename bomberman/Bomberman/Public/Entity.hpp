@@ -5,18 +5,22 @@ namespace sf
 class RectangleShape;
 }
 
-namespace bomberman
+namespace physics
 {
 struct AABB;
+}
+
+namespace bomberman
+{
 class Entity
 {
 public:
-    Entity(sf::RectangleShape&, AABB&);
+    Entity(sf::RectangleShape&, physics::AABB&);
     sf::RectangleShape& get_shape();
-    AABB& get_aabb();
+    physics::AABB& get_aabb();
 
 private:
     sf::RectangleShape& _shape;
-    AABB& _aabb;
+    physics::AABB& _aabb;
 };
 }
