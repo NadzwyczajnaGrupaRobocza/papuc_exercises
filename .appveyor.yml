@@ -11,52 +11,46 @@ skip_commits:
     - .clang-format
 
 environment:
+  Configuration: Debug
+
   matrix:
   - Build: td
-    Configuration: Debug
-
   - Build: ib
-    Configuration: Debug
-
   - Build: mb
-    Configuration: Debug
-
   - Build: lm
-    Configuration: Debug
-      
   - Build: lz
-    Configuration: Debug
+  - Build: bomberman
   
 platform:
 - x64
 
 install:
-  ############################################################################
-  # All external dependencies are installed in C:\projects\deps
-  ############################################################################
+  #############################
   - mkdir C:\projects\deps
   - cd C:\projects\deps
 
-  ############################################################################
+  #############################
   # Install Ninja
-  ############################################################################
   - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-win.zip"
   - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
   - 7z x ninja.zip -oC:\projects\deps\ninja > nul
   - set PATH=C:\projects\deps\ninja;%PATH%
   - ninja --version
 
-  ############################################################################
+  #############################
   # Setup the path to Clang-cl
-  ############################################################################
   - set PATH="C:\Program Files\LLVM\bin";%PATH%
   - clang-cl -v
 
-  ############################################################################
+  #############################
   # Setup the path to Boost
-  ############################################################################
   - set INCLUDE=%INCLUDE%;C:\Libraries\boost_1_62_0
   - set LIB=%LIB%;C:\Libraries\boost_1_62_0
+
+  #############################
+  # Setup SFML
+  - cinst sfml
+
 
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
