@@ -51,6 +51,8 @@ install:
   # Setup SFML
   - nuget install sfml-window
   - dir .
+  - dir sfml-window.2.4.0.0
+  - dir sfml-system.2.4.0.0
 
 
 before_build:
