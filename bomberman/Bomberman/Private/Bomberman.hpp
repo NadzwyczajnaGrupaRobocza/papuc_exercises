@@ -18,6 +18,7 @@ public:
     void run();
 
 private:
+    void updateEntities();
     void updateInput();
     void updatePlayerInput();
     void updateMovement(float deltaTime);
@@ -32,16 +33,16 @@ private:
     void generateRandomnlyArrangedStaticEntities(const std::size_t count);
     void generateDynamicEntities(const std::size_t count);
 
-    sf::RenderWindow window;
-    lmg01::Board board;
-    const float baseSpeed = 200.f;
-    const std::size_t static_entity_count = 260;
-    const std::size_t dynamic_entity_count = 1;
-    float bonusSpeed = 1.0f;
-    sf::Vector2f movementDirection{0, 0};
-    Shapes shapes;
-    Entities static_entities;
-    Entities dynamic_entities;
-    physics::Collision collision;
+    sf::RenderWindow _window;
+    lmg01::Board _board;
+    const float _baseSpeed = 200.f;
+    const std::size_t _static_entity_count = 260;
+    const std::size_t _dynamic_entity_count = 1;
+    float _bonusSpeed = 1.0f;
+    sf::Vector2f _movementDirection{0, 0};
+    Shapes _shapes;
+    Entities _static_entities;
+    Entities _dynamic_entities;
+    physics::Collision _collision;
 };
 }

@@ -7,7 +7,7 @@ class RectangleShape;
 
 namespace physics
 {
-struct AABB;
+class Collider;
 }
 
 namespace bomberman
@@ -15,12 +15,14 @@ namespace bomberman
 class Entity
 {
 public:
-    Entity(sf::RectangleShape&, physics::AABB&);
+    Entity(sf::RectangleShape&, physics::Collider&);
     sf::RectangleShape& get_shape();
-    physics::AABB& get_aabb();
+    physics::Collider& get_collider();
+
+    void update();
 
 private:
     sf::RectangleShape& _shape;
-    physics::AABB& _aabb;
+    physics::Collider& _collider;
 };
 }

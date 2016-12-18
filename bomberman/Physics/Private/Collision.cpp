@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <boost/range/algorithm/for_each.hpp>
-#include <gsl/gsl_assert>
+#include <cassert>
 
 #include "Entity.hpp"
 
@@ -24,16 +24,10 @@ void Collision::update()
 void Collision::collidersVsTriggers()
 {
     boost::for_each(colliders, [this](auto& collider) {
-        boost::for_each(triggers, [this, &collider](auto const& trigger) {
-            Expects(trigger.entity != nullptr);
-            if (AABBvsAABB(collider, trigger))
+        boost::for_each(triggers, [this, &collider](auto& trigger) {
+            if (AABBvsAABB(collider.get_aabb(), trigger.get_aabb()))
             {
-                // TODO: replace this code to use entity.onTrigger(collider)
-                trigger.entity->get_shape().setFillColor(sf::Color::Red);
-            }
-            else
-            {
-                trigger.entity->get_shape().setFillColor(sf::Color::Blue);
+                trigger.addCollision(collider);
             }
         });
     });
@@ -44,38 +38,40 @@ void Collision::collidersVsColliders()
     // TODO:
 }
 
-AABB& Collision::addTrigger(sf::Vector2f position, float width, float height)
+Collider& Collision::addTrigger(sf::Vector2f position, float width,
+                                float height)
 {
-    triggers.emplace_back(createAABB(position, width, height));
+    triggers.emplace_back(createCollider(position, width, height));
     return triggers.back();
 }
 
-AABB& Collision::addCollider(sf::Vector2f position, float width, float height)
+Collider& Collision::addCollider(sf::Vector2f position, float width,
+                                 float height)
 {
-    colliders.emplace_back(createAABB(position, width, height));
+    colliders.emplace_back(createCollider(position, width, height));
     return colliders.back();
 }
 
-AABB Collision::createAABB(sf::Vector2f position, float width, float height)
+Collider Collision::createCollider(sf::Vector2f position, float width,
+                                   float height)
 {
     AABB aabb;
-    aabb.x_coord = position.x;
-    aabb.y_coord = position.y;
+    aabb.x = position.x;
+    aabb.y = position.y;
     aabb.width = width;
     aabb.height = height;
-    aabb.entity = nullptr;
-    return aabb;
+
+    return Collider{std::move(aabb)};
 }
 
 bool Collision::AABBvsAABB(const AABB& a, const AABB& b) const
 {
-    if (a.x_coord > (b.x_coord + b.width) || (a.x_coord + a.width) < b.x_coord)
+    if (a.x > (b.x + b.width) || (a.x + a.width) < b.x)
     {
         return false;
     }
 
-    if (a.y_coord > (b.y_coord + b.height) ||
-        (a.y_coord + a.height) < b.y_coord)
+    if (a.y > (b.y + b.height) || (a.y + a.height) < b.y)
     {
         return false;
     }
