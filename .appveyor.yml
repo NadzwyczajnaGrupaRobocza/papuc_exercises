@@ -14,11 +14,10 @@ environment:
   Configuration: Debug
 
   matrix:
-  - Build: bomberman
+  - Build: lm
   - Build: td
   - Build: ib
   - Build: mb
-  - Build: lm
   - Build: lz
   
 platform:
