@@ -49,10 +49,12 @@ install:
 
   #############################
   # Setup SFML
-  - nuget install sfml-window
-  - dir .
-  - dir sfml-window.2.4.0.0
-  - dir sfml-system.2.4.0.0
+  #  - nuget install sfml-window
+  - set SFML_URL="http://www.sfml-dev.org/files/SFML-2.4.1-windows-vc14-64-bit.zip"
+  - appveyor DownloadFile %SFML_URL% -FileName SFML.zip
+  - 7z x SFML.zip -oC:\projects\deps\SFML > nul
+  - set PATH=C:\projects\deps\SFML;%PATH%
+  - dir SFML
 
 
 before_build:
