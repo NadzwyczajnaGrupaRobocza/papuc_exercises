@@ -30,6 +30,7 @@
 
 # Project help file
 *.clang_complete
+*.projectile
 .dir-locals.el
 
 # Gtags
@@ -37,5 +38,4 @@
 */GTAGS
 */GRTAGS
 
-build/*
-build-*/*
+build*
