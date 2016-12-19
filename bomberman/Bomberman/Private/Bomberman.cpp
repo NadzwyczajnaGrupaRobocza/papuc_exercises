@@ -45,7 +45,7 @@ void Bomberman::updateEntities()
 
 void Bomberman::updateInput()
 {
-    sf::Event event;
+    sf::Event event{};
     while (_window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed ||
@@ -144,7 +144,7 @@ void Bomberman::swapBuffer()
     _window.display();
 }
 
-void Bomberman::generateDynamicEntities(const std::size_t)
+void Bomberman::generateDynamicEntities(const std::size_t&)
 {
     _dynamic_entities.reserve(1);
 
@@ -162,7 +162,7 @@ void Bomberman::generateDynamicEntities(const std::size_t)
     collider.set_entity(_dynamic_entities.back());
 }
 
-void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t count)
+void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t& count)
 {
     _static_entities.reserve(count);
 
@@ -173,7 +173,7 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t count)
                                                   _window.getSize().y - 20.f);
     std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
 
-    for (std::remove_const_t<decltype(count)> i = 0; i < count; ++i)
+    for (std::size_t i = 0; i < count; ++i)
     {
         float w = radius_distr(gen);
         float h = radius_distr(gen);

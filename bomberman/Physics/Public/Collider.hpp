@@ -16,7 +16,7 @@ namespace physics
 class Collider
 {
 public:
-    Collider(AABB&&);
+    Collider(AABB);
 
     void setPosition(sf::Vector2f position);
     AABB& get_aabb();

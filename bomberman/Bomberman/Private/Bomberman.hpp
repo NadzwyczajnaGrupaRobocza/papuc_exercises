@@ -30,8 +30,8 @@ private:
 
     void movePlayer(const sf::Vector2f& transl);
     void renderShapes();
-    void generateRandomnlyArrangedStaticEntities(const std::size_t count);
-    void generateDynamicEntities(const std::size_t count);
+    void generateRandomnlyArrangedStaticEntities(const std::size_t& count);
+    void generateDynamicEntities(const std::size_t& count);
 
     sf::RenderWindow _window;
     lmg01::Board _board;

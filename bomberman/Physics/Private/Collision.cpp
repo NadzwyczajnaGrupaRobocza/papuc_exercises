@@ -55,13 +55,13 @@ Collider& Collision::addCollider(sf::Vector2f position, float width,
 Collider Collision::createCollider(sf::Vector2f position, float width,
                                    float height)
 {
-    AABB aabb;
+    AABB aabb{};
     aabb.x = position.x;
     aabb.y = position.y;
     aabb.width = width;
     aabb.height = height;
 
-    return Collider{std::move(aabb)};
+    return Collider{aabb};
 }
 
 bool Collision::AABBvsAABB(const AABB& a, const AABB& b) const

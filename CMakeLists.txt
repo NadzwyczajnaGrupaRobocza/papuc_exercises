@@ -28,6 +28,8 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
   endif()
 
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+
   if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --driver-mode=cl -fms-compatibility-version=19")
   endif()

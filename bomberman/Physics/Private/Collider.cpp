@@ -9,8 +9,8 @@
 
 namespace physics
 {
-Collider::Collider(AABB&& aabb)
-    : _aabb{std::move(aabb)}, _entity{nullptr}, _script{nullptr}
+Collider::Collider(AABB aabb)
+    : _aabb{aabb}, _entity{nullptr}, _script{nullptr}
 {
 }
 
@@ -51,7 +51,7 @@ void Collider::runScript()
     if (_script)
     {
 
-        if (_collisions.size() > 0)
+        if (not _collisions.empty())
         {
 
             boost::for_each(_collisions, [this](auto& collider) {
