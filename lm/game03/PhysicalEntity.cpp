@@ -12,6 +12,7 @@ PhysicalEntity::PhysicalEntity(common::Log& log_init,
                                float mass_init,
                                const QuantumField& force_source_init)
     : log{log_init}, current_state{position_init, velocity_init, mass_init},
+      radius{10.f},
       force_source{force_source_init}
 {
 }
@@ -34,18 +35,38 @@ void PhysicalEntity::detect_colision(const sf::FloatRect& ent)
     }
 }
 
-void PhysicalEntity::advance_ignore_colistions()
+void PhysicalEntity::advance_to_next_state()
 {
     current_state = next_state;
 }
 
 void PhysicalEntity::draw(sf::RenderTarget& target)
 {
-    sf::Vector2f size{20.f, 20.f};
-    sf::RectangleShape box{size};
-    box.setFillColor(sf::Color::Blue);
-    box.setPosition(current_state.position - 0.5f * size);
-    target.draw(box);
+    sf::Vector2f top_left_local{radius, radius};
+    sf::CircleShape ent{radius};
+    ent.setFillColor(sf::Color::Blue);
+    ent.setPosition(current_state.position - top_left_local);
+    target.draw(ent);
+}
+
+const PointMass& PhysicalEntity::get_state() const
+{
+    return current_state;
+}
+
+const PointMass& PhysicalEntity::get_next_state() const
+{
+    return next_state;
+}
+
+void PhysicalEntity::set_next_state(const PointMass& new_next_state)
+{
+    next_state = new_next_state;
+}
+
+float PhysicalEntity::get_radius() const
+{
+    return radius;
 }
 
 PointMass PhysicalEntity::compute_next_state(float dt)

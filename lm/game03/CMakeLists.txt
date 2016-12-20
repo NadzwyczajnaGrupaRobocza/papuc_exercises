@@ -5,7 +5,8 @@ add_executable(${EXECUTABLE_NAME}
   World.cpp
   PhysicalEntity.cpp
   QuantumField.cpp
-  PointMass.cpp)
+  PointMass.cpp
+  CollisionDetector.cpp)
 
 
 target_compile_options(${EXECUTABLE_NAME} PRIVATE "-Wno-switch-enum")

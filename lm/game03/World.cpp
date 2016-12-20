@@ -13,7 +13,8 @@ World::World(common::Log& log_init)
           PhysicalEntity{
               log, {599.f, 500.f}, {0.f, 0.f}, 20000000000.f, force_source},
           PhysicalEntity{
-              log, {300.f, 500.f}, {0.f, 0.f}, 500000.f, force_source}}
+              log, {300.f, 500.f}, {0.f, 0.f}, 500000.f, force_source}},
+      collision_detector{}
 {
     force_source.set_player_object(&(entities[0].get_state()));
 }
@@ -26,9 +27,11 @@ void World::advance(const sf::Time& tick, const sf::Vector2f& playerMove)
         e.prepare_next_pos(tick.asSeconds());
     }
 
+    collision_detector.compute_collisions(entities);
+
     for (auto& e : entities)
     {
-        e.advance_ignore_colistions();
+        e.advance_to_next_state();
     }
 }
 

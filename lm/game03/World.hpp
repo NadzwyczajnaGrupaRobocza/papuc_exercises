@@ -3,6 +3,7 @@
 #include "Log.hpp"
 #include "PhysicalEntity.hpp"
 #include "QuantumField.hpp"
+#include "CollisionDetector.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -19,5 +20,6 @@ private:
     common::Log& log;
     QuantumField force_source;
     std::vector<PhysicalEntity> entities;
+    CollisionDetector collision_detector;
 };
 }
