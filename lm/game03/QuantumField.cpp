@@ -21,9 +21,22 @@ sf::Vector2f QuantumField::get_accel(const PointMass& caller) const
     if (&caller == player_object)
     {
         base_accel += user_input;
-        user_input = {};
     }
+
+    base_accel += friction(caller);
     return base_accel;
+}
+
+sf::Vector2f QuantumField::friction(const PointMass& caller) const
+{
+    if (fp::not_equal(length_squared(caller.velocity), 0.f))
+    {
+        return unit(caller.velocity) * (-1.f) * 10.f;
+    }
+    else
+    {
+        return {0.f, 0.f};
+    }
 }
 
 void QuantumField::set_player_object(const PointMass* p_player_object)
