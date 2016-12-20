@@ -168,9 +168,9 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t& count
 
     std::mt19937 gen(std::random_device{}());
     std::uniform_real_distribution<float> x_distr(20.f,
-                                                  _window.getSize().x - 20.f);
+                                                  static_cast<float>(_window.getSize().x) - 20.f);
     std::uniform_real_distribution<float> y_distr(20.f,
-                                                  _window.getSize().y - 20.f);
+                                                  static_cast<float>(_window.getSize().y) - 20.f);
     std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
 
     for (std::size_t i = 0; i < count; ++i)
