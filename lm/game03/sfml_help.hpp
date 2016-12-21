@@ -39,4 +39,10 @@ inline float dot(const sf::Vector2f& v1, const sf::Vector2f& v2)
     return v1.x * v2.x + v1.y * v2.y;
 }
 
+inline sf::Vector2f invert_parallel_component(const sf::Vector2f& v, const sf::Vector2f& base)
+{
+    const float v_in_base_len = dot(base, v);
+    return v - (2.f * v_in_base_len * base);
+}
+
 }
