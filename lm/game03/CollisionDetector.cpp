@@ -88,13 +88,24 @@ void CollisionDetector::recompute_positions(PhysicalEntity& e1,
     const auto displacement_1 = next_1.position - curr_1.position;
     const auto displacement_2 = next_2.position - curr_2.position;
 
+    const auto e1_pos_on_collision = curr_1.position + _last_moved_fraction * displacement_1;
+    const auto e2_pos_on_collision = curr_2.position + _last_moved_fraction * displacement_2;
+
+    const auto dir_1_to_2 = sfml_help::unit(e2_pos_on_collision - e1_pos_on_collision);
+
+    const auto post_colision_velocity_1 = sfml_help::invert_parallel_component(curr_1.velocity, dir_1_to_2);
+    const auto post_colision_velocity_2 = sfml_help::invert_parallel_component(curr_2.velocity, dir_1_to_2);
+
     e1.set_next_state(
         {curr_1.position + _last_moved_fraction * displacement_1,
-         {0.f, 0.f},
+         post_colision_velocity_1,
          curr_1.mass});
+
     e2.set_next_state(
         {curr_2.position + _last_moved_fraction * displacement_2,
-         {0.f, 0.f},
+         post_colision_velocity_2,
          curr_2.mass});
 }
+
+
 }
