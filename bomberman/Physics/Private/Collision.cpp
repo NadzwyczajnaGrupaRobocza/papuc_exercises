@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <boost/range/algorithm/for_each.hpp>
 #include <cassert>
+#include <cmath>
 
 #include "Entity.hpp"
 #include "Manifold.hpp"
