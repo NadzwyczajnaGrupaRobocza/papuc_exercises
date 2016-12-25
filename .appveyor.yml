@@ -57,7 +57,7 @@ install:
   # Setup SFML
   #  - nuget install sfml-window
   - cmd: |
-    if "%SFML%" == "yes"(
+    if "%SFML%" == "yes" (
         set SFML_URL="http://www.sfml-dev.org/files/SFML-2.4.1-windows-vc14-64-bit.zip"
         appveyor DownloadFile %SFML_URL% -FileName SFML.zip
         7z x SFML.zip -oC:\projects\deps\ > nul
