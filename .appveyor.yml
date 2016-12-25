@@ -66,7 +66,7 @@ install:
   #  - nuget install sfml-window
 
   - cmd: |
-       if "%SFML%" == "yes" (appveyor DownloadFile "http://www.sfml-dev.org/files/SFML-2.4.1-windows-vc14-64-bit.zip" -FileName SFML.zip && 7z x SFML.zip -oC:\projects\deps\ > nul)
+       if "%SFML%" == "yes" (appveyor DownloadFile "http://www.sfml-dev.org/files/SFML-2.4.1-windows-vc14-64-bit.zip" -FileName SFML.zip && 7z x SFML.zip -oC:\projects\deps\ > nul && set INCLUDE="%INCLUDE%;C:\projects\deps\SFML-2.4.1\include")
 
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
