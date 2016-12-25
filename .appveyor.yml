@@ -65,9 +65,10 @@ install:
   # Setup SFML
   #  - nuget install sfml-window
 
-  - cmd: |
-       if %SFML% == "yes" ( \
-          echo test )
+  - cmd: >-
+       if %SFML% == "yes" (
+          echo test
+          )
 
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
