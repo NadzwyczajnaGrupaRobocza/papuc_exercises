@@ -61,15 +61,15 @@ install:
        echo test
        )
 
-  - cmd: |
-    if "%SFML%" == "yes" (
-        set SFML_URL="http://www.sfml-dev.org/files/SFML-2.4.1-windows-vc14-64-bit.zip"
-        appveyor DownloadFile %SFML_URL% -FileName SFML.zip
-        7z x SFML.zip -oC:\projects\deps\ > nul
-        set INCLUDE=%INCLUDE%;C:\projects\deps\SFML-2.4.1\include
-        set LIB=%LIB%;C:\projects\deps\SFML-2.4.1\lib
-        set PATH=%PATH%;C:\projects\deps\SFML-2.4.1\bin
-    )
+  # - cmd: |
+  #   if "%SFML%" == "yes" (
+  #       set SFML_URL="http://www.sfml-dev.org/files/SFML-2.4.1-windows-vc14-64-bit.zip"
+  #       appveyor DownloadFile %SFML_URL% -FileName SFML.zip
+  #       7z x SFML.zip -oC:\projects\deps\ > nul
+  #       set INCLUDE=%INCLUDE%;C:\projects\deps\SFML-2.4.1\include
+  #       set LIB=%LIB%;C:\projects\deps\SFML-2.4.1\lib
+  #       set PATH=%PATH%;C:\projects\deps\SFML-2.4.1\bin
+  #   )
 
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
