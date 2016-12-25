@@ -3,7 +3,7 @@
 
 namespace lmg01
 {
-Board::Board(const sf::View& initialView) : currentView{initialView},
+Board::Board(sf::View initialView) : currentView{initialView},
                                             N{static_cast<int>(currentView.getSize().x / 50.f) + 1},
                                             M{static_cast<int>(currentView.getSize().y / 50.f) + 1}
 {

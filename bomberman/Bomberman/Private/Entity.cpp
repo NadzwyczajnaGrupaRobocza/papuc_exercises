@@ -5,6 +5,8 @@
 
 #include "Collider.hpp"
 
+#include <iostream>
+
 namespace bomberman
 {
 Entity::Entity(sf::RectangleShape& shape, physics::Collider& collider)

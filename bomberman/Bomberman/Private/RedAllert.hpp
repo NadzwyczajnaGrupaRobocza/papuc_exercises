@@ -8,7 +8,7 @@ class Entity;
 class RedAllert : public physics::CollisionScript
 {
 public:
-    RedAllert(bomberman::Entity&);
+    explicit RedAllert(bomberman::Entity&);
     void onCollisionEnter(physics::Collider&) override;
     void onCollisionExit() override;
 

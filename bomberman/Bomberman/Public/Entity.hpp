@@ -15,6 +15,7 @@ namespace bomberman
 class Entity
 {
 public:
+    Entity() = delete;
     Entity(sf::RectangleShape&, physics::Collider&);
     sf::RectangleShape& get_shape();
     physics::Collider& get_collider();

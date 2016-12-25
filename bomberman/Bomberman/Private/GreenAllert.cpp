@@ -6,7 +6,8 @@
 
 namespace bomberman
 {
-GreenAllert::GreenAllert(Entity& entity) : _entity{entity}
+GreenAllert::GreenAllert(Entity& entity)
+    : _entity{entity}, _base_color{entity.get_shape().getFillColor()}
 {
 }
 
@@ -17,6 +18,6 @@ void GreenAllert::onCollisionEnter(physics::Collider&)
 
 void GreenAllert::onCollisionExit()
 {
-    _entity.get_shape().setFillColor(sf::Color::Blue);
+    _entity.get_shape().setFillColor(_base_color);
 }
 }

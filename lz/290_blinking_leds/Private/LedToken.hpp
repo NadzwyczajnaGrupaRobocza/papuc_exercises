@@ -10,7 +10,7 @@ class LedToken
 public:
     using Delimiter = char;
 
-    LedToken(std::string);
+    explicit LedToken(std::string);
 
     friend std::ostream& operator<<(std::ostream&, const LedToken&);
     friend bool operator==(const LedToken&, const LedToken&);

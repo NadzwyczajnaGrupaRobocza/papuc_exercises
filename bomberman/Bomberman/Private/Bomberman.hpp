@@ -36,13 +36,14 @@ private:
     sf::RenderWindow _window;
     lmg01::Board _board;
     const float _baseSpeed = 200.f;
-    const std::size_t _static_entity_count = 260;
-    const std::size_t _dynamic_entity_count = 1;
+    const std::size_t _static_entity_count = 60;
+    const std::size_t _dynamic_entity_count = 61;
     float _bonusSpeed = 1.0f;
     sf::Vector2f _movementDirection{0, 0};
     Shapes _shapes;
     Entities _static_entities;
     Entities _dynamic_entities;
     physics::Collision _collision;
+    Entity* _player;
 };
 }

@@ -14,7 +14,7 @@ class Byte;
 class LedLdState : public LedTokenParser
 {
 public:
-    LedLdState(std::shared_ptr<IMemory>);
+    explicit LedLdState(std::shared_ptr<IMemory>);
     LedTokenState parse(const LedToken&) override;
 
 private:

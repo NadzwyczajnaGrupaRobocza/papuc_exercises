@@ -6,7 +6,7 @@ namespace lmg01
 class Board
 {
 public:
-    Board(const sf::View&);
+    explicit Board(sf::View);
 
     void drawOn(sf::RenderTarget&);
 

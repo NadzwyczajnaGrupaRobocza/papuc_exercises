@@ -3,6 +3,8 @@
 #include <bitset>
 #include <gsl/gsl_assert>
 #include <iostream>
+#include <utility>
+#include <utility>
 
 #include "Byte.hpp"
 #include "IMemory.hpp"
@@ -10,7 +12,7 @@
 
 namespace lz
 {
-LedOutState::LedOutState(std::shared_ptr<const IMemory> mem) : memory{mem}
+LedOutState::LedOutState(std::shared_ptr<const IMemory> mem) : memory{std::move(mem)}
 {
 }
 

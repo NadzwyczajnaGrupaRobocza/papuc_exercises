@@ -5,14 +5,17 @@
 #include <gsl/gsl_assert>
 #include <random>
 
-#include "RedAllert.hpp"
+#include <cassert>
+#include <iostream>
+
 #include "GreenAllert.hpp"
+#include "RedAllert.hpp"
 
 namespace bomberman
 {
 Bomberman::Bomberman()
     : _window{sf::VideoMode(800, 600), "bomberman"}, _board{_window.getView()},
-      _collision{_static_entity_count, _dynamic_entity_count}
+      _collision{_static_entity_count, _dynamic_entity_count}, _player{nullptr}
 {
     _window.setVerticalSyncEnabled(true);
 
@@ -40,7 +43,7 @@ void Bomberman::updateEntities()
 {
     boost::for_each(_static_entities, [](auto& entity) { entity.update(); });
     boost::for_each(_dynamic_entities, [](auto& entity) { entity.update(); });
-    // TODO: remove destroyed entities here
+    // TODO(abergard): remove destroyed entities here
 }
 
 void Bomberman::updateInput()
@@ -99,19 +102,16 @@ void Bomberman::updateMovement(float deltaTime)
 
 void Bomberman::movePlayer(const sf::Vector2f& transl)
 {
-    // TODO: for more dynamic entities it will be invalid
-    Expects(_dynamic_entities.size() == 1);
-    auto& player = _dynamic_entities.back();
-
-    auto& p_shape = player.get_shape();
+    Expects(_player != nullptr);
+    auto& p_shape = _player->get_shape();
 
     if (sf::FloatRect{{0.f, 0.f},
                       _window.getView().getSize() - sf::Vector2f{20.f, 20.f}}
             .contains(p_shape.getPosition() + transl))
     {
-        const auto& new_position = player.get_shape().getPosition() + transl;
-        player.get_shape().setPosition(new_position);
-        player.get_collider().setPosition(new_position);
+        const auto& new_position = _player->get_shape().getPosition() + transl;
+        _player->get_shape().setPosition(new_position);
+        _player->get_collider().setPosition(new_position);
     }
 }
 
@@ -144,25 +144,56 @@ void Bomberman::swapBuffer()
     _window.display();
 }
 
-void Bomberman::generateDynamicEntities(const std::size_t&)
+void Bomberman::generateDynamicEntities(const std::size_t& count)
 {
-    _dynamic_entities.reserve(1);
+    _dynamic_entities.reserve(count);
 
-    float x = 0.0f;
-    float y = 0.0f;
-    float w = 20.0f;
-    float h = 20.0f;
-    _shapes.emplace_back(sf::Vector2f{w, h});
-    auto& player = _shapes.back();
-    player.setFillColor(sf::Color::Black);
-    player.setPosition(x, y);
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution<float> x_distr(20.f,
+                                                  _window.getSize().x - 20.f);
+    std::uniform_real_distribution<float> y_distr(20.f,
+                                                  _window.getSize().y - 20.f);
+    std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
 
-    auto& collider = _collision.addCollider(sf::Vector2f(x, y), w, h);
-    _dynamic_entities.emplace_back(player, collider);
-    collider.set_entity(_dynamic_entities.back());
+    for (std::size_t i = 0; i < count - 1; ++i)
+    {
+        float w = radius_distr(gen);
+        float h = radius_distr(gen);
+        _shapes.emplace_back(sf::Vector2f{w, h});
+        float x = x_distr(gen);
+        float y = y_distr(gen);
+        _shapes.back().setPosition(x, y);
+
+        auto& collider = _collision.addStaticCollider(sf::Vector2f(x, y), w, h);
+
+        _dynamic_entities.push_back(Entity{_shapes.back(), collider});
+
+        collider.set_entity(_dynamic_entities.back());
+        _shapes.back().setFillColor(sf::Color::Magenta);
+
+        collider.attachScript(
+            std::make_unique<GreenAllert>(_dynamic_entities.back()));
+    }
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+        float w = 20.0f;
+        float h = 20.0f;
+        _shapes.emplace_back(sf::Vector2f{w, h});
+        auto& player = _shapes.back();
+        player.setFillColor(sf::Color::Black);
+        player.setPosition(x, y);
+
+        auto& collider =
+            _collision.addDynamicCollider(sf::Vector2f(x, y), w, h);
+        _dynamic_entities.emplace_back(player, collider);
+        collider.set_entity(_dynamic_entities.back());
+        _player = &_dynamic_entities.back();
+    }
 }
 
-void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t& count)
+void Bomberman::generateRandomnlyArrangedStaticEntities(
+    const std::size_t& count)
 {
     _static_entities.reserve(count);
 
@@ -181,21 +212,13 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(const std::size_t& count
         float x = x_distr(gen);
         float y = y_distr(gen);
         _shapes.back().setPosition(x, y);
-        _shapes.back().setFillColor(sf::Color::Blue);
 
         auto& trigger = _collision.addTrigger(sf::Vector2f(x, y), w, h);
         _static_entities.emplace_back(_shapes.back(), trigger);
         trigger.set_entity(_static_entities.back());
-        if (i % 2 == 0)
-        {
-            trigger.attachScript(
-                std::make_unique<RedAllert>(_static_entities.back()));
-        }
-        else
-        {
-            trigger.attachScript(
-                std::make_unique<GreenAllert>(_static_entities.back()));
-        }
+        trigger.attachScript(
+            std::make_unique<RedAllert>(_static_entities.back()));
+        _shapes.back().setFillColor(sf::Color::Blue);
     }
 }
 }

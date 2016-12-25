@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/System/Vector2.hpp>
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "AABB.hpp"
 #include "CollisionScript.hpp"
@@ -16,7 +16,13 @@ namespace physics
 class Collider
 {
 public:
-    Collider(AABB);
+    Collider() = delete;
+    explicit Collider(AABB);
+    Collider(const Collider&) = delete;
+    Collider(Collider&&);
+
+    void operator=(const Collider&) = delete;
+    void operator=(Collider&&);
 
     void setPosition(sf::Vector2f position);
     AABB& get_aabb();

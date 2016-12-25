@@ -11,7 +11,7 @@ class ILedSimulationFsm;
 class LedSimulation
 {
 public:
-    LedSimulation(std::unique_ptr<ILedSimulationFsm>);
+    explicit LedSimulation(std::unique_ptr<ILedSimulationFsm>);
     void readCommands(std::istream& input);
     void run();
     void printCommandTokens(std::ostream& output) const;

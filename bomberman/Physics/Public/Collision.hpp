@@ -5,6 +5,8 @@
 
 #include "Collider.hpp"
 
+#include <iostream>
+
 namespace physics
 {
 using Colliders = std::vector<Collider>;
@@ -16,7 +18,10 @@ public:
 
     void update();
     Collider& addTrigger(sf::Vector2f position, float width, float height);
-    Collider& addCollider(sf::Vector2f position, float width, float height);
+    Collider& addStaticCollider(sf::Vector2f position, float width,
+                                float height);
+    Collider& addDynamicCollider(sf::Vector2f position, float width,
+                                 float height);
 
 private:
     void collidersVsTriggers();
@@ -26,7 +31,8 @@ private:
     bool AABBvsAABB(const AABB&, const AABB&) const;
 
 private:
-    Colliders triggers;
-    Colliders colliders;
+    Colliders _triggers;
+    Colliders _dynamic_colliders;
+    Colliders _static_colliders;
 };
 }

@@ -9,7 +9,7 @@ class IMemory;
 class LedOutState : public LedTokenParser
 {
 public:
-    LedOutState(std::shared_ptr<const IMemory>);
+    explicit LedOutState(std::shared_ptr<const IMemory>);
     LedTokenState parse(const LedToken&) override;
 
 private:

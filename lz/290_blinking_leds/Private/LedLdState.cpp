@@ -2,6 +2,7 @@
 
 #include <gsl/gsl_assert>
 #include <iostream>
+#include <utility>
 
 #include "Byte.hpp"
 #include "IMemory.hpp"
@@ -9,10 +10,10 @@
 
 namespace lz
 {
-LedLdState::LedLdState(std::shared_ptr<IMemory> mem) : memory{mem}
+LedLdState::LedLdState(std::shared_ptr<IMemory>  mem) : memory{std::move(mem)}
 {
     save_in_register.emplace("a", [this](Byte&& reg) {
-        this->memory->set_register_a(std::move(reg));
+        this->memory->set_register_a(reg);
     });
 }
 
