@@ -15,6 +15,8 @@ environment:
 
   matrix:
   - Build: bomberman
+    Configuration: Release
+
   - Build: lm
   - Build: td
   - Build: ib
