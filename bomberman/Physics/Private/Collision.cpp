@@ -26,7 +26,7 @@ void Collision::collidersVsTriggers()
 {
     boost::for_each(_dynamic_colliders, [this](auto& collider) {
         boost::for_each(_triggers, [this, &collider](auto& trigger) {
-            if (AABBvsAABB(collider.get_aabb(), trigger.get_aabb()))
+            if (this->AABBvsAABB(collider.get_aabb(), trigger.get_aabb()))
             {
                 trigger.addCollision(collider);
             }
