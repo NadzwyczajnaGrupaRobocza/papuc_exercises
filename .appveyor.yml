@@ -72,7 +72,6 @@ install:
   - set PATH=%PATH%;C:\projects\deps\SFML-2.4.1\bin
 
 before_build:
-  - echo %PATH%
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
   - cd %APPVEYOR_BUILD_FOLDER%
   - git submodule init
