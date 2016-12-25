@@ -103,15 +103,11 @@ void Bomberman::updateMovement(float deltaTime)
 void Bomberman::movePlayer(const sf::Vector2f& transl)
 {
     Expects(_player != nullptr);
-    auto& p_shape = _player->get_shape();
-
     if (sf::FloatRect{{0.f, 0.f},
                       _window.getView().getSize() - sf::Vector2f{20.f, 20.f}}
-            .contains(p_shape.getPosition() + transl))
+            .contains(_player->getPosition() + transl))
     {
-        const auto& new_position = _player->get_shape().getPosition() + transl;
-        _player->get_shape().setPosition(new_position);
-        _player->get_collider().setPosition(new_position);
+        _player->move(transl);
     }
 }
 
@@ -198,10 +194,10 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(
     _static_entities.reserve(count);
 
     std::mt19937 gen(std::random_device{}());
-    std::uniform_real_distribution<float> x_distr(20.f,
-                                                  static_cast<float>(_window.getSize().x) - 20.f);
-    std::uniform_real_distribution<float> y_distr(20.f,
-                                                  static_cast<float>(_window.getSize().y) - 20.f);
+    std::uniform_real_distribution<float> x_distr(
+        20.f, static_cast<float>(_window.getSize().x) - 20.f);
+    std::uniform_real_distribution<float> y_distr(
+        20.f, static_cast<float>(_window.getSize().y) - 20.f);
     std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
 
     for (std::size_t i = 0; i < count; ++i)

@@ -6,6 +6,7 @@
 #include <cassert>
 
 #include "Entity.hpp"
+#include "Manifold.hpp"
 
 namespace physics
 {
@@ -32,6 +33,36 @@ void Collision::collidersVsTriggers()
             }
         });
     });
+}
+Manifold getCollisionAlignment(float x_overlap, float y_overlap,
+                               sf::Vector2f from_static_to_dynamic)
+{
+    Manifold m;
+    if (x_overlap < y_overlap)
+    {
+        m.penetration = x_overlap;
+        if (from_static_to_dynamic.x > 0)
+        {
+            m.normal = sf::Vector2f{1.0f, 0.0f};
+        }
+        else
+        {
+            m.normal = sf::Vector2f{-1.0f, 0.0f};
+        }
+    }
+    else
+    {
+        m.penetration = y_overlap;
+        if (from_static_to_dynamic.y > 0)
+        {
+            m.normal = sf::Vector2f{0.0f, 1.0f};
+        }
+        else
+        {
+            m.normal = sf::Vector2f{0.0f, -1.0f};
+        }
+    }
+    return m;
 }
 
 void Collision::collidersVsColliders()
@@ -72,34 +103,11 @@ void Collision::collidersVsColliders()
                 return;
             }
 
-            sf::Vector2f normal{0.0f, 0.0f};
+            auto manifold = getCollisionAlignment(x_overlap, y_overlap,
+                                                  from_static_to_dynamic);
 
-            if (x_overlap < y_overlap)
-            {
-                if (from_static_to_dynamic.x > 0)
-                {
-                    normal = sf::Vector2f{1.0f, 0.0f};
-                }
-                else
-                {
-                    normal = sf::Vector2f{-1.0f, 0.0f};
-                }
-                dynamic_collider.get_entity().get_shape().move(normal *
-                                                               x_overlap);
-            }
-            else
-            {
-                if (from_static_to_dynamic.y > 0)
-                {
-                    normal = sf::Vector2f{0.0f, 1.0f};
-                }
-                else
-                {
-                    normal = sf::Vector2f{0.0f, -1.0f};
-                }
-                dynamic_collider.get_entity().get_shape().move(normal *
-                                                               y_overlap);
-            }
+            dynamic_collider.get_entity().move(manifold.normal *
+                                               manifold.penetration);
 
             static_collider.addCollision(dynamic_collider);
         });

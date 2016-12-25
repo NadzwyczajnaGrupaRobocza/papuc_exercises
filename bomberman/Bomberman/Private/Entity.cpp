@@ -28,4 +28,21 @@ void Entity::update()
 {
     _collider.runScript();
 }
+
+void Entity::move(sf::Vector2f translation)
+{
+    _shape.move(translation);
+    _collider.setPosition(_shape.getPosition());
+}
+
+void Entity::setPosition(sf::Vector2f position)
+{
+    _shape.setPosition(position);
+    _collider.setPosition(position);
+}
+
+sf::Vector2f Entity::getPosition() const
+{
+    return _shape.getPosition();
+}
 }

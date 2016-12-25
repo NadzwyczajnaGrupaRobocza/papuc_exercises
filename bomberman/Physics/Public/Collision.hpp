@@ -5,8 +5,6 @@
 
 #include "Collider.hpp"
 
-#include <iostream>
-
 namespace physics
 {
 using Colliders = std::vector<Collider>;
@@ -29,6 +27,8 @@ private:
 
     Collider createCollider(sf::Vector2f position, float width, float height);
     bool AABBvsAABB(const AABB&, const AABB&) const;
+    // Manifold getCollisionAlignment(float x_overlap, float y_overlap,
+    //                                sf::Vector2f from_static_to_dynamic) const;
 
 private:
     Colliders _triggers;

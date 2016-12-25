@@ -23,8 +23,6 @@ void LedSimulation::readCommands(std::istream& input)
     std::istream_iterator<char> it(input);
     std::string sentence(it, std::istream_iterator<char>{});
     std::istringstream iss(sentence);
-    // std::copy(std::istream_iterator<std::string>{iss},
-    //           std::istream_iterator<std::string>{}, std::back_inserter(tokens));
 
     std::transform(
         std::istream_iterator<std::string>{iss},

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/System/Vector2.hpp>
+
 namespace sf
 {
 class RectangleShape;
@@ -21,6 +23,9 @@ public:
     physics::Collider& get_collider();
 
     void update();
+    void move(sf::Vector2f translation);
+    void setPosition(sf::Vector2f position);
+    sf::Vector2f getPosition() const;
 
 private:
     sf::RectangleShape& _shape;
