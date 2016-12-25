@@ -12,7 +12,8 @@ using Colliders = std::vector<Collider>;
 class Collision
 {
 public:
-    Collision(std::size_t triggers_count, std::size_t colliders_count);
+    Collision(std::size_t triggers_count, std::size_t static_colliders_count,
+              std::size_t dynamic_colliders_count);
 
     void update();
     Collider& addTrigger(sf::Vector2f position, float width, float height);
@@ -28,7 +29,8 @@ private:
     Collider createCollider(sf::Vector2f position, float width, float height);
     bool AABBvsAABB(const AABB&, const AABB&) const;
     // Manifold getCollisionAlignment(float x_overlap, float y_overlap,
-    //                                sf::Vector2f from_static_to_dynamic) const;
+    //                                sf::Vector2f from_static_to_dynamic)
+    //                                const;
 
 private:
     Colliders _triggers;

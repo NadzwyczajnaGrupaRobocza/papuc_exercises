@@ -31,13 +31,15 @@ private:
     void movePlayer(const sf::Vector2f& transl);
     void renderShapes();
     void generateRandomnlyArrangedStaticEntities(const std::size_t& count);
+    void generateRandomnlyStaticTriggerEntities(const std::size_t& count);
+    void generateRandomnlyStaticColliderEntities(const std::size_t& count);
     void generateDynamicEntities(const std::size_t& count);
 
     sf::RenderWindow _window;
     lmg01::Board _board;
     const float _baseSpeed = 200.f;
-    const std::size_t _static_entity_count = 60;
-    const std::size_t _dynamic_entity_count = 61;
+    const std::size_t _static_entity_count = 620; // need to be even for now
+    const std::size_t _dynamic_entity_count = 1;
     float _bonusSpeed = 1.0f;
     sf::Vector2f _movementDirection{0, 0};
     Shapes _shapes;

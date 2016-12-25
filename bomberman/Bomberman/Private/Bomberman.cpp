@@ -15,7 +15,9 @@ namespace bomberman
 {
 Bomberman::Bomberman()
     : _window{sf::VideoMode(800, 600), "bomberman"}, _board{_window.getView()},
-      _collision{_static_entity_count, _dynamic_entity_count}, _player{nullptr}
+      _collision{_static_entity_count / 2, _static_entity_count / 2,
+                 _dynamic_entity_count},
+      _player{nullptr}
 {
     _window.setVerticalSyncEnabled(true);
 
@@ -143,33 +145,6 @@ void Bomberman::swapBuffer()
 void Bomberman::generateDynamicEntities(const std::size_t& count)
 {
     _dynamic_entities.reserve(count);
-
-    std::mt19937 gen(std::random_device{}());
-    std::uniform_real_distribution<float> x_distr(20.f,
-                                                  _window.getSize().x - 20.f);
-    std::uniform_real_distribution<float> y_distr(20.f,
-                                                  _window.getSize().y - 20.f);
-    std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
-
-    for (std::size_t i = 0; i < count - 1; ++i)
-    {
-        float w = radius_distr(gen);
-        float h = radius_distr(gen);
-        _shapes.emplace_back(sf::Vector2f{w, h});
-        float x = x_distr(gen);
-        float y = y_distr(gen);
-        _shapes.back().setPosition(x, y);
-
-        auto& collider = _collision.addStaticCollider(sf::Vector2f(x, y), w, h);
-
-        _dynamic_entities.push_back(Entity{_shapes.back(), collider});
-
-        collider.set_entity(_dynamic_entities.back());
-        _shapes.back().setFillColor(sf::Color::Magenta);
-
-        collider.attachScript(
-            std::make_unique<GreenAllert>(_dynamic_entities.back()));
-    }
     {
         float x = 0.0f;
         float y = 0.0f;
@@ -192,7 +167,11 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(
     const std::size_t& count)
 {
     _static_entities.reserve(count);
-
+    generateRandomnlyStaticTriggerEntities(count / 2);
+    generateRandomnlyStaticColliderEntities(count / 2);
+}
+void Bomberman::generateRandomnlyStaticTriggerEntities(const std::size_t& count)
+{
     std::mt19937 gen(std::random_device{}());
     std::uniform_real_distribution<float> x_distr(
         20.f, static_cast<float>(_window.getSize().x) - 20.f);
@@ -200,7 +179,7 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(
         20.f, static_cast<float>(_window.getSize().y) - 20.f);
     std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
 
-    for (std::size_t i = 0; i < count; ++i)
+    for (std::size_t i = 0; i < count; i += 2)
     {
         float w = radius_distr(gen);
         float h = radius_distr(gen);
@@ -209,12 +188,49 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(
         float y = y_distr(gen);
         _shapes.back().setPosition(x, y);
 
-        auto& trigger = _collision.addTrigger(sf::Vector2f(x, y), w, h);
-        _static_entities.emplace_back(_shapes.back(), trigger);
-        trigger.set_entity(_static_entities.back());
-        trigger.attachScript(
-            std::make_unique<RedAllert>(_static_entities.back()));
-        _shapes.back().setFillColor(sf::Color::Blue);
+        if (i % 2 == 0)
+        {
+            auto& trigger = _collision.addTrigger(sf::Vector2f(x, y), w, h);
+            _static_entities.emplace_back(_shapes.back(), trigger);
+            trigger.set_entity(_static_entities.back());
+            trigger.attachScript(
+                std::make_unique<RedAllert>(_static_entities.back()));
+            _shapes.back().setFillColor(sf::Color::Blue);
+        }
+    }
+}
+void Bomberman::generateRandomnlyStaticColliderEntities(
+    const std::size_t& count)
+{
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution<float> x_distr(
+        20.f, static_cast<float>(_window.getSize().x) - 20.f);
+    std::uniform_real_distribution<float> y_distr(
+        20.f, static_cast<float>(_window.getSize().y) - 20.f);
+    std::uniform_real_distribution<float> radius_distr(10.f, 50.f);
+
+    for (std::size_t i = 1; i < count; i += 2)
+    {
+        float w = radius_distr(gen);
+        float h = radius_distr(gen);
+        _shapes.emplace_back(sf::Vector2f{w, h});
+        float x = x_distr(gen);
+        float y = y_distr(gen);
+        _shapes.back().setPosition(x, y);
+
+        if (i % 2 == 1)
+        {
+            auto& collider =
+                _collision.addStaticCollider(sf::Vector2f(x, y), w, h);
+
+            _static_entities.push_back(Entity{_shapes.back(), collider});
+
+            collider.set_entity(_static_entities.back());
+            _shapes.back().setFillColor(sf::Color::Magenta);
+
+            collider.attachScript(
+                std::make_unique<GreenAllert>(_static_entities.back()));
+        }
     }
 }
 }

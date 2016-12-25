@@ -10,11 +10,13 @@
 
 namespace physics
 {
-Collision::Collision(std::size_t triggers_count, std::size_t colliders_count)
+Collision::Collision(std::size_t triggers_count,
+                     std::size_t static_colliders_count,
+                     std::size_t dynamic_colliders_count)
 {
     _triggers.reserve(triggers_count);
-    _static_colliders.reserve(61); // need to fix it
-    _dynamic_colliders.reserve(colliders_count);
+    _static_colliders.reserve(static_colliders_count);
+    _dynamic_colliders.reserve(dynamic_colliders_count);
 }
 
 void Collision::update()
