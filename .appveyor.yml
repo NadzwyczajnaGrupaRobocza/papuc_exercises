@@ -19,13 +19,21 @@ environment:
     Configuration: Release
     SFML: yes
 
-  - Build: lm
+  - Build: lm/all
+    Test: lm
     SFML: yes
 
-  - Build: td
-  - Build: ib
-  - Build: mb
-  - Build: lz
+  - Build: td/all
+    Test: td
+
+  - Build: ib/all
+    Test: ib
+
+  - Build: mb/all
+    Test: mb
+
+  - Build: lz/all
+    Test: lz
   
 platform:
 - x64
@@ -58,7 +66,8 @@ install:
   #  - nuget install sfml-window
 
   - cmd: |
-       if %SFML% == "yes" ( echo test )
+       if %SFML% == "yes" ( \
+          echo test )
 
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
@@ -75,12 +84,12 @@ build_script:
                      -DBUILD_SHARED_LIBS:BOOL=OFF
                      -Wno-dev
                      -DCMAKE_MODULE_PATH="C:/projects/deps/SFML-2.4.1/cmake/Modules/"
-  - cmake --build . --target %Build%/all
+  - cmake --build . --target %Build%
 
 test_script:
   - ps: |
       if ($env:CONFIGURATION -eq "Debug")
       {
-          & ctest -V -R $env:Build -j nproc
+          & ctest -V -R $env:Test -j nproc
       }
 
