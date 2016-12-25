@@ -66,6 +66,12 @@ void Bomberman::updateInput()
 void Bomberman::updatePlayerInput()
 {
     _movementDirection = sf::Vector2f{0, 0};
+    updatePlayerKeyboard();
+    updatePlayerXbox360Pad();
+}
+
+void Bomberman::updatePlayerKeyboard()
+{
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ||
         sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
@@ -94,6 +100,34 @@ void Bomberman::updatePlayerInput()
     else
     {
         _bonusSpeed = 1.0f;
+    }
+}
+
+void Bomberman::updatePlayerXbox360Pad()
+{
+    if (sf::Joystick::isConnected(0))
+    {
+        sf::Vector2f move_speed{
+            sf::Joystick::getAxisPosition(0, sf::Joystick::X),
+            sf::Joystick::getAxisPosition(0, sf::Joystick::Y)};
+
+        float treshold = 40;
+        if (move_speed.x > treshold)
+        {
+            _movementDirection.x = 1;
+        }
+        if (move_speed.x < -treshold)
+        {
+            _movementDirection.x = -1;
+        }
+        if (move_speed.y > treshold)
+        {
+            _movementDirection.y = 1;
+        }
+        if (move_speed.y < -treshold)
+        {
+            _movementDirection.y = -1;
+        }
     }
 }
 

@@ -21,6 +21,8 @@ private:
     void updateEntities();
     void updateInput();
     void updatePlayerInput();
+    void updatePlayerKeyboard();
+    void updatePlayerXbox360Pad();
     void updateMovement(float deltaTime);
     void updateRender();
     void updatePhysics();
