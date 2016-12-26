@@ -6,6 +6,7 @@
 #include <random>
 
 #include <cassert>
+#include <fstream>
 #include <iostream>
 
 #include "GreenAllert.hpp"
@@ -19,7 +20,7 @@ Bomberman::Bomberman()
                  _dynamic_entity_count},
       _player{nullptr}
 {
-    _window.setVerticalSyncEnabled(true);
+    _window.setVerticalSyncEnabled(false);
 
     _shapes.reserve(_static_entity_count + _dynamic_entity_count);
     generateRandomnlyArrangedStaticEntities(_static_entity_count);
@@ -66,6 +67,7 @@ void Bomberman::updateInput()
 void Bomberman::updatePlayerInput()
 {
     _movementDirection = sf::Vector2f{0, 0};
+    _bonusSpeed = 1.0f;
     updatePlayerKeyboard();
     updatePlayerXbox360Pad();
 }
@@ -95,11 +97,7 @@ void Bomberman::updatePlayerKeyboard()
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
     {
-        _bonusSpeed = 0.5f;
-    }
-    else
-    {
-        _bonusSpeed = 1.0f;
+        _bonusSpeed = 2.5f;
     }
 }
 
@@ -110,6 +108,8 @@ void Bomberman::updatePlayerXbox360Pad()
         sf::Vector2f move_speed{
             sf::Joystick::getAxisPosition(0, sf::Joystick::X),
             sf::Joystick::getAxisPosition(0, sf::Joystick::Y)};
+
+        // std::cerr << "x:" << move_speed.x << ",y:" << move_speed.y << "\n";
 
         float treshold = 40;
         if (move_speed.x > treshold)
@@ -127,6 +127,11 @@ void Bomberman::updatePlayerXbox360Pad()
         if (move_speed.y < -treshold)
         {
             _movementDirection.y = -1;
+        }
+
+        if (std::fabs(move_speed.x) > 79.0f || std::fabs(move_speed.y) > 79.0f)
+        {
+            _bonusSpeed = 2.5f;
         }
     }
 }

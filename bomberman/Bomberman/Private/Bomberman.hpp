@@ -39,7 +39,7 @@ private:
 
     sf::RenderWindow _window;
     lmg01::Board _board;
-    const float _baseSpeed = 200.f;
+    const float _baseSpeed = 60.f;
     const std::size_t _static_entity_count = 620; // need to be even for now
     const std::size_t _dynamic_entity_count = 1;
     float _bonusSpeed = 1.0f;
