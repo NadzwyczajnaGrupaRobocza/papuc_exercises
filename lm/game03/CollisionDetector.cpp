@@ -5,22 +5,23 @@
 namespace lmg03
 {
 void CollisionDetector::compute_collisions(
-    std::vector<PhysicalEntity>& entities)
+    const sf::Time& tick, std::vector<PhysicalEntity>& entities)
 {
-    for (auto& e1 : entities)
+    _current_tick = tick;
+    for (auto i = 0u; i < entities.size(); ++i)
     {
-        for (auto& e2 : entities)
+        for (auto j = i + 1; j < entities.size(); ++j)
         {
-            if (&e1 == &e2)
+            if (collistion_occured_between(entities[i], entities[j]))
             {
-                continue;
-            }
-
-            if (collistion_occured_between(e1, e2))
-            {
-                recompute_positions(e1, e2);
+                recompute_positions(entities[i], entities[j]);
             }
         }
+    }
+
+    for (auto& e : entities)
+    {
+        resolve_colistion_with_world_boundry(e);
     }
 }
 
@@ -88,24 +89,83 @@ void CollisionDetector::recompute_positions(PhysicalEntity& e1,
     const auto displacement_1 = next_1.position - curr_1.position;
     const auto displacement_2 = next_2.position - curr_2.position;
 
-    const auto e1_pos_on_collision = curr_1.position + _last_moved_fraction * displacement_1;
-    const auto e2_pos_on_collision = curr_2.position + _last_moved_fraction * displacement_2;
+    const auto e1_pos_on_collision =
+        curr_1.position + _last_moved_fraction * displacement_1;
+    const auto e2_pos_on_collision =
+        curr_2.position + _last_moved_fraction * displacement_2;
 
-    const auto dir_1_to_2 = sfml_help::unit(e2_pos_on_collision - e1_pos_on_collision);
+    const auto dir_1_to_2 =
+        sfml_help::unit(e2_pos_on_collision - e1_pos_on_collision);
 
-    const auto post_colision_velocity_1 = sfml_help::invert_parallel_component(curr_1.velocity, dir_1_to_2);
-    const auto post_colision_velocity_2 = sfml_help::invert_parallel_component(curr_2.velocity, dir_1_to_2);
+    const auto a1 = sfml_help::dot(curr_1.velocity, dir_1_to_2);
+    const auto a2 = sfml_help::dot(curr_2.velocity, dir_1_to_2);
+
+    const auto optimizedP =
+        (2.0f * (a1 - a2)) / (curr_1.mass + curr_2.mass);
+
+    const auto post_colision_velocity_1 =
+        curr_1.velocity - optimizedP * curr_2.mass * dir_1_to_2;
+    const auto post_colision_velocity_2 =
+        curr_2.velocity + optimizedP * curr_1.mass * dir_1_to_2;
 
     e1.set_next_state(
         {curr_1.position + _last_moved_fraction * displacement_1,
-         post_colision_velocity_1,
-         curr_1.mass});
+         post_colision_velocity_1, curr_1.mass});
 
     e2.set_next_state(
         {curr_2.position + _last_moved_fraction * displacement_2,
-         post_colision_velocity_2,
-         curr_2.mass});
+         post_colision_velocity_2, curr_2.mass});
+
+    e1.advance_to_next_state();
+    e2.advance_to_next_state();
+
+    e1.prepare_next_pos((1.0f - _last_moved_fraction) *
+                        _current_tick.asSeconds());
+    e2.prepare_next_pos((1.0f - _last_moved_fraction) *
+                        _current_tick.asSeconds());
 }
 
+void CollisionDetector::resolve_colistion_with_world_boundry(
+    PhysicalEntity& e)
+{
+    // const auto curr = e.get_state();
+    const auto next = e.get_next_state();
+    const auto r = e.get_radius();
 
+    const auto bound_left = r;
+    if (next.position.x < bound_left)
+    {
+        const auto new_x_pos = 2.0f * bound_left - next.position.x;
+        e.set_next_state({{new_x_pos, next.position.y},
+                          sfml_help::inv_x(next.velocity),
+                          next.mass});
+    }
+
+    const auto bound_right = 800.f - r;
+    if (next.position.x > bound_right)
+    {
+        const auto new_x_pos = 2.0f * bound_right - next.position.x;
+        e.set_next_state({{new_x_pos, next.position.y},
+                          sfml_help::inv_x(next.velocity),
+                          next.mass});
+    }
+
+    const auto bound_top = r;
+    if (next.position.y < bound_top)
+    {
+        const auto new_y_pos = 2.0f * bound_top - next.position.y;
+        e.set_next_state({{next.position.x, new_y_pos},
+                          sfml_help::inv_y(next.velocity),
+                          next.mass});
+    }
+
+    const auto bound_bottom = 600.f - r;
+    if (next.position.y > bound_bottom)
+    {
+        const auto new_y_pos = 2.0f * bound_bottom - next.position.y;
+        e.set_next_state({{next.position.x, new_y_pos},
+                          sfml_help::inv_y(next.velocity),
+                          next.mass});
+    }
+}
 }
