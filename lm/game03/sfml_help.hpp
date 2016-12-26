@@ -28,7 +28,6 @@ inline sf::Vector2f from_1_to_2_unit(const sf::Vector2f& v1,
     return unit(dir);
 }
 
-
 inline float dist(const sf::Vector2f& v1, const sf::Vector2f& v2)
 {
     return length(v1 - v2);
@@ -39,10 +38,20 @@ inline float dot(const sf::Vector2f& v1, const sf::Vector2f& v2)
     return v1.x * v2.x + v1.y * v2.y;
 }
 
-inline sf::Vector2f invert_parallel_component(const sf::Vector2f& v, const sf::Vector2f& base)
+inline sf::Vector2f invert_parallel_component(const sf::Vector2f& v,
+                                              const sf::Vector2f& base)
 {
     const float v_in_base_len = dot(base, v);
     return v - (2.f * v_in_base_len * base);
 }
 
+inline sf::Vector2f inv_x(const sf::Vector2f& v)
+{
+    return {-v.x, v.y};
+}
+
+inline sf::Vector2f inv_y(const sf::Vector2f& v)
+{
+    return {v.x, -v.y};
+}
 }
