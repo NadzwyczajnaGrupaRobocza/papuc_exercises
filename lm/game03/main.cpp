@@ -1,8 +1,10 @@
 #include "StreamLog.hpp"
 #include "World.hpp"
 #include <SFML/Graphics.hpp>
+#include <chrono>
 #include <iostream>
 #include <sstream>
+#include <thread>
 
 sf::Vector2f processUserInput(float baseSpeed, sf::RenderWindow& window);
 
@@ -34,7 +36,11 @@ int main(int /*argc*/, char** /*argv*/)
 
         const auto duration = frameClock.getElapsedTime();
         if (duration.asSeconds() < frameDuration)
+        {
+            using namespace std::literals::chrono_literals;
+            std::this_thread::sleep_for(10ms);
             continue;
+        }
 
         frameClock.restart();
 
