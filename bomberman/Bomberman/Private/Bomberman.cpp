@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <boost/range/algorithm/for_each.hpp>
 #include <gsl/gsl_assert>
+#include <memory>
 #include <random>
 
 #include <cassert>
@@ -16,8 +17,7 @@ namespace bomberman
 {
 Bomberman::Bomberman()
     : _window{sf::VideoMode(800, 600), "bomberman"}, _board{_window.getView()},
-      _collision{_static_entity_count / 2, _static_entity_count / 2,
-                 _dynamic_entity_count},
+      _collision{0, _static_entity_count, _dynamic_entity_count},
       _player{nullptr}
 {
     _window.setVerticalSyncEnabled(false);
@@ -187,8 +187,8 @@ void Bomberman::generateDynamicEntities(const std::size_t& count)
     {
         float x = 0.0f;
         float y = 0.0f;
-        float w = 20.0f;
-        float h = 20.0f;
+        float w = 30.0f;
+        float h = 30.0f;
         _shapes.emplace_back(sf::Vector2f{w, h});
         auto& player = _shapes.back();
         player.setFillColor(sf::Color::Black);
@@ -206,8 +206,9 @@ void Bomberman::generateRandomnlyArrangedStaticEntities(
     const std::size_t& count)
 {
     _static_entities.reserve(count);
-    generateRandomnlyStaticTriggerEntities(count / 2);
-    generateRandomnlyStaticColliderEntities(count / 2);
+    generateMap(count);
+    // generateRandomnlyStaticTriggerEntities(count / 2);
+    // generateRandomnlyStaticColliderEntities(count / 2);
 }
 void Bomberman::generateRandomnlyStaticTriggerEntities(const std::size_t& count)
 {
@@ -262,13 +263,41 @@ void Bomberman::generateRandomnlyStaticColliderEntities(
             auto& collider =
                 _collision.addStaticCollider(sf::Vector2f(x, y), w, h);
 
-            _static_entities.push_back(Entity{_shapes.back(), collider});
+            _static_entities.emplace_back(_shapes.back(), collider);
 
             collider.set_entity(_static_entities.back());
             _shapes.back().setFillColor(sf::Color::Magenta);
 
             collider.attachScript(
                 std::make_unique<GreenAllert>(_static_entities.back()));
+        }
+    }
+}
+void Bomberman::generateMap(const std::size_t&)
+{
+    // int x = static_cast<int>(sqrt(count));
+    int tile_size = 50;
+    generateUnDestructibleWalls(14 * tile_size, 11 * tile_size, tile_size);
+}
+
+void Bomberman::generateUnDestructibleWalls(int width, int height,
+                                            int tile_size)
+{
+    for (int x = tile_size; x < width; x += 2 * tile_size)
+    {
+        for (int y = tile_size; y < height; y += 2 * tile_size)
+        {
+            _shapes.emplace_back(sf::Vector2f(tile_size, tile_size));
+            auto& shape = _shapes.back();
+            auto& collider = _collision.addStaticCollider(sf::Vector2f(x, y),
+                                                          tile_size, tile_size);
+            _static_entities.emplace_back(shape, collider);
+            auto& entity = _static_entities.back();
+            entity.setPosition(sf::Vector2f(x, y));
+            collider.set_entity(entity);
+            shape.setFillColor(sf::Color::Magenta);
+
+            collider.attachScript(std::make_unique<GreenAllert>(entity));
         }
     }
 }

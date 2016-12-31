@@ -37,14 +37,17 @@ private:
     void generateRandomnlyStaticColliderEntities(const std::size_t& count);
     void generateDynamicEntities(const std::size_t& count);
 
+    void generateMap(const std::size_t& count);
+    void generateUnDestructibleWalls(int width, int height, int tile_size);
+
     sf::RenderWindow _window;
     lmg01::Board _board;
-    const float _baseSpeed = 60.f;
-    const std::size_t _static_entity_count = 620; // need to be even for now
+    const float _baseSpeed = 150.f;
+    const std::size_t _static_entity_count = 200;
     const std::size_t _dynamic_entity_count = 1;
     float _bonusSpeed = 1.0f;
     sf::Vector2f _movementDirection{0, 0};
-    Shapes _shapes;
+    std::vector<sf::RectangleShape> _shapes;
     Entities _static_entities;
     Entities _dynamic_entities;
     physics::Collision _collision;
