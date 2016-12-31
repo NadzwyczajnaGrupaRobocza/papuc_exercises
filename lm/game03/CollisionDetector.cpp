@@ -5,23 +5,24 @@
 namespace lmg03
 {
 void CollisionDetector::compute_collisions(
-    const sf::Time& tick, std::vector<PhysicalEntity>& entities)
+    const sf::Time& tick,
+    std::vector<std::unique_ptr<PhysicalEntity>>& entities)
 {
     _current_tick = tick;
     for (auto i = 0u; i < entities.size(); ++i)
     {
         for (auto j = i + 1; j < entities.size(); ++j)
         {
-            if (collistion_occured_between(entities[i], entities[j]))
+            if (collistion_occured_between(*entities[i], *entities[j]))
             {
-                recompute_positions(entities[i], entities[j]);
+                recompute_positions(*entities[i], *entities[j]);
             }
         }
     }
 
     for (auto& e : entities)
     {
-        resolve_colistion_with_world_boundry(e);
+        resolve_colistion_with_world_boundry(*e);
     }
 }
 

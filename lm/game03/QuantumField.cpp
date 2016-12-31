@@ -15,9 +15,11 @@ QuantumField::QuantumField(common::Log& log_init) : log{log_init}
     log.debug() << "Create";
 }
 
-sf::Vector2f QuantumField::get_accel(const PointMass& caller) const
+sf::Vector2f
+QuantumField::get_accel(const PointMass& caller,
+                        const sf::Vector2f& desiredAcceleration) const
 {
-    sf::Vector2f base_accel{0.f, 0.f};
+    sf::Vector2f base_accel{desiredAcceleration};
 
     if (&caller == player_object)
     {
