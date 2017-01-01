@@ -10,14 +10,16 @@
 #include <fstream>
 #include <iostream>
 
-#include "GreenAllert.hpp"
-#include "RedAllert.hpp"
+#include "Collider.hpp"
+#include "Entity.hpp"
+#include "TouchAlert.hpp"
 
 namespace bomberman
 {
 Bomberman::Bomberman()
     : _window{sf::VideoMode(800, 600), "bomberman"}, _board{_window.getView()},
-      _collision{0, _static_entity_count, _dynamic_entity_count},
+      _collision{_static_entity_count, _static_entity_count,
+                 _dynamic_entity_count},
       _player{nullptr}
 {
     _window.setVerticalSyncEnabled(false);
@@ -185,8 +187,8 @@ void Bomberman::generateDynamicEntities(const std::size_t& count)
 {
     _dynamic_entities.reserve(count);
     {
-        float x = 0.0f;
-        float y = 0.0f;
+        float x = 60.0f;
+        float y = 60.0f;
         float w = 30.0f;
         float h = 30.0f;
         _shapes.emplace_back(sf::Vector2f{w, h});
@@ -233,8 +235,8 @@ void Bomberman::generateRandomnlyStaticTriggerEntities(const std::size_t& count)
             auto& trigger = _collision.addTrigger(sf::Vector2f(x, y), w, h);
             _static_entities.emplace_back(_shapes.back(), trigger);
             trigger.set_entity(_static_entities.back());
-            trigger.attachScript(
-                std::make_unique<RedAllert>(_static_entities.back()));
+            trigger.attachScript(std::make_unique<TouchAlert>(
+                _static_entities.back(), sf::Color::Red));
             _shapes.back().setFillColor(sf::Color::Blue);
         }
     }
@@ -268,8 +270,8 @@ void Bomberman::generateRandomnlyStaticColliderEntities(
             collider.set_entity(_static_entities.back());
             _shapes.back().setFillColor(sf::Color::Magenta);
 
-            collider.attachScript(
-                std::make_unique<GreenAllert>(_static_entities.back()));
+            collider.attachScript(std::make_unique<TouchAlert>(
+                _static_entities.back(), sf::Color::Green));
         }
     }
 }
@@ -277,27 +279,46 @@ void Bomberman::generateMap(const std::size_t&)
 {
     // int x = static_cast<int>(sqrt(count));
     int tile_size = 50;
-    generateUnDestructibleWalls(14 * tile_size, 11 * tile_size, tile_size);
+    generateUnDestructibleWalls(14 * tile_size, 10 * tile_size, tile_size);
 }
 
 void Bomberman::generateUnDestructibleWalls(int width, int height,
                                             int tile_size)
 {
-    for (int x = tile_size; x < width; x += 2 * tile_size)
+    for (int x = 0; x <= width; x += tile_size)
     {
-        for (int y = tile_size; y < height; y += 2 * tile_size)
+        for (int y = 0; y <= height; y += tile_size)
         {
+
             _shapes.emplace_back(sf::Vector2f(tile_size, tile_size));
             auto& shape = _shapes.back();
-            auto& collider = _collision.addStaticCollider(sf::Vector2f(x, y),
-                                                          tile_size, tile_size);
-            _static_entities.emplace_back(shape, collider);
-            auto& entity = _static_entities.back();
-            entity.setPosition(sf::Vector2f(x, y));
-            collider.set_entity(entity);
-            shape.setFillColor(sf::Color::Magenta);
+            physics::Collider* collider{nullptr};
+            Entity* entity{nullptr};
 
-            collider.attachScript(std::make_unique<GreenAllert>(entity));
+            if (x == 0 || y == 0 || x == width || y == height ||
+                ((x / tile_size) % 2 == 0 && (y / tile_size) % 2 == 0))
+            {
+                collider = &_collision.addStaticCollider(sf::Vector2f(x, y),
+                                                         tile_size, tile_size);
+                shape.setFillColor(sf::Color{79, 55, 48});
+                _static_entities.emplace_back(shape, *collider);
+                entity = &_static_entities.back();
+                collider->attachScript(std::make_unique<TouchAlert>(
+                    *entity, sf::Color{161, 88, 127}));
+            }
+            else
+            {
+                collider = &_collision.addTrigger(sf::Vector2f(x, y), tile_size,
+                                                  tile_size);
+
+                shape.setFillColor(sf::Color{76, 175, 50});
+                _static_entities.emplace_back(shape, *collider);
+                entity = &_static_entities.back();
+                collider->attachScript(std::make_unique<TouchAlert>(
+                    *entity, sf::Color{81, 199, 84}));
+            }
+            entity->setPosition(sf::Vector2f(x, y));
+            collider->set_entity(*entity);
         }
     }
 }

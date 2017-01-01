@@ -11,8 +11,7 @@ add_executable(bomberman
   Bomberman/Private/Bomberman.cpp
   Bomberman/Private/Entity.cpp
   Bomberman/Private/Board.cpp
-  Bomberman/Private/RedAllert.cpp
-  Bomberman/Private/GreenAllert.cpp)
+  Bomberman/Private/TouchAlert.cpp)
 
 target_include_directories(bomberman PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/Bomberman/Public
