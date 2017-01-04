@@ -26,7 +26,6 @@ private:
     void collidersVsTriggers();
     void collidersVsColliders();
 
-    Collider createCollider(sf::Vector2f position, float width, float height);
     bool AABBvsAABB(const AABB&, const AABB&) const;
     // Manifold getCollisionAlignment(float x_overlap, float y_overlap,
     //                                sf::Vector2f from_static_to_dynamic)

@@ -129,34 +129,25 @@ void Collision::collidersVsColliders()
 Collider& Collision::addTrigger(sf::Vector2f position, float width,
                                 float height)
 {
-    _triggers.push_back(createCollider(position, width, height));
+    _triggers.push_back(
+        Collider{AABB::create(position.x, position.y, width, height)});
     return _triggers.back();
 }
 
 Collider& Collision::addStaticCollider(sf::Vector2f position, float width,
                                        float height)
 {
-    _static_colliders.push_back(createCollider(position, width, height));
+    _static_colliders.push_back(
+        Collider{AABB::create(position.x, position.y, width, height)});
     return _static_colliders.back();
 }
 
 Collider& Collision::addDynamicCollider(sf::Vector2f position, float width,
                                         float height)
 {
-    _dynamic_colliders.push_back(createCollider(position, width, height));
+    _dynamic_colliders.push_back(
+        Collider{AABB::create(position.x, position.y, width, height)});
     return _dynamic_colliders.back();
-}
-
-Collider Collision::createCollider(sf::Vector2f position, float width,
-                                   float height)
-{
-    AABB aabb{};
-    aabb.x = position.x;
-    aabb.y = position.y;
-    aabb.width = width;
-    aabb.height = height;
-
-    return Collider{aabb};
 }
 
 bool Collision::AABBvsAABB(const AABB& a, const AABB& b) const
