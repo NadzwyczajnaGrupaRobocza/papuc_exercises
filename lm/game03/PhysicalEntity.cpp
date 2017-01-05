@@ -44,7 +44,7 @@ void PhysicalEntity::draw(sf::RenderTarget& target)
 {
     sf::Vector2f top_left_local{radius, radius};
     sf::CircleShape ent{radius};
-    ent.setFillColor(sf::Color::Blue);
+    ent.setFillColor(getColor());
     ent.setPosition(current_state.position - top_left_local);
     target.draw(ent);
 }
@@ -98,6 +98,11 @@ Derivative PhysicalEntity::evaluate(float dt, const Derivative& d)
 sf::Vector2f PhysicalEntity::calculateAcceleration() const
 {
     return {};
+}
+
+sf::Color PhysicalEntity::getColor() const
+{
+    return sf::Color::Blue;
 }
 
 PointMass PhysicalEntity::getCurrentState() const
