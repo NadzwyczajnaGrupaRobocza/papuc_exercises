@@ -31,6 +31,9 @@ public:
     void set_next_state(const PointMass&);
     float get_radius() const;
 
+protected:
+    PointMass getCurrentState() const;
+
 private:
     common::Log& log;
     PointMass compute_next_state(float dt);

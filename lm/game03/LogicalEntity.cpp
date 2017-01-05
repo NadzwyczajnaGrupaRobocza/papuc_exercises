@@ -16,6 +16,28 @@ LogicalEntity::LogicalEntity(common::Log& log_init,
 }
 sf::Vector2f LogicalEntity::calculateAcceleration() const
 {
-    return {100.f, 100.f};
+    const auto target_x = player.position.x;
+    const auto target_y = player.position.y;
+    const auto own_x = getCurrentState().position.x;
+    const auto own_y = getCurrentState().position.y;
+    float verticalSpeed{};
+    float horizontalSpeed{};
+    if (target_x > own_x)
+    {
+        verticalSpeed = 100.f;
+    }
+    if (target_x < own_x)
+    {
+        verticalSpeed = -100.f;
+    }
+    if (target_y > own_y)
+    {
+        horizontalSpeed = 100.f;
+    }
+    if (target_y < own_y)
+    {
+        horizontalSpeed = -100.f;
+    }
+    return {verticalSpeed, horizontalSpeed};
 }
 }
