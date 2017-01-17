@@ -7,5 +7,16 @@ getNumberOfMoves({ok, [N]}) ->
 getNumberOfMoves(_) ->
 	invalid_number_of_moves.
 
+getFields() ->
+	io:fread("", "~s").
+
+handleNumberOfMoves(invalid_number_of_moves) ->
+	void;
+
+handleNumberOfMoves(_) ->
+	getFields().
+
 getMaxPacgums() ->
-	getNumberOfMoves(io:fread("", "~d")).
+	N = getNumberOfMoves(io:fread("", "~d")),
+	io:format("N:~w~n", [N]),
+	handleNumberOfMoves(N).
