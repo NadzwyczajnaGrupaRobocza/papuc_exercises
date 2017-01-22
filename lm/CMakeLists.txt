@@ -4,7 +4,7 @@ add_subdirectory(ch06)
 add_subdirectory(ch07)
 
 add_subdirectory(dprog)
-
+add_subdirectory(fmtgp)
 if(SFML_FOUND)
 add_subdirectory(game01)
 add_subdirectory(game02)
