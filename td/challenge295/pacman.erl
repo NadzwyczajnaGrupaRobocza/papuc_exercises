@@ -17,6 +17,9 @@ parseLine([$X | Tail]) ->
 parseLine([$C | Tail]) ->
 	[pacman | parseLine(Tail)];
 
+parseLine([$O | Tail]) ->
+	[warp | parseLine(Tail)];
+
 parseLine([String | Tail]) ->
 	Integer = case string:to_integer([String]) of
 			{Int, _} ->
