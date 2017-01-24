@@ -1,6 +1,5 @@
 -module(pacman).
 -export([getMaxPacgums/0]).
--export([parseLine/1]).
 
 
 getNumberOfMoves({ok, [N]}) ->
@@ -62,9 +61,46 @@ handleNumberOfMoves(_) ->
 	getFields().
 
 
+findPacmanInRow([], _) ->
+	not_found;
+
+findPacmanInRow([pacman | Row], N) ->
+	N;
+
+findPacmanInRow([Col | Row], N) ->
+	findPacmanInRow(Row, N + 1).
+
+
+findPacman([], N) ->
+	not_found;
+
+findPacman([Row | Fields], N) ->
+	case findPacmanInRow(Row, 0) of
+		not_found ->
+			findPacman(Fields, N + 1);
+		X -> 
+			{N, X}
+	end.
+
+
+getMostPacgumsWhenGoUp(N, Fields, PacmanPos) ->
+	0.
+
+
+findMostPacgums(0, _) ->
+	0;
+
+findMostPacgums(N, Fields) ->
+	PacmanPos = findPacman(Fields, 0),
+	io:format("Pacman: ~p~n", [PacmanPos]),
+	getMostPacgumsWhenGoUp(N, Fields, PacmanPos).
+
+
 getMaxPacgums() ->
 	N = getNumberOfMoves(io:fread("", "~d")),
-	io:format("N:~w~n", [N]),
+	io:format("Number of moves: ~p~n", [N]),
 	Fields = handleNumberOfMoves(N),
-	io:format("Readed fields ~p~n", [Fields]).
+	io:format("Readed fields: ~p~n", [Fields]),
+	MostPacgums = findMostPacgums(N, Fields),
+	io:format("Most pacgums: ~p~n", [MostPacgums]).
 
