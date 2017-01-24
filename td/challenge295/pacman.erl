@@ -1,5 +1,6 @@
 -module(pacman).
 -export([getMaxPacgums/0]).
+%-export([findMostPacgums/3]).
 
 
 getNumberOfMoves({ok, [N]}) ->
@@ -75,7 +76,7 @@ findPacman([], N) ->
 	not_found;
 
 findPacman([Row | Fields], N) ->
-	case findPacmanInRow(Row, 0) of
+	case findPacmanInRow(Row, 1) of
 		not_found ->
 			findPacman(Fields, N + 1);
 		X -> 
@@ -83,15 +84,37 @@ findPacman([Row | Fields], N) ->
 	end.
 
 
+getFieldValue({X, Y}, Fields) ->
+	io:format("Field: ~p:~p = ~p~n", [X, Y, lists:nth(X ,lists:nth(Y, Fields))]),
+	case lists:nth(X ,lists:nth(Y, Fields)) of
+		pacman ->
+			0;
+		wall ->
+			0;
+		warp ->
+			0;
+		N ->
+			N
+	end.
+
+
+move(down, {X, Y}, Fields) ->
+	NewPacmanPos = {X, Y + 1},
+	NewFields = Fields,
+	{NewFields, NewPacmanPos}.
+
+
 getMostPacgumsWhenGoUp(N, Fields, PacmanPos) ->
-	0.
+	{NewFields, NewPacmanPos} = move(down, PacmanPos, Fields),
+	io:format("Pacman: ~p~n", [NewPacmanPos]),
+	getFieldValue(NewPacmanPos, Fields) + findMostPacgums(N - 1, Fields).
 
 
 findMostPacgums(0, _) ->
 	0;
 
 findMostPacgums(N, Fields) ->
-	PacmanPos = findPacman(Fields, 0),
+	PacmanPos = findPacman(Fields, 1),
 	io:format("Pacman: ~p~n", [PacmanPos]),
 	getMostPacgumsWhenGoUp(N, Fields, PacmanPos).
 
