@@ -1,9 +1,20 @@
 #include "Ch04.hpp"
 #include "fp_manip.hpp"
-#include <iostream>
 
 namespace fmtgp
 {
+
+template <typename T>
+void next_fib(std::pair<T,T>& fib)
+{
+    fib = std::make_pair(fib.second, fib.second + fib.first);
+}
+
+template<typename T>
+void last_fib(std::pair<T,T>& fib)
+{
+    fib = std::make_pair(fib.second - fib.first, fib.first);
+}
 
 integer quotient_fibonacci(line_segment a, line_segment b)
 {
@@ -13,38 +24,28 @@ integer quotient_fibonacci(line_segment a, line_segment b)
         return integer{0};
     }
 
-    auto orig_b = b;
-
-    line_segment c = b;
-    auto fib = std::make_pair(1, 1);
-    do
-    {
-        line_segment tmp = c;
-        c = b + c;
-        b = tmp;
-        fib = std::make_pair(fib.second, fib.second + fib.first);
-    } while (a >= c);
-
-    integer n{fib.first};
-    auto bb = b;
-    while (bb + orig_b < a)
-    {
-        ++n;
-        bb += orig_b;
-    }
+    auto fib_dvsr = std::make_pair(b, b);
+    auto fib_base = std::make_pair(1, 1);
 
     do
     {
-        if (a >= b)
+        next_fib(fib_dvsr);
+        next_fib(fib_base);
+    } while (a >= fib_dvsr.second);
+
+    integer n{0};
+    do
+    {
+        if (a >= fib_dvsr.first)
         {
-            a = a - b;
+            a = a - fib_dvsr.first;
+            n += fib_base.first;
         }
 
-        line_segment tmp = c - b;
-        c = b;
-        b = tmp;
+        last_fib(fib_dvsr);
+        last_fib(fib_base);
 
-    } while (b < c);
+    } while (fib_dvsr.first < fib_dvsr.second);
 
     return n;
 }
