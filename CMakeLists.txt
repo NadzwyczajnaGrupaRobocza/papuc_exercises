@@ -11,6 +11,7 @@ add_subdirectory(external/googletest)
 set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/googletest/googletest/include/")
 set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/googletest/googlemock/include/")
 set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/GSL/")
+set(RANGEV3_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/range-v3/include")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_THROW_ON_CONTRACT_VIOLATION")
 
 set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
@@ -85,6 +86,7 @@ if(SFML_FOUND)
 endif()
 
 include_directories(SYSTEM ${GSL_INCLUDE_DIR})
+include_directories(SYSTEM ${RANGEV3_INCLUDE_DIR})
 include_directories(${PAPUC_COMMON_INCLUDE_DIR})
 
 add_subdirectory(mb)
