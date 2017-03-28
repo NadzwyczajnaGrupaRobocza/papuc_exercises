@@ -63,7 +63,7 @@ build_script:
                      -DCMAKE_C_COMPILER=clang-cl
                      -DBUILD_SHARED_LIBS:BOOL=OFF
                      -Wno-dev
-                     -DCMAKE_MODULE_PATH="C:/projects/deps/SFML-2.4.2/cmake/Modules/"
+                     -DCMAKE_MODULE_PATH="C:/projects/deps/sfml/SFML-2.4.2/cmake/Modules/"
   - cmake --build . --target %Build%/all
 
 test_script:
