@@ -30,6 +30,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   endif()
 
   if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "/imsvc ")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --driver-mode=cl -fms-compatibility-version=19")
   endif()
 else()
@@ -82,7 +83,7 @@ endif()
 
 find_package(SFML 2 COMPONENTS system window graphics network audio)
 if(SFML_FOUND)
-  include_directories(${SFML_INCLUDE_DIR})
+  include_directories(SYSTEM ${SFML_INCLUDE_DIR})
 endif()
 
 include_directories(SYSTEM ${GSL_INCLUDE_DIR})
