@@ -1,6 +1,6 @@
-#include "World.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "World.hpp"
 
 sf::Vector2f processUserInput(float, sf::RenderWindow&);
 
