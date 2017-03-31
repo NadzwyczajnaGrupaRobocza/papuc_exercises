@@ -1,6 +1,8 @@
 #include "Processor.hpp"
 #include "throw_assert.hpp"
 
+namespace ltm
+{
 Processor::Processor(OutputRegisters regs)
     : internalRegisters{{Register::reg_a, u8_t{0}},
                         {Register::reg_b, u8_t{0}}},
@@ -107,4 +109,5 @@ void Processor::runDecrementAndJumpInstruction(
     {
         counter++;
     }
+}
 }

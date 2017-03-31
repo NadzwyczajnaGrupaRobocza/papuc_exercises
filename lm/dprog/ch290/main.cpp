@@ -11,9 +11,9 @@ int main(int argc, char** argv)
     std::string inputFileName{argv[1]};
     std::ifstream inputFile{inputFileName};
     ltm::InstructionBuilderCombinator ibc;
-    auto led = [](u8_t v) {
+    auto led = [](ltm::u8_t v) {
         std::cout << std::bitset<8>(v).to_string('.', '*') << '\n';
     };
-    Processor proc{{{Register::out_0, led}}};
+    ltm::Processor proc{{{ltm::Register::out_0, led}}};
     return proc.runProgram(ibc.process(inputFile));
 }

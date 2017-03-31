@@ -1,7 +1,8 @@
 #include "gtest/gtest.h"
 
 #include "LoadInstructionBuilder.hpp"
-
+namespace ltm
+{
 TEST(LoadInstructionBuilder, willBuildLoadInstruction)
 {
     std::string instruction{" ld a,10"};
@@ -13,4 +14,5 @@ TEST(LoadInstructionBuilder, willBuildLoadInstruction)
     std::tie(result, received_instruction) = ib.process(instruction);
     ASSERT_TRUE(result);
     ASSERT_EQ(received_instruction, expected_instruction);
+}
 }
