@@ -7,5 +7,9 @@ add_subdirectory(dprog)
 
 if(SFML_FOUND)
 add_subdirectory(game01)
+add_subdirectory(game02)
+add_subdirectory(game03)
 endif()
+
+add_subdirectory(range-playground)
 
