@@ -10,7 +10,7 @@ using namespace sfml_help;
 
 namespace lmg03
 {
-QuantumField::QuantumField(common::Log& log_init) : log{log_init}
+QuantumField::QuantumField(common::Log& /*log_init*/)
 {
 }
 
