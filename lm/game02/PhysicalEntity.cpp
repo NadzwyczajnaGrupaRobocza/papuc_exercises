@@ -45,7 +45,7 @@ PhysicalEntity::gravitational_pull_from(const PhysicalEntity& other) const
     log.info() << "direction:{" << direction.x << ", " << direction.y << "}";
 
     float numerator =
-        static_cast<float>(GRAVITATIONAL_CONSTANT * mass * other.mass);
+        static_cast<float>(GRAVITATIONAL_CONSTANT * static_cast<double>(mass) * static_cast<double>(other.mass));
     float denominator = length_squared(other_pos - this_pos);
 
     return direction * numerator / denominator;
