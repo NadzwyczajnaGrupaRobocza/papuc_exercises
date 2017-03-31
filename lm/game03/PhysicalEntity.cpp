@@ -6,12 +6,12 @@ using namespace sfml_help;
 
 namespace lmg03
 {
-PhysicalEntity::PhysicalEntity(common::Log& log_init,
+PhysicalEntity::PhysicalEntity(common::Log& /*log_init*/,
                                const sf::Vector2f& position_init,
                                const sf::Vector2f& velocity_init,
                                float mass_init,
                                const QuantumField& force_source_init)
-    : log{log_init}, current_state{position_init, velocity_init, mass_init},
+    : current_state{position_init, velocity_init, mass_init},
       radius{10.f},
       force_source{force_source_init}
 {
