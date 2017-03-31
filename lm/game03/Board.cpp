@@ -1,10 +1,12 @@
 #include "Board.hpp"
+#include <iostream>
 
-namespace lmg01
+namespace lmg03
 {
-Board::Board(const sf::View& initialView) : currentView{initialView},
-                                            N{static_cast<int>(currentView.getSize().x / 50.f) + 1},
-                                            M{static_cast<int>(currentView.getSize().y / 50.f) + 1}
+Board::Board(const sf::View& initialView)
+    : currentView{initialView},
+      N{static_cast<int>(currentView.getSize().x / 50.f) + 1},
+      M{static_cast<int>(currentView.getSize().y / 50.f) + 1}
 {
 }
 
@@ -24,11 +26,11 @@ void Board::drawEmptyBoard(sf::RenderTarget& target)
             sf::RectangleShape rectangle;
             rectangle.setSize(sf::Vector2f(50.0f, 50.0f));
             rectangle.setOutlineColor(sf::Color::Red);
+            rectangle.setFillColor(sf::Color::Black);
             rectangle.setOutlineThickness(1);
             rectangle.setPosition(x_pos, y_pos);
             target.draw(rectangle);
         }
     }
 }
-
 }
