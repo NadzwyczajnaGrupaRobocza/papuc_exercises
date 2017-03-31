@@ -1,39 +1,38 @@
 #include <iostream>
 
 #include "../common/Common.hpp"
+#include "Calculator.hpp"
 #include "Token.hpp"
 #include "TokenStream.hpp"
-#include "Calculator.hpp"
+#include <cmath>
+#include <limits>
 
 void clean(ITokenStream& tokenStream)
 {
     tokenStream.ignore(END_OF_EXPR);
 }
 
-Calculator::Calculator(ITokenStream& aTokenStream)
-    : tokenStream {aTokenStream}
-{    
+Calculator::Calculator(ITokenStream& aTokenStream) : tokenStream{aTokenStream}
+{
 }
 
 double Calculator::expression()
 {
     double left = term();
     Token token = tokenStream.get();
-    while(true)
+    while (true)
     {
-        switch(token.kind)
+        switch (token.kind)
         {
-            case '+':
-                left += term();
-                token = tokenStream.get();
-                break;
-            case '-':
-                left -= term();
-                token = tokenStream.get();
-                break;
-            default:
-                tokenStream.putback(token);
-                return left;
+        case '+':
+            left += term();
+            token = tokenStream.get();
+            break;
+        case '-':
+            left -= term();
+            token = tokenStream.get();
+            break;
+        default: tokenStream.putback(token); return left;
         }
     }
 }
@@ -42,18 +41,20 @@ double Calculator::term()
 {
     double left = primary();
     Token token = tokenStream.get();
-    while(true)
+    while (true)
     {
-        switch(token.kind)
+        switch (token.kind)
         {
             case '*':
+            {
                 left *= primary();
                 token = tokenStream.get();
                 break;
+            }
             case '/':
             {
                 double right = primary();
-                if (right == 0)
+                if (std::fabs(right) < std::numeric_limits<double>::epsilon())
                 {
                     throw std::logic_error("Dividing by 0");
                 }
@@ -64,28 +65,34 @@ double Calculator::term()
             case '%':
             {
                 double right = primary();
-                
+
                 int iLeft = static_cast<int>(left);
-                if (left != iLeft)
+                if (std::fabs(left - iLeft) >
+                    std::numeric_limits<double>::epsilon())
                 {
-                    throw std::logic_error("Left side of operation % should be integer number");
+                    throw std::logic_error(
+                        "Left side of operation % should be integer number");
                 }
                 int iRight = static_cast<int>(right);
-                if (right != iRight)
+                if (std::fabs(right - iRight) >
+                    std::numeric_limits<double>::epsilon())
                 {
-                    throw std::logic_error("Right side of operation % should be integer number");
+                    throw std::logic_error(
+                        "Right side of operation % should be integer number");
                 }
-                if (iRight == 0)
+                if (std::fabs(iRight) < std::numeric_limits<double>::epsilon())
                 {
                     throw std::logic_error("Dividing by 0");
                 }
                 left = iLeft % iRight;
-                token = tokenStream.get(); 
+                token = tokenStream.get();
                 break;
             }
-            default:
+            default: 
+            {
                 tokenStream.putback(token);
                 return left;
+            }
         }
     }
 }
@@ -94,7 +101,7 @@ double Calculator::primary()
 {
     Token token = tokenStream.get();
     double value = 0;
-    switch(token.kind)
+    switch (token.kind)
     {
         case '(':
         {
@@ -121,6 +128,14 @@ double Calculator::primary()
             value = token.value;
             return calculteValue(value);
         }
+        case '-':
+        {
+            return -primary();
+        }
+        case '+':
+        {
+            return primary();
+        }
         case QUIT:
         {
             tokenStream.putback(token);
@@ -132,7 +147,6 @@ double Calculator::primary()
             std::string cause{"Expected czynnika, przekazano "};
             cause += token.kind;
             throw std::logic_error(cause);
-            //return 0.0;
         }
     }
 }
@@ -140,9 +154,9 @@ double Calculator::primary()
 double Calculator::calculteValue(const double& value)
 {
     Token token = tokenStream.get();
-    if(token.kind == '!' )
+    if (token.kind == '!')
     {
-        return mbcommon::factorial(value);
+        return mbcommon::factorial(static_cast<unsigned int>(value));
     }
     else
     {

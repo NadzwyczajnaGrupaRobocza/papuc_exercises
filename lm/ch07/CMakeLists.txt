@@ -11,3 +11,5 @@ add_executable(lm-ch07
   )
 
 target_link_libraries(lm-ch07 lm-calculator-ext-lib lm-calculator-lib gtest_main gmock)
+
+add_test(lm-ch07 ${EXECUTABLE_OUTPUT_PATH}/lm-ch07)

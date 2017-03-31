@@ -1,10 +1,7 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/w60tweadwobb5tvv/branch/master?svg=true)](https://ci.appveyor.com/project/lukasz-m-maciejewski/papuc-exercises/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/fpp8cbc0575e0dd8/branch/master?svg=true)](https://ci.appveyor.com/project/Abergard/papuc-exercises-vj7j7/branch/master)
 [![Build Status](https://travis-ci.org/NadzwyczajnaGrupaRobocza/papuc_exercises.svg?branch=master)](https://travis-ci.org/NadzwyczajnaGrupaRobocza/papuc_exercises)
 # papuc_exercises
-Programming: Principles and Practice Using C++ - Exercises
-
-User prefix will be written as \<user-prefix\>. User prefix
-can be one of "lm", "ib", "mb".
+Programming: Principles and Practice Using C++ - Exercises... and more.
 
 ## Update your fork with changes from the common repository
 
@@ -65,14 +62,13 @@ In the root directory of the project do the following:
 
 3. run make (point it to the desired target binary) e.g.
     ``` bash
-    make ch04-<user-prefix>
+    make <target-name>
    ```
-
-4. The resulting binary is at \<project-root\>/build/ch04/lm/ch04-\<user-prefix\>
+Note that target name is the same as first argument given to cmake add_executable function.
 
 ## Adding own code to the build system:
 
-1. Move your files to your user directory (\<project-root\>/ch04/\<user-prefix\>)
+1. Move your files to your user directory (\<project-root\>/\<user-prefix\>/...)
 
 2. Edit the CMakeLists.txt file in your user directory.
     * In "add_executable" command, replace empty.cpp with the name of

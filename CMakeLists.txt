@@ -1,16 +1,22 @@
 cmake_minimum_required (VERSION 2.8.11)
 project("PaPuC++")
 
+enable_testing()
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
-add_subdirectory(googletest)
+add_subdirectory(external/googletest)
 
-set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googletest/include/")
-set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/googletest/googlemock/include/")
-set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/GSL/")
+set(GOOGLETEST_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/googletest/googletest/include/")
+set(GOOGLEMOCK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/googletest/googlemock/include/")
+set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/GSL/")
+set(RANGEV3_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/range-v3/include")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_THROW_ON_CONTRACT_VIOLATION")
 
 set(COMMON_INCLUDES ${GOOGLETEST_INCLUDE_DIR} ${GOOGLEMOCK_INCLUDE_DIR})
+
+set(PAPUC_COMMON_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/common/include")
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   message(STATUS "Detected Windows system.")
@@ -23,9 +29,8 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
   endif()
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-
   if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "/imsvc ")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --driver-mode=cl -fms-compatibility-version=19")
   endif()
 else()
@@ -35,7 +40,7 @@ endif()
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
   message(STATUS "Detected system with clang compiler.")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror\
  -Wno-c++98-compat -Wno-c++98-compat-pedantic\
  -Wno-c++98-c++11-compat-pedantic -Wno-undefined-internal\
  -Wno-exit-time-destructors -Wno-global-constructors\
@@ -43,7 +48,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
  -Wno-language-extension-token -Wno-missing-noreturn -Wno-missing-noreturn\
  -Wno-language-extension-token -Wno-used-but-marked-unused\
  -Wno-shift-sign-overflow -Wno-deprecated\
- -Wno-weak-vtables -Wno-sign-conversion")
+ -Wno-weak-vtables -Wno-sign-conversion -Wno-padded -Wno-covered-switch-default")
 
   target_compile_options(gtest PRIVATE "-Wno-deprecated-declarations")
   target_compile_options(gmock PRIVATE "-Wno-deprecated-declarations")
@@ -53,7 +58,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   message(STATUS "Detected system with Microsoft compiler.")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall\
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Wall\
  /wd4251 /wd4265 /wd4350 /wd4371 /wd4514 /wd5031 /wd5026 /wd5027\
  /wd4625 /wd4619 /wd4626 /wd4710 /wd4711 /wd4820 /wd4668")
 
@@ -63,25 +68,30 @@ else()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -Wall \
 -Wextra \
+-Wconversion \
+-Wfloat-equal \
+-Wunreachable-code \
+-Wswitch-enum \
+-Wmissing-declarations \
+-Wshadow \
 -Wnon-virtual-dtor \
 -std=c++14 \
 -pedantic \
 -g \
--Werror=pedantic")
-  include_directories(${GSL_INCLUDE_DIR})
-  endif()
+-Werror")
+endif()
 
-set(MB-UT-RUN "mb-ut-run")
-set(LM-UT-RUN "lm-ut-run")
-set(IB-UT-RUN "ib-ut-run")
-set(LZ-UT-RUN "lz-ut-run")
+find_package(SFML 2 COMPONENTS system window graphics network audio)
+if(SFML_FOUND)
+  include_directories(SYSTEM ${SFML_INCLUDE_DIR})
+endif()
+
+include_directories(SYSTEM ${GSL_INCLUDE_DIR})
+include_directories(SYSTEM ${RANGEV3_INCLUDE_DIR})
+include_directories(${PAPUC_COMMON_INCLUDE_DIR})
 
 add_subdirectory(mb)
 add_subdirectory(lm)
 add_subdirectory(ib)
 add_subdirectory(lz)
 add_subdirectory(td)
-
-add_custom_target(ut-run
-  DEPENDS ${MB-UT-RUN} ${LM-UT-RUN} ${IB-UT-RUN} ${LZ-UT-RUN}
-)

@@ -49,12 +49,11 @@ Token TokenStream::get()
             default:
             {
                 throw std::logic_error("Wrong Token");
-                //return Token{'0'};
             }
             
         }
     }
-    else // zastąpić w rozsądny sposób
+    else
     {
         std::cout << "Returning token #" << std::endl;
         return Token{'#'};

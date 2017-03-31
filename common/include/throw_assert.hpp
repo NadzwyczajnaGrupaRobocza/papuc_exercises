@@ -5,7 +5,12 @@
 #include <regex>
 #include <sstream>
 #include <string>
+#include <gsl/gsl_assert>
 
+namespace common
+{
+namespace detail
+{
 /// Exception type for assertion failures
 class AssertionFailureException : public std::exception
 {
@@ -48,9 +53,10 @@ public:
     }
 
     /// Construct an assertion failure exception
-    AssertionFailureException(const char* expression, const char* file,
-                              int line, const std::string& message)
-        : expression(expression), file(file), line(line), message(message)
+    AssertionFailureException(const char* p_expression, const char* p_file,
+                              int p_line, const std::string& p_message)
+        : expression(p_expression), file(p_file), line(p_line),
+          message(p_message)
     {
         std::ostringstream outputStream;
 
@@ -111,32 +117,19 @@ public:
     {
     }
 };
-
+}
+}
 /// Assert that EXPRESSION evaluates to true, otherwise raise
 /// AssertionFailureException with associated MESSAGE (which may use C++
 /// stream-style message formatting)
-#define throw_assert(EXPRESSION, MESSAGE)                                  \
-    do                                                                     \
-    {                                                                      \
-        if (!(EXPRESSION))                                                 \
-        {                                                                  \
-            throw AssertionFailureException(                               \
-                #EXPRESSION, __FILE__, __LINE__,                           \
-                (AssertionFailureException::StreamFormatter()              \
-                 << MESSAGE));                                             \
-        }                                                                  \
-    } while (0)
-
-inline std::string smatch_print(const std::smatch& m)
-{
-    std::stringstream content;
-    for (auto i = 0u; i < m.size(); ++i)
-    {
-        if (i > 0u)
-        {
-            content << " ";
-        }
-        content << "m[" << i << "]=" << m[i];
-    }
-    return content.str();
-}
+#define throw_assert(EXPRESSION, MESSAGE)                                      \
+    do                                                                         \
+    {                                                                          \
+        if (GSL_UNLIKELY(!(EXPRESSION)))                                       \
+        {                                                                      \
+            throw common::detail::AssertionFailureException(                   \
+                #EXPRESSION, __FILE__, __LINE__,                               \
+                (common::detail::AssertionFailureException::StreamFormatter()  \
+                 << MESSAGE));                                                 \
+        }                                                                      \
+    } while (false)

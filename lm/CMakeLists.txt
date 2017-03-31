@@ -5,6 +5,9 @@ add_subdirectory(ch07)
 
 add_subdirectory(dprog)
 
-add_custom_target(${LM-UT-RUN}
-  DEPENDS ch04-lm-ut-run ch06-lm-ut-run
-)
+if(SFML_FOUND)
+add_subdirectory(game01)
+endif()
+
+add_subdirectory(range-playground)
+

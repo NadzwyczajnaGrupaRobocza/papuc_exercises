@@ -4,6 +4,9 @@
 
 namespace ltm
 {
+
+std::string smatch_print(const std::smatch& m);
+
 class InstructionBuilder
 {
 public:

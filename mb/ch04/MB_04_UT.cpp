@@ -7,9 +7,9 @@
 #include <stdexcept>
 #include <vector>
 
-std::vector<double> emptyData = {};
-std::vector<double> someData1 = {12.0, 33.5, 11.5, 24.45};
-std::vector<double> someData2 = {100.3, -23.2, -12.0, 23.6, 13.1};
+static std::vector<double> emptyData = {};
+static std::vector<double> someData1 = {12.0, 33.5, 11.5, 24.45};
+static std::vector<double> someData2 = {100.3, -23.2, -12.0, 23.6, 13.1};
 
 // Excercise 02
 //==============
@@ -20,54 +20,54 @@ TEST(MBB_04_02, showVector)
 
 TEST(MBB_04_02, getMedianaFromOddVector)
 {
-    EXPECT_EQ(13.1, getMedian(someData2));
+    EXPECT_DOUBLE_EQ(13.1, getMedian(someData2));
 }
 
 TEST(MBB_04_02, getMedianaFromEvenVector)
 {
-    EXPECT_EQ(18.225, getMedian(someData1));
+    EXPECT_DOUBLE_EQ(18.225, getMedian(someData1));
 }
 
 // Excercise 03
 //==============
 TEST(MBB_04_03, getTotalDistanceFromEmptyVector)
 {
-    EXPECT_EQ(0.0, getTotalDistance(emptyData));
+    EXPECT_DOUBLE_EQ(0.0, getTotalDistance(emptyData));
 }
 
 TEST(MBB_04_03, getTotalDistanceFromVector)
 {
-    EXPECT_EQ(81.45, getTotalDistance(someData1));
+    EXPECT_DOUBLE_EQ(81.45, getTotalDistance(someData1));
 }
 
 TEST(MBB_04_03, getSmallestDistanceFromEmptyVector)
 {
-    EXPECT_EQ(0.0, getSmallestDistance(emptyData));
+    EXPECT_DOUBLE_EQ(0.0, getSmallestDistance(emptyData));
 }
 
 TEST(MBB_04_03, getSmallestDistanceFromVector)
 {
-    EXPECT_EQ(11.5, getSmallestDistance(someData1));
+    EXPECT_DOUBLE_EQ(11.5, getSmallestDistance(someData1));
 }
 
 TEST(MBB_04_03, getLargestDistanceFromEmptyVector)
 {
-    EXPECT_EQ(0.0, getLargestDistance(emptyData));
+    EXPECT_DOUBLE_EQ(0.0, getLargestDistance(emptyData));
 }
 
 TEST(MBB_04_03, getLargestDistanceFromVector)
 {
-    EXPECT_EQ(33.5, getLargestDistance(someData1));
+    EXPECT_DOUBLE_EQ(33.5, getLargestDistance(someData1));
 }
 
 TEST(MBB_04_03, getMeanDistanceFromEmptyVector)
 {
-    EXPECT_EQ(0.0, getMeanDistance(emptyData));
+    EXPECT_DOUBLE_EQ(0.0, getMeanDistance(emptyData));
 }
 
 TEST(MBB_04_03, getMeanDistanceFromVector)
 {
-    EXPECT_EQ(20.3625, getMeanDistance(someData1));
+    EXPECT_DOUBLE_EQ(20.3625, getMeanDistance(someData1));
 }
 
 // Excercise 05
