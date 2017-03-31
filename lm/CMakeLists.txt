@@ -5,6 +5,14 @@ add_subdirectory(ch07)
 
 add_subdirectory(dprog)
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "6.3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts")
+    message("We have shiny new compiler, we'll use some concepts")
+    add_subdirectory(fmtgp)
+  endif()
+endif()
+
 if(SFML_FOUND)
 add_subdirectory(game01)
 add_subdirectory(game02)
