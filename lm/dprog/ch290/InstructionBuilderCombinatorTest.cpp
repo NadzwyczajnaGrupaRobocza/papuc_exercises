@@ -1,6 +1,9 @@
 #include "InstructionBuilderCombinator.hpp"
 #include "gtest/gtest.h"
 
+namespace ltm
+{
+
 TEST(InstructionBuilderCombinatorTest, willParseLoadInstuction)
 {
     std::stringstream in{" ld a,10"};
@@ -89,4 +92,5 @@ TEST(InstructionBuilderCombinatorTest,
          Register::INVALID}};
     ASSERT_EQ(instructionVector.size(), 6u);
     ASSERT_EQ(instructionVector, expectedInstructionVector);
+}
 }

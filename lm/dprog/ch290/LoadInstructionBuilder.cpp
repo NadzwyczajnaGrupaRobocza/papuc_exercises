@@ -3,6 +3,7 @@
 #include <iostream>
 #include <regex>
 #include <sstream>
+#include "Value.hpp"
 
 namespace ltm
 {
@@ -24,13 +25,7 @@ LoadInstructionBuilder::buildInstruction(const std::smatch& m) const
 
     auto reg = registerNameToEnum(registerName);
 
-    int value = std::stoi(valueStr);
-
-    throw_assert((value >= std::numeric_limits<u8_t>::lowest() and
-                  value <= std::numeric_limits<u8_t>::max()),
-                 "invalid value in op");
-
-    return {OperationType::load, reg, static_cast<u8_t>(value),
+    return {OperationType::load, reg, Value{valueStr},
             Register::INVALID};
 }
 }
