@@ -9,3 +9,5 @@ if(SFML_FOUND)
 add_subdirectory(game01)
 endif()
 
+add_subdirectory(range-playground)
+
