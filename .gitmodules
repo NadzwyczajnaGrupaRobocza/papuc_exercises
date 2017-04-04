@@ -4,6 +4,6 @@
 [submodule "GSL"]
 	path = external/GSL
 	url = https://github.com/Microsoft/GSL.git
-[submodule "external/range-v3"]
+[submodule "range-v3"]
 	path = external/range-v3
 	url = https://github.com/ericniebler/range-v3.git
