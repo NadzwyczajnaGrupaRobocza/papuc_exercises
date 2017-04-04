@@ -12,7 +12,8 @@ add_executable(mb-04 ../common/Common.cpp
 target_link_libraries(mb-04 gtest_main)
 
 add_executable(mb-test Test.cpp
-                       MB_04_10.cpp)
+  MB_04_10.cpp)
+target_link_libraries(mb-test gtest_main)
 
 # Chapter 04 Excercise 02
 #add_executable(ch04-mb-02 ../../gtest_main.cc NGR_04_02_01.cpp NGR_04_02_UT.cpp)
@@ -27,7 +28,7 @@ add_executable(mb-04-03-bin MB_04_03.cpp MB_04_03_main.cpp)
 # Chapter 04 Excercise 05
 #add_executable(ch04-mb-05 ../../gtest_main.cc NGR_04_05_01.cpp NGR_04_05_UT.cpp)
 add_executable(mb-04-05-bin MB_04_05.cpp MB_04_05_main.cpp)
-#target_link_libraries(ch04-mb-05 gtest)
+target_link_libraries(mb-04-05-bin gtest_main)
 
 # Chapter 08 Excercise XX
 #add_executable(ch04-mb-XX ../../gtest_main.cc NGR_04_XX_01.cpp NGR_04_XX_UT.cpp)
