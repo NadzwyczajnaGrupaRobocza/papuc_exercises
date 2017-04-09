@@ -15,6 +15,5 @@ private:
     common::Log& log;
     const PointMass& player;
     sf::Vector2f calculateAcceleration() const override;
-    sf::Color getColor() const override;
 };
 }

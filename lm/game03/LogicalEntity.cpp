@@ -40,9 +40,4 @@ sf::Vector2f LogicalEntity::calculateAcceleration() const
     }
     return {verticalSpeed, horizontalSpeed};
 }
-
-sf::Color LogicalEntity::getColor() const
-{
-    return sf::Color::Green;
-}
 }

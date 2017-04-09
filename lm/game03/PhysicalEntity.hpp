@@ -39,7 +39,6 @@ private:
     PointMass compute_next_state(float dt);
     Derivative evaluate(float dt, const Derivative& d);
     virtual sf::Vector2f calculateAcceleration() const;
-    virtual sf::Color getColor() const;
 
     PointMass current_state;
     PointMass next_state;

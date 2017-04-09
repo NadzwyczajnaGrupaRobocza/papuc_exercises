@@ -20,7 +20,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     sf::Clock frameClock;
 
-    constexpr float baseSpeed = 500.f;
+    constexpr float baseSpeed = 50.f;
     constexpr float frameDuration = 1.f / 60.f;
 
     while (mainWindow.isOpen())
@@ -38,7 +38,7 @@ int main(int /*argc*/, char** /*argv*/)
         if (duration.asSeconds() < frameDuration)
         {
             using namespace std::literals::chrono_literals;
-            // std::this_thread::sleep_for(10ms);
+            std::this_thread::sleep_for(10ms);
             continue;
         }
 
