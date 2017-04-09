@@ -4,7 +4,6 @@ add_executable(${EXECUTABLE_NAME}
   Board.cpp
   World.cpp
   PhysicalEntity.cpp
-  LogicalEntity.cpp
   QuantumField.cpp
   PointMass.cpp
   CollisionDetector.cpp)

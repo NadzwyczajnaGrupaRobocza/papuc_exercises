@@ -37,10 +37,8 @@ World::World(common::Log& log_init)
                    log, {690.f, 280.f}, {0.f, 0.f}, 500.f, force_source},
                PhysicalEntity{
                    log, {690.f, 360.f}, {0.f, 0.f}, 500.f, force_source},
-               PhysicalEntity{
-                   log, {50.f, 50.f}, {10.f, 10.f}, 500.f, force_source},
-               PhysicalEntity{
-                   log, {780.f, 360.f}, {0.f, 0.f}, 500.f, force_source}},
+                   PhysicalEntity{
+                       log, {780.f, 360.f}, {0.f, 0.f}, 500.f, force_source}},
       collision_detector{}
 {
     force_source.set_player_object(&(entities[0].get_state()));
