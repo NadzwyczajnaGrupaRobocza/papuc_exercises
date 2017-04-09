@@ -1,4 +1,6 @@
 #pragma once
+
+#include <memory>
 #include "PhysicalEntity.hpp"
 
 namespace lmg03
