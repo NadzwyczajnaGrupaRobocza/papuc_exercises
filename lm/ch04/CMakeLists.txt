@@ -15,7 +15,7 @@ add_executable(ch04-lm
   parser_ast.cpp
   Parser_Poly.cpp
   )
-target_link_libraries(ch04-lm gtest_main)
+target_link_libraries(ch04-lm gtest_main gmock)
 
 add_executable(lm-ch04-05-UI Expression.cpp ex05-UI.cpp)
 add_executable(lm-ch04-10-UI ex10-UI.cpp)

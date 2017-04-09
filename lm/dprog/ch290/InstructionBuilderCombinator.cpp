@@ -14,7 +14,7 @@ namespace ltm
 {
 
 InstructionBuilderCombinator::InstructionBuilderCombinator()
-    : knownInstructions{[this]() {
+    : knownInstructions{[]() {
           InstructionSet tmp;
           tmp.push_back(std::make_unique<LoadInstructionBuilder>());
           tmp.push_back(std::make_unique<OutputInstructionBuilder>());

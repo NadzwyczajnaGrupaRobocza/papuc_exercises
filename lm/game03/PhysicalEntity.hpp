@@ -31,7 +31,6 @@ public:
     float get_radius() const;
 
 private:
-    common::Log& log;
     PointMass compute_next_state(float dt);
     Derivative evaluate(float dt, const Derivative& d);
 

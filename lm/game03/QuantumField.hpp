@@ -18,7 +18,6 @@ public:
     void set_user_input(const sf::Vector2f&);
 
 private:
-    common::Log& log;
     const PointMass* player_object;
     mutable sf::Vector2f user_input;
 };

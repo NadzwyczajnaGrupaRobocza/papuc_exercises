@@ -1,5 +1,4 @@
 #include "Board.hpp"
-#include <iostream>
 
 namespace lmg01
 {
