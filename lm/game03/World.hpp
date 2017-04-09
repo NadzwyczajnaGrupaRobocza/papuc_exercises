@@ -1,11 +1,10 @@
 #pragma once
 #include "Board.hpp"
-#include "CollisionDetector.hpp"
 #include "Log.hpp"
 #include "PhysicalEntity.hpp"
 #include "QuantumField.hpp"
+#include "CollisionDetector.hpp"
 #include <SFML/Graphics.hpp>
-#include <memory>
 #include <vector>
 
 namespace lmg03
@@ -18,10 +17,9 @@ public:
     void display_on(sf::RenderTarget&);
 
 private:
-    using Entities = std::vector<std::unique_ptr<PhysicalEntity>>;
     common::Log& log;
     QuantumField force_source;
-    Entities entities;
+    std::vector<PhysicalEntity> entities;
     CollisionDetector collision_detector;
 };
 }

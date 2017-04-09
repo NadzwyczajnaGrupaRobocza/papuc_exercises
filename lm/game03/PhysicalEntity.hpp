@@ -19,7 +19,6 @@ class PhysicalEntity
 public:
     PhysicalEntity(common::Log&, const sf::Vector2f&, const sf::Vector2f&,
                    float, const QuantumField&);
-    virtual ~PhysicalEntity() = default;
 
     void prepare_next_pos(float);
     void detect_colision(const sf::FloatRect&);
@@ -35,7 +34,6 @@ private:
     common::Log& log;
     PointMass compute_next_state(float dt);
     Derivative evaluate(float dt, const Derivative& d);
-    virtual sf::Vector2f calculateAcceleration() const;
 
     PointMass current_state;
     PointMass next_state;

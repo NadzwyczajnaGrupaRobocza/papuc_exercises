@@ -93,10 +93,6 @@ PointMass PhysicalEntity::compute_next_state(float dt)
 Derivative PhysicalEntity::evaluate(float dt, const Derivative& d)
 {
     return {current_state.velocity + d.delta_vee * dt,
-            force_source.get_accel(current_state, calculateAcceleration())};
-}
-sf::Vector2f PhysicalEntity::calculateAcceleration() const
-{
-    return {};
+            force_source.get_accel(current_state)};
 }
 }
