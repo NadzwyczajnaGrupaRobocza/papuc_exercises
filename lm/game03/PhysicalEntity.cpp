@@ -99,9 +99,4 @@ sf::Vector2f PhysicalEntity::calculateAcceleration() const
 {
     return {};
 }
-
-PointMass PhysicalEntity::getCurrentState() const
-{
-    return current_state;
-}
 }
