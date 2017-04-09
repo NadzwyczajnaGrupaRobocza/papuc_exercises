@@ -12,7 +12,6 @@ namespace lmg03
 {
 QuantumField::QuantumField(common::Log& log_init) : log{log_init}
 {
-    log.debug() << "Create";
 }
 
 sf::Vector2f QuantumField::get_accel(const PointMass& caller) const

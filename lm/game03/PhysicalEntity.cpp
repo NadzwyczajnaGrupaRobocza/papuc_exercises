@@ -12,9 +12,9 @@ PhysicalEntity::PhysicalEntity(common::Log& log_init,
                                float mass_init,
                                const QuantumField& force_source_init)
     : log{log_init}, current_state{position_init, velocity_init, mass_init},
-      radius{10.f}, force_source{force_source_init}
+      radius{10.f},
+      force_source{force_source_init}
 {
-    log.debug() << "Create";
 }
 
 void PhysicalEntity::prepare_next_pos(float dt)
