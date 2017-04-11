@@ -4,3 +4,7 @@
 (newline)
 (display (/ 10 4))
 (newline)
+
+(define name "Another world")
+(display (string-append "Hello " name "!" ))
+(newline)
