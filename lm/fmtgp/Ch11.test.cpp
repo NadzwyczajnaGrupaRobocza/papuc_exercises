@@ -32,3 +32,20 @@ TEST(lm_fmtgp_ch11, givenTwoDifferentContainersWillSwapTheirContent)
     ASSERT_EQ(v, v_swapped);
     ASSERT_EQ(s, s_swapped);
 }
+
+TEST(lm_fmtgp_ch11, givenNonEmptyRangeWillRotateWithFwdIterAlgorithm)
+{
+    std::list<int> l = {1, 2, 3, 4, 5, 6, 7};
+    std::list<int> l_rotated = {3, 4, 5, 6, 7, 1, 2};
+    auto mid = std::find(l.begin(), l.end(), 3);
+
+    auto n_mid = rotate(l.begin(), mid, l.end());
+
+    ASSERT_EQ(l, l_rotated);
+    ASSERT_EQ(*n_mid, 1);
+    ASSERT_EQ(*std::next(n_mid), 2);
+    ASSERT_EQ(*std::prev(n_mid), 7);
+    ASSERT_EQ(std::distance(l.begin(), n_mid), 5);
+
+
+}

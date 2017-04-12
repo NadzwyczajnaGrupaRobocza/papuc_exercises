@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <iterator>
 
 template <typename Iter0, typename Iter1>
 std::pair<Iter0, Iter1> swap_ranges(Iter0 first0, Iter0 last0, Iter1 first1,
@@ -50,4 +51,26 @@ void rotate_unguarded(It f, It m, It l)
         if (m == f) m = p.second;
         p = swap_ranges(f, m, m, l);
     }
+}
+
+template <typename It>
+It rotate(It f, It m, It l, std::forward_iterator_tag)
+{
+    if (f == m) return l;
+    if (m == l) return f;
+
+    auto p = swap_ranges(f, m, m, l);
+    while (p.first != m or p.second != l)
+    {
+        if (p.second == l)
+        {
+            rotate_unguarded(p.first, m, l);
+            return p.first;
+        }
+        f = m;
+        m = p.second;
+        p = swap_ranges(f, m, m, l);
+    }
+
+    return m;
 }
