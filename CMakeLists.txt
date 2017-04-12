@@ -7,6 +7,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(external/googletest)
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Do not run external tests")
 add_subdirectory(external/benchmark)
 
 set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/GSL/")
