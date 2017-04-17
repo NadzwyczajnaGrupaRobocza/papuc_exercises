@@ -16,5 +16,33 @@ line_segment largest_doubling(line_segment, line_segment);
 line_segment half(line_segment);
 
 line_segment gcm_remainder(line_segment, line_segment);
-integer gcd(integer, integer);
+
+// clang-format off
+template <typename T>
+concept bool IntegralType = requires(T x)
+{
+    { x + x } -> T;
+    { x - x } -> T;
+    { x * x } -> T;
+    { x / x } -> T
+    { x % x } -> T;
+    { x == x } -> bool;
+    { x < x } -> bool;
+    { x > x } -> bool;
+    { x <= x } -> bool;
+    { x >= x } -> bool;
+
+};
+// clang-format on
+template <IntegralType T>
+T gcd(T a, T b)
+{
+    while (b != T{0})
+    {
+        a = a % b;
+        std::swap(a, b);
+    }
+
+    return a;
+}
 }

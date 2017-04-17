@@ -3,6 +3,11 @@
 #include <utility>
 #include <iterator>
 
+#include "Ch04.hpp"
+
+namespace fmtgp
+{
+
 template <typename Iter0, typename Iter1>
 std::pair<Iter0, Iter1> swap_ranges(Iter0 first0, Iter0 last0, Iter1 first1,
                                     Iter1 last1)
@@ -73,4 +78,58 @@ It rotate(It f, It m, It l, std::forward_iterator_tag)
     }
 
     return m;
+}
+
+template <typename It>
+using ValueType = typename std::iterator_traits<It>::value_type;
+
+template <typename It>
+using DifferenceType = typename std::iterator_traits<It>::difference_type;
+
+template <typename It, typename F>
+void rotate_cycle_from(It i, F from)
+{
+    ValueType<It> tmp = *i;
+    It start = i;
+    for (It j = from(i); j != start; j = from(j))
+    {
+        *i = *j;
+        i = j;
+    }
+    *i = tmp;
+}
+
+#define RandomAccessIterator typename
+
+template <RandomAccessIterator It>
+struct rotate_transform
+{
+    DifferenceType<It> plus;
+    DifferenceType<It> minus;
+    It m1;
+
+    rotate_transform(It f, It m, It l)
+        : plus{m - f}, minus{m - l}, m1{f + (l - m)}
+    {}
+
+    It operator()(It i) const
+    {
+        return i + ((i < m1)? plus : minus);
+    }
+};
+
+template <RandomAccessIterator It>
+It rotate(It f, It m, It l, std::random_access_iterator_tag)
+{
+    if (f == m) return l;
+    if (m == l) return f;
+    DifferenceType<It> cycles = gcd(m - f, l - m);
+    rotate_transform<It> rotator(f, m, l);
+    while (cycles-- > 0)
+    {
+        rotate_cycle_from(f + cycles, rotator);
+    }
+    return rotator.m1;
+}
+
 }
