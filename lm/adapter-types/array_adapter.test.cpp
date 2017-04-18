@@ -25,9 +25,9 @@ TEST(lm_array_adapter, willAllowReadingFromExistingArray)
 TEST(lm_array_adapter, willAllowWritingIntoArray)
 {
     constexpr std::size_t N = 10;
-    float stuff[N];
+    double stuff[N];
 
-    std::vector<float> source = {1.1, 1.3, 3.10, -11.123, 88.1, 7.3, 5.44};
+    std::vector<double> source = {1.1, 1.3, 3.10, -11.123, 88.1, 7.3, 5.44};
 
     auto stuff_a = adapt_array(stuff);
 
