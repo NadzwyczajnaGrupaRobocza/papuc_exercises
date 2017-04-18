@@ -176,15 +176,4 @@ line_segment gcm_remainder(line_segment a, line_segment b)
     return a;
 }
 
-integer gcd(integer a, integer b)
-{
-    while (b != integer{0})
-    {
-        a = a % b;
-        std::swap(a, b);
-    }
-
-    return a;
-}
-
 }
