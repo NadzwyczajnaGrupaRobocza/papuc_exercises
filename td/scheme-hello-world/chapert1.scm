@@ -6,7 +6,7 @@
          (if (< a  b)
              (+ (square b) (square c))
              (+ (square a) (square c)))
-         (if (< a b)
+         (if (< a c)
              (+ (square b) (square c))
              (+ (square a) (square b)))))
 
@@ -18,4 +18,4 @@
 (assert-equal 13 (excercise1.1 2 1 3))
 (assert-equal 13 (excercise1.1 1 3 2))
 (assert-equal 13 (excercise1.1 1 2 3))
-
+(assert-equal 13 (excercise1.1 2 3 1))
