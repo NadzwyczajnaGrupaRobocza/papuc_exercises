@@ -18,3 +18,16 @@
 (display "Another fancy calulation result: ")
 (display(another_fancy_calulation  "a" 10 4))
 (newline)
+
+(define (abs x) (
+                 cond ((> x 0) x)
+                      ((= x 0) 1024)
+                      ((< x 0) (- x))))
+
+(display "abs: ")
+(display(abs 4))
+(display " ")
+(display(abs 0))
+(display " ")
+(display(abs -4))
+(newline)
