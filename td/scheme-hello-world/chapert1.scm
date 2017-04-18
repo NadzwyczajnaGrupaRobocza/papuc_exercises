@@ -9,4 +9,4 @@
 (assert-equal 1 (excercise1.1 1 0 0))
 (assert-equal 4 (excercise1.1 2 0 0))
 (assert-equal 5 (excercise1.1 2 1 0))
-(assert-equal 5 (excercise1.1 0 2 1))
+(assert-equal 5 (excercise1.1 1 0 2))
