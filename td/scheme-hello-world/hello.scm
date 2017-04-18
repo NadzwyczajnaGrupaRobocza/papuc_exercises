@@ -21,8 +21,7 @@
 
 (define (abs x) (
                  cond ((> x 0) x)
-                      ((>= x -1) 1024)
-                      ((< x 0) (- x))))
+                      (else (- x))))
 
 (display "abs: ")
 (display(abs 4))
