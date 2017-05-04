@@ -1,17 +1,23 @@
-#pragma once
+#ifndef PAPUC_LM_FMTGP_CH07
+#define PAPUC_LM_FMTGP_CH07 1
 
 bool odd(int n);
 int half(int n);
 
-
+#if defined(__cpp_concepts)
 // clang-format off
-
 template <typename G>
 concept bool NonCommutativeAdditiveSemigroup = requires(G x)
 {
-    { x + x }-> G;
+    { x + x } -> G;
 };
+// clang-format on
+#else
+#define NonCommutativeAdditiveSemigroup typename
+#endif
 
+#if defined(__cpp_concepts)
+//clang-format off
 template <typename T>
 concept bool Integer = requires(T x)
 {
@@ -21,6 +27,10 @@ concept bool Integer = requires(T x)
     { half(x) } -> bool;
 };
 // clang-format on
+#else
+#define Integer typename
+#endif
+
 
 template <NonCommutativeAdditiveSemigroup A, typename N>
 A multiply_accumulate(A r, N n, A a)
@@ -58,3 +68,4 @@ A multiply_accumulate_semigroup(A r, N n, A a)
         a += a;
     }
 }
+#endif // PAPUC_LM_FMTGP_CH07
