@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PAPUC_LM_FMTGP_CH11
+#define PAPUC_LM_FMTGP_CH11 1
 
 #include <utility>
 #include <iterator>
@@ -133,3 +134,5 @@ It rotate(It f, It m, It l, std::random_access_iterator_tag)
 }
 
 }
+
+#endif
