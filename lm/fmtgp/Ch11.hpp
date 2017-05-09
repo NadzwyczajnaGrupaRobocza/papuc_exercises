@@ -140,12 +140,27 @@ std::pair<It, It> reverse_until(It f, It m, It l)
 }
 
 template <PPC_BidirectionalIterator It>
+void reverse(It f, It l, std::bidirectional_iterator_tag)
+{
+    while (f != l and f != --l)
+    {
+        std::swap(*f++, *l);
+    }
+}
+
+template <PPC_Iterator It>
+void reverse(It f, It l)
+{
+    fmtgp::reverse(f, l, typename std::iterator_traits<It>::iterator_category{});
+}
+
+template <PPC_BidirectionalIterator It>
 It rotate(It f, It m, It l, std::bidirectional_iterator_tag)
 {
-    reverse(f, m);
-    reverse(m, l);
+    fmtgp::reverse(f, m);
+    fmtgp::reverse(m, l);
     auto p = reverse_until(f, m, l);
-    reverse(p.first, p.second);
+    fmtgp::reverse(p.first, p.second);
     if (m == p.first)
     {
         return p.second;
@@ -159,22 +174,7 @@ It rotate(It f, It m, It l, std::bidirectional_iterator_tag)
 template <PPC_Iterator It>
 It rotate(It f, It m, It l)
 {
-    return rotate(f, m, l, typename std::iterator_traits<It>::iterator_category{});
-}
-
-template <PPC_BidirectionalIterator It>
-void reverse(It f, It l, std::bidirectional_iterator_tag)
-{
-    while (f != l and f != --l)
-    {
-        std::swap(*f++, *l);
-    }
-}
-
-template <PPC_Iterator It>
-void reverse(It f, It l)
-{
-    reverse(f, l, typename std::iterator_traits<It>::iterator_category{});
+    return fmtgp::rotate(f, m, l, typename std::iterator_traits<It>::iterator_category{});
 }
 
 }
