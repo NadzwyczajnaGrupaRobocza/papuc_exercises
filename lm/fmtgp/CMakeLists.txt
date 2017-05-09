@@ -2,6 +2,7 @@ add_executable(lm-fmtgp
   Ch04.test.cpp
   Ch07.test.cpp
   Ch11.test.cpp
+  Ch12.test.cpp
   )
 
 add_library(lm-fmtgp-lib STATIC

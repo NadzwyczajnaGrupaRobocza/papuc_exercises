@@ -11,9 +11,9 @@ set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Do not run external tests")
 add_subdirectory(external/benchmark)
 
 set(GSL_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/GSL/")
-set(RANGEV3_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/range-v3/include")
-set(BENCHMARK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/benchmark/include")
-set(PAPUC_COMMON_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/common/include")
+set(RANGEV3_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/range-v3/include/")
+set(BENCHMARK_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/external/benchmark/include/")
+set(PAPUC_COMMON_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/common/include/")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGSL_THROW_ON_CONTRACT_VIOLATION")
 
