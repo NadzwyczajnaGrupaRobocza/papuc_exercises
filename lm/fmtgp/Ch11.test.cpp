@@ -42,7 +42,7 @@ TEST(lm_fmtgp_ch11, givenNonEmptyRangeWillRotateWithFwdIterAlgorithm)
     std::list<int> l_rotated = {3, 4, 5, 6, 7, 1, 2};
     auto mid = std::find(l.begin(), l.end(), 3);
 
-    auto n_mid = rotate(l.begin(), mid, l.end());
+    auto n_mid = fmtgp::rotate(l.begin(), mid, l.end());
 
     ASSERT_EQ(l, l_rotated);
     ASSERT_EQ(*n_mid, 1);
@@ -60,8 +60,8 @@ TEST(lm_fmtgp_ch11, willRotateRandomAccessRange)
 
     auto mid = std::find(l.begin(), l.end(), 3);
 
-    auto n_mid = rotate(l.begin(), mid, l.end(),
-                        std::random_access_iterator_tag{});
+    auto n_mid = fmtgp::rotate(l.begin(), mid, l.end(),
+                               std::random_access_iterator_tag{});
     (void)n_mid;
     ASSERT_EQ(l, l_rotated);
 }

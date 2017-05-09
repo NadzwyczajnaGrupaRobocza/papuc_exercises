@@ -21,7 +21,7 @@ concept bool HasIteratorTraits = requires (T x)
 };
 
 template <typename T>
-concept bool Iterator = std::is_copy_constructible<T>::value
+concept bool PPC_Iterator = std::is_copy_constructible<T>::value
     && std::is_copy_assignable<T>::value
     && std::is_destructible<T>::value
     && HasIteratorTraits<T>
@@ -33,7 +33,7 @@ concept bool Iterator = std::is_copy_constructible<T>::value
 
 
 template <typename T>
-concept bool InputIterator = Iterator<T>
+concept bool PPC_InputIterator = PPC_Iterator<T>
     && IsEqualityComparable<T>
     && requires (T x)
 {
@@ -47,11 +47,11 @@ concept bool InputIterator = Iterator<T>
 };
 
 template <typename T>
-concept bool ForwardIterator = InputIterator<T>
+concept bool PPC_ForwardIterator = PPC_InputIterator<T>
     && std::is_default_constructible<T>::value;
 
 template <typename T>
-concept bool BidirectionalIterator = ForwardIterator<T>
+concept bool PPC_BidirectionalIterator = PPC_ForwardIterator<T>
     && requires(T x)
 {
     { --x } -> T&;
@@ -62,16 +62,16 @@ concept bool BidirectionalIterator = ForwardIterator<T>
 };
 
 template <typename T>
-concept bool RandomAccessIterator = BidirectionalIterator<T>;
+concept bool PPC_RandomAccessIterator = PPC_BidirectionalIterator<T>;
 
 // clang-format on
 #else
 #define IsEqualityComparable typename
-//#define Iterator typename
-#define InputIterator typename
-#define ForwardIterator typename
-#define BidirectionalIterator typename
-#define RandomAccessIterator typename
+#define PPC_Iterator typename
+#define PPC_InputIterator typename
+#define PPC_ForwardIterator typename
+#define PPC_BidirectionalIterator typename
+#define PPC_RandomAccessIterator typename
 #endif
 
 #endif // PAPUC_COMMON_ITERATOR_CONCEPTS

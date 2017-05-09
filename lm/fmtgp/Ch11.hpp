@@ -101,7 +101,7 @@ void rotate_cycle_from(It i, F from)
     *i = tmp;
 }
 
-template <RandomAccessIterator It>
+template <PPC_RandomAccessIterator It>
 struct rotate_transform
 {
     DifferenceType<It> plus;
@@ -118,7 +118,7 @@ struct rotate_transform
     }
 };
 
-template <RandomAccessIterator It>
+template <PPC_RandomAccessIterator It>
 It rotate(It f, It m, It l, std::random_access_iterator_tag)
 {
     if (f == m) return l;
@@ -132,14 +132,14 @@ It rotate(It f, It m, It l, std::random_access_iterator_tag)
     return rotator.m1;
 }
 
-template <BidirectionalIterator It>
+template <PPC_BidirectionalIterator It>
 std::pair<It, It> reverse_until(It f, It m, It l)
 {
     while (f != m and m != l) std::swap(*f++, *--l);
     return {f, l};
 }
 
-template <BidirectionalIterator It>
+template <PPC_BidirectionalIterator It>
 It rotate(It f, It m, It l, std::bidirectional_iterator_tag)
 {
     reverse(f, m);
@@ -156,13 +156,13 @@ It rotate(It f, It m, It l, std::bidirectional_iterator_tag)
     }
 }
 
-template <Iterator It>
+template <PPC_Iterator It>
 It rotate(It f, It m, It l)
 {
     return rotate(f, m, l, typename std::iterator_traits<It>::iterator_category{});
 }
 
-template <BidirectionalIterator It>
+template <PPC_BidirectionalIterator It>
 void reverse(It f, It l, std::bidirectional_iterator_tag)
 {
     while (f != l and f != --l)
@@ -171,7 +171,7 @@ void reverse(It f, It l, std::bidirectional_iterator_tag)
     }
 }
 
-template <Iterator It>
+template <PPC_Iterator It>
 void reverse(It f, It l)
 {
     reverse(f, l, typename std::iterator_traits<It>::iterator_category{});
