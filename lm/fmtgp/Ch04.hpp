@@ -54,4 +54,4 @@ T gcd(T a, T b)
 }
 }
 
-#endif
+#endif // PAPUC_LM_FMTGP_CH04
