@@ -67,7 +67,7 @@ concept bool RandomAccessIterator = BidirectionalIterator<T>;
 // clang-format on
 #else
 #define IsEqualityComparable typename
-#define Iterator typename
+//#define Iterator typename
 #define InputIterator typename
 #define ForwardIterator typename
 #define BidirectionalIterator typename
