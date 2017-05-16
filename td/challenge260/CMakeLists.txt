@@ -23,7 +23,7 @@ add_custom_target(td-challenge260-test-run
 	COMMENT "Run test for challenge 260 for td")
 
 add_custom_target(td-challenge260-prepare-integration-testrun ALL
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/testSet ${CMAKE_BINARY_DIR}/bin
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/testSet ${EXECUTABLE_OUTPUT_PATH}/bin/
 	COMMENT "Prepare for integration test for challange260")
 
 add_custom_target(td-challenge260-integration-testrun)
@@ -37,5 +37,5 @@ add_dependencies(td-challenge260-integration-testrun td-challenge260-prepare-int
 add_dependencies(td-challenge260-integration-testrun td-challenge260)
 
 add_test(td-challenge260-test ${EXECUTABLE_OUTPUT_PATH}/td-challenge260-test)
-add_test(td-challenge260-integration-testrun ${CMAKE_BINARY_DIR}/bin/runChallenge260IntegrationTest.sh ${CMAKE_BIANRY_DIR}/bin/td-challenge260)
+add_test(td-challenge260-integration-testrun ${EXECUTABLE_OUTPUT_PATH}/runChallenge260IntegrationTest.sh ${EXECUTABLE_OUTPUT_PATH}/td-challenge260)
 
