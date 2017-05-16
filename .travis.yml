@@ -11,6 +11,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
+            - guile
       env:
       - C_COMPILER=gcc-6
       - CXX_COMPILER=g++-6
