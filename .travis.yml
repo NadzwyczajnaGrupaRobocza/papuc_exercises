@@ -12,7 +12,7 @@ matrix:
           packages:
             - g++-6
             - guile-2.0
-            - guile-lib
+            - guile-library
       env:
       - C_COMPILER=gcc-6
       - CXX_COMPILER=g++-6
