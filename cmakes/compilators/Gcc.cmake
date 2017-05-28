@@ -9,7 +9,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -Wfloat-equal \
 -Wunreachable-code \
 -Wswitch-enum \
--Wmissing-declarations \
 -Wshadow \
 -Wnon-virtual-dtor \
 -std=c++14 \
