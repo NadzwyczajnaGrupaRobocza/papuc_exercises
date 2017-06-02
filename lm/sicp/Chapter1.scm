@@ -128,3 +128,17 @@
 
 (test-fibbonaci-implementation fib-r)
 (test-fibbonaci-implementation fib-i)
+
+;; consider adding timing to unit test
+;; consider adding "define-test" procedure that would take care of bookkeeping
+
+(define-syntax-rule (time expr ...)
+  (let ((timing-begin (current-time))
+        (value (lambda () expr ...)))
+    (display "Computed result: ")
+    (display value)
+    (newline)
+    (display "Operation took: ")
+    (display (- (current-time) timing-begin))
+    (newline)
+    ))
