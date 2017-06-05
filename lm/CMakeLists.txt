@@ -23,3 +23,4 @@ add_subdirectory(range-playground)
 
 add_subdirectory(chunk-eater)
 add_subdirectory(adapter-types)
+add_subdirectory(crtp-explore)
