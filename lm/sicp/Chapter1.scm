@@ -2,6 +2,9 @@
 
 (define epsilon 0.0001)
 
+(define (inc n) (+ n 1))
+(define (dec n) (- n 1))
+
 (define (square a) (* a a))
 (define (cube a) (* a a a))
 (define (sum-of-squares a b) (+ (square a) (square b)))
@@ -134,11 +137,119 @@
 
 (define-syntax-rule (time expr ...)
   (let ((timing-begin (current-time))
-        (value (lambda () expr ...)))
+         )
     (display "Computed result: ")
-    (display value)
+    (display expr ...)
     (newline)
     (display "Operation took: ")
     (display (- (current-time) timing-begin))
     (newline)
     ))
+;;; Example: Counting change
+
+(define (count-change amount)
+  (define (cc amount kinds-of-coins)
+    (cond ((= amount 0) 1)
+          ((or (< amount 0)
+               (= kinds-of-coins 0))
+           0)
+          (else (+ (cc amount (- kinds-of-coins 1))
+                   (cc (- amount (first-denomination kinds-of-coins))
+                       kinds-of-coins)))))
+  (define (first-denomination kinds-of-coins)
+    (cond ((= kinds-of-coins 1) 1)
+          ((= kinds-of-coins 2) 5)
+          ((= kinds-of-coins 3) 10)
+          ((= kinds-of-coins 4) 25)
+          ((= kinds-of-coins 5) 50)))
+  (cc amount 5))
+
+;;; Exercise 1.11
+
+(define (fib3-r n)
+  (cond ((< n 3) n)
+        (else (+ (fib3-r (- n 1)) (* 2 (fib3-r (- n 2)))
+                 (* 3 (fib3-r (- n 3)))))))
+
+(define (fib3-i n)
+  (define (fib3-linear-comb a b c)
+    (+ a (* 2 b) (* 3 c)))
+  (define (fib3-iter f3 f2 f1 ct)
+    (if (= ct n)
+        f3
+        (fib3-iter (fib3-linear-comb f3 f2 f1)
+                   f3
+                   f2
+                   (+ ct 1))))
+  (if (< n 3)
+      n
+      (fib3-iter 2 1 0 2)))
+
+(define (test-fib3-comparative f1 f2)
+  (assert-equal (f1 5) (f2 5))
+  (assert-equal (f1 10) (f2 10))
+  (assert-equal (f1 20) (f2 20)))
+
+(test-fib3-comparative fib3-r fib3-i)
+
+;;; Exercise 1.12
+
+(define (pascal n k)
+  (define (pascal-impl a b)
+    (cond ((or (< a 0) (< b 0)) 0)
+          ((= a 0) 1)
+          ((= b 0) 1)
+          (else (+ (pascal-impl (dec a) b)
+                   (pascal-impl a (dec b))))))
+  (if (< n k)
+      0
+      (pascal-impl (- n k) k)))
+
+(define (test-pascal-implementation p)
+  (assert-equal 3 (p 3 1))
+  (assert-equal 6 (p 4 2))
+  (assert-equal 10 (p 5 3))
+  (assert-equal 10 (p 5 2))
+  (assert-equal 1 (p 100 0))
+  (assert-equal 100 (p 100 1))
+  (assert-equal 1 (p 100 100))
+  (assert-equal 1 (p 6 0))
+  (assert-equal 6 (p 6 1))
+  (assert-equal 15 (p 6 2))
+  (assert-equal 20 (p 6 3))
+  (assert-equal 15 (p 6 4))
+  (assert-equal 6 (p 6 5))
+  (assert-equal 1 (p 6 6)))
+
+(test-pascal-implementation pascal)
+
+;;; Exercise 1.15
+
+(define (sine angle)
+  (define (sine-reduction-outer x)
+    (- (* 3 x) (* 4 (cube x))))
+  (if (not (> (abs angle) 0.01))
+      angle
+      (sine-reduction-outer (sine (/ angle 3.0)))))
+
+;;;; Subsection 1.2.4
+
+(define (expt-r b n)
+  (if (= n 0)
+      1
+      (* b (expt-r b (dec n)))))
+
+(define (expt-i b n)
+  (define (expt-iter counter product)
+    (if (= counter 0)
+        product
+        (expt-iter (dec counter) (* product b))))
+  (expt-iter n 1.0))
+
+(define (test-expt-implementation expt)
+  (assert-numeric-= 125.0 (expt 5.0 3) epsilon)
+  (assert-numeric-= 1024.0 (expt 2.0 10) epsilon)
+  (assert-numeric-= 1.0 (expt 1234.5 0) epsilon))
+
+(test-expt-implementation expt-r)
+(test-expt-implementation expt-i)
