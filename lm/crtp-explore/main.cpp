@@ -1,3 +1,6 @@
+// Implementation of examples from
+// http://www.fluentcpp.com/2017/05/19/crtp-helper/
+
 #include <iostream>
 
 template <typename T, template <typename> class crtpType>
