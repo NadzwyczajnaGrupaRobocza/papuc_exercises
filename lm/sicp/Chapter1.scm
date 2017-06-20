@@ -271,3 +271,34 @@
   (iter-step b 1.0 n))
 
 (test-expt-implementation fast-expt-i)
+
+;;; Exercise 1.19
+
+(define (fast-fib n)
+  (define (fib-iter a b p q count)
+    (cond ((= count 0) b)
+          ((even? count)
+           (fib-iter a
+                     b
+                     (+ (square p) (square q))
+                     (+ (square q) (* 2 p q))
+                     (/ count 2)))
+          (else
+           (fib-iter (+ (* b q)
+                        (* a q)
+                        (* a p))
+                     (+ (* b p)
+                        (* a q))
+                     p
+                     q
+                     (- count 1)))))
+  (fib-iter 1 0 0 1 n))
+
+(define (test-fib-implementation fib)
+  (assert-equal 0 (fib 0))
+  (assert-equal 1 (fib 1))
+  (assert-equal 1 (fib 2))
+  (assert-equal 2 (fib 3))
+  (assert-equal 144 (fib 12)))
+
+(test-fib-implementation fast-fib)
