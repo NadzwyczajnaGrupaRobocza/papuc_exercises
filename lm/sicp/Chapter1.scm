@@ -302,3 +302,13 @@
   (assert-equal 144 (fib 12)))
 
 (test-fib-implementation fast-fib)
+
+;;; Subsection 1.2.5
+
+(define (gcd a b)
+  (if (= b 0)
+      a
+      (gcd b (remainder a b))))
+
+;;; Subsection 1.2.6
+
