@@ -253,3 +253,21 @@
 
 (test-expt-implementation expt-r)
 (test-expt-implementation expt-i)
+
+(define (fast-expt-r b n)
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt-r b (/ n 2))))
+        (else (* b (fast-expt-r b (- n 1))))))
+
+(test-expt-implementation fast-expt-r)
+
+;;; Exercise 1.16
+
+(define (fast-expt-i b n)
+  (define (iter-step base result exp)
+    (cond ((= exp 0) result)
+          ((even? exp) (iter-step (* base base) result (/ exp 2)))
+          (else (iter-step base (* result base) (dec exp)))))
+  (iter-step b 1.0 n))
+
+(test-expt-implementation fast-expt-i)
