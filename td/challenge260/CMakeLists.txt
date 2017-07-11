@@ -23,7 +23,7 @@ add_custom_target(td-challenge260-test-run
 	COMMENT "Run test for challenge 260 for td")
 
 add_custom_target(td-challenge260-prepare-integration-testrun ALL
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/testSet ${EXECUTABLE_OUTPUT_PATH}/bin/
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/testSet ${CMAKE_CURRENT_BINARY_DIR}
 	COMMENT "Prepare for integration test for challange260")
 
 add_custom_target(td-challenge260-integration-testrun)
