@@ -70,5 +70,5 @@ test_script:
   - ps: |
       if ($env:CONFIGURATION -eq "Debug")
       {
-          & ctest -V -R $env:Build -E scheme -j nproc
+          & ctest -V -R $env:Build -E "scheme|integration" -j nproc
       }
