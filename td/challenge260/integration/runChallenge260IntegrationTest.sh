@@ -3,13 +3,16 @@
 testsAllCount=0
 testsFailCount=0
 
-for inputFile  in input*
+TEST_SETS_DIRECTORY=$2
+
+for inputFile in $TEST_SETS_DIRECTORY/input*
 do
-	fileNumberWithInput=${inputFile%.*}
+	inputFileName=`basename $inputFile`
+	fileNumberWithInput=${inputFileName%.*}
 	fileNumber=${fileNumberWithInput#*_}
-	expectedOutputFile="expected_output_${fileNumber}.txt"
-	outputFile="output_${fileNumber}.txt"
-	diffResultFile="diff_${fileNumber}.txt"
+	expectedOutputFile="$TEST_SETS_DIRECTORY/expected_output_${fileNumber}.txt"
+	outputFile="$TEST_SETS_DIRECTORY/output_${fileNumber}.txt"
+	diffResultFile="$TEST_SETS_DIRECTORY/diff_${fileNumber}.txt"
 	$1 < $inputFile > $outputFile
 	diff $outputFile $expectedOutputFile > $diffResultFile
 	if [ $? -ne 0 ]
