@@ -36,6 +36,7 @@ concept bool IntegralType = requires(T x)
     { x >= x } -> bool;
 
 };
+
 // clang-format on
 #else
 #define IntegralType typename

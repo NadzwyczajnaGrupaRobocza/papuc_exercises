@@ -1,9 +1,11 @@
 #ifndef PAPUC_LM_FMTGP_CH07
 #define PAPUC_LM_FMTGP_CH07 1
 
+namespace concept_util
+{
 bool odd(int n);
 int half(int n);
-
+}
 #if defined(__cpp_concepts)
 // clang-format off
 template <typename G>
@@ -23,8 +25,8 @@ concept bool Integer = requires(T x)
 {
     { x + x } -> T;
     { x == x } -> bool
-    { odd(x) } -> bool;
-    { half(x) } -> bool;
+    { concept_util::odd(x) } -> bool;
+    { concept_util::half(x) } -> bool;
 };
 // clang-format on
 #else
@@ -37,7 +39,7 @@ A multiply_accumulate(A r, N n, A a)
 {
     while (true)
     {
-        if (odd(n))
+        if (concept_util::odd(n))
         {
             r = r + a;
             if (n == 1)
@@ -45,7 +47,7 @@ A multiply_accumulate(A r, N n, A a)
                 return r;
             }
         }
-        n = half(n);
+        n = concept_util::half(n);
         a = a + a;
     }
 }
@@ -58,13 +60,13 @@ A multiply_accumulate_semigroup(A r, N n, A a)
         return r;
     while (true)
     {
-        if (odd(n))
+        if (concept_util::odd(n))
         {
             r += a;
             if (n == 1)
                 return r;
         }
-        n = half(n);
+        n = concept_util::half(n);
         a += a;
     }
 }
