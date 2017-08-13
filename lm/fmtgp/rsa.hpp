@@ -4,6 +4,7 @@
 #include <vector>
 #include <limits>
 #include <type_traits>
+#include <random>
 #include "gcd.hpp"
 
 template <typename T>
@@ -212,5 +213,60 @@ std::vector<I> first_n_carmichael_numbers(I n)
 
     return result;
 }
+
+template <Integer I>
+bool miller_rabin_test(I n, I q, I k, I w)
+{
+    modulo_multiply<I> mmult(n);
+    I x = power_semigroup(w, q, mmult);
+    if (x == I{1} or x == n - I{1})
+        return true;
+
+    for (I i{1}; i < k; ++i)
+    {
+        x = mmult(x, x);
+        if (x == n - I{1})
+            return true;
+        if (x == I{1})
+            return false;
+    }
+    return false;
+}
+
+template <typename I>
+I random_value_from_range(I begin, I end)
+{
+    static std::default_random_engine e{std::random_device{}()};
+
+    std::uniform_int_distribution<I> uniform_distr(begin, end);
+
+    return uniform_distr(e);
+}
+
+template <Integer I>
+bool is_prime_mrt(I n)
+{
+    if ((even(n) and n > I{2}) or n < I{2})
+        return false;
+
+    if (n == I{2})
+        return true;
+
+
+    I k{0};
+    I q{n - 1};
+
+    while (even(q))
+    {
+        k++;
+        q /= 2;
+    }
+
+    I w{random_value_from_range(I{1}, n - I{1})};
+
+    return miller_rabin_test(n, q, k, w);
+}
+
+
 
 #endif // include guard

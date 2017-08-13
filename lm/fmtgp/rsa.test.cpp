@@ -48,3 +48,8 @@ TEST(lm_fmtgp_ch13, carmichael_test_create_range)
 
     ASSERT_EQ(carmichael_numbers, expected_result);
 }
+
+TEST(lm_fmtgp_ch13, miller_rabin_test_test)
+{
+    ASSERT_FALSE(is_prime_mrt(2793));
+}

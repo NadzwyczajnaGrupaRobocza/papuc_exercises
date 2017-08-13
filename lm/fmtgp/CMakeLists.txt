@@ -1,3 +1,5 @@
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1")
+
 add_executable(lm-fmtgp
   Ch04.test.cpp
   Ch07.test.cpp
@@ -25,9 +27,12 @@ add_executable(lm-fmtgp-bench
 target_link_libraries(lm-fmtgp-bench lm-fmtgp-lib benchmark pthread)
 
 add_executable(lm-fmtgp-ch13
-  rsa.test.cpp)
+  multibyte_number.test.cpp
+  rsa.test.cpp
+  )
 
 add_library(lm-fmtgp-ch13-lib STATIC
+  multibyte_number.cpp
   rsa.cpp)
 
 target_link_libraries(lm-fmtgp-ch13
