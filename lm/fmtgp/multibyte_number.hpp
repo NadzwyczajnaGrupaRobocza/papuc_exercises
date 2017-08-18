@@ -8,7 +8,6 @@
 #include <iterator>
 #include <tuple>
 
-
 struct endianness
 {
     static constexpr bool big_endian()
@@ -87,7 +86,6 @@ public:
     {
         std::stringstream out;
         auto f{out.flags()};
-        out << value().size() << N << " ";
         out << "0x" << std::hex << std::setw(2) << std::setfill('0');
         for (int i = static_cast<int>(value().size() - 1);
              i >= 0;
@@ -134,6 +132,24 @@ public:
         return *this;
     }
 
+    multibyte_number& operator>>=(const int n)
+    {
+        if (n <= 0)
+            return *this;
+
+        const auto byte_shift = n / 8;
+        const auto bit_shift = static_cast<Byte>(n % 8);
+
+        right_byte_shift(byte_shift);
+
+        if (bit_shift > Byte{0})
+        {
+            right_bit_shift(bit_shift);
+        }
+
+        return *this;
+    }
+
     multibyte_number& operator*=(Byte rhs)
     {
         Byte carry = 0;
@@ -175,6 +191,52 @@ private:
         else
         {
             return std::make_tuple(conv.byte[0], conv.byte[1]);
+        }
+    }
+
+    void right_byte_shift(int byte_shift)
+    {
+        const auto pivot = value_.begin() + byte_shift;
+        const auto t = std::rotate(value_.begin(), pivot, value_.end());
+        std::fill(t, value_.end(), Byte{});
+    }
+
+    void right_bit_shift(Byte bit_shift)
+    {
+        auto carry = Byte{0};
+        std::for_each(value_.rbegin(), value_.rend(),
+                      [this, bit_shift, &carry](Byte& v)
+                      {
+                          std::tie(v, carry) = right_shift_with_carry(v, bit_shift, carry);
+                      });
+    }
+
+    std::tuple<Byte, Byte> right_shift_with_carry(Byte lhs, Byte n, Byte carry)
+    {
+        Converter conv;
+
+        if (endianness::big_endian())
+        {
+            conv.byte[1] = 0;
+            conv.byte[0] = lhs;
+        }
+        else
+        {
+            conv.byte[0] = 0;
+            conv.byte[1] = lhs;
+        }
+
+        conv.result = static_cast<TwoBytes>(conv.result >> n);
+
+        if (endianness::big_endian())
+        {
+            conv.byte[0] |= carry;
+            return std::make_tuple(conv.byte[0], conv.byte[1]);
+        }
+        else
+        {
+            conv.byte[1] |= carry;
+            return std::make_tuple(conv.byte[1], conv.byte[0]);
         }
     }
 
