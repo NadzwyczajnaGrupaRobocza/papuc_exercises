@@ -44,7 +44,7 @@ TEST(multibyte_number, left_shift_asign_operator_basic_operation)
     multibyte_number<16> a{std::array<Byte, 16>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20}};
     multibyte_number<16> r{   std::array<Byte, 16>{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 0}};
 
-    a <<= 1;
+    a <<= 8;
 
     ASSERT_EQ(a, r);
 }
@@ -73,10 +73,10 @@ TEST(multibyte_number, left_shift_asign_operator_all_zeros_when_shift_greater_th
     multibyte_number<8> r2{std::array<Byte, 8>{0, 0, 0, 0, 0, 0, 0, 0}};
     multibyte_number<8> r3{std::array<Byte, 8>{0, 0, 0, 0, 0, 0, 0, 0}};
 
-    a1 <<= 9;
+    a1 <<= 9 * 8;
     ASSERT_EQ(a1, r1);
 
-    a2 <<= 8;
+    a2 <<= 8 * 8;
     ASSERT_EQ(a2, r2);
 
     // a3 <<= 300;
@@ -161,4 +161,49 @@ TEST(multibyte_number, right_shift__mixed_shift)
     a >>= 9;
 
     ASSERT_EQ(a, r);
+}
+
+TEST(multibyte_number, left_shift_works_on_bit_level__shifts_under_8_bits)
+{
+    //const auto value = 0x00FF00b0;
+    const auto value =          0b10'00'0000'1111'1111'0000'0000'0011'0000;
+    const auto result_shift_1 = 0b00'00'0001'1111'1110'0000'0000'0110'0000;
+    const auto result_shift_2 = 0b00'00'0011'1111'1100'0000'0000'1100'0000;
+    const auto result_shift_3 = 0b00'00'0111'1111'1000'0000'0001'1000'0000;
+    const auto result_shift_4 = 0b00'00'1111'1111'0000'0000'0011'0000'0000;
+    const auto result_shift_5 = 0b00'01'1111'1110'0000'0000'0110'0000'0000;
+    const auto result_shift_6 = 0b00'11'1111'1100'0000'0000'1100'0000'0000;
+    const auto result_shift_7 = 0b01'11'1111'1000'0000'0001'1000'0000'0000;
+
+    multibyte_number<4> a_1{value};
+    multibyte_number<4> a_2{value};
+    multibyte_number<4> a_3{value};
+    multibyte_number<4> a_4{value};
+    multibyte_number<4> a_5{value};
+    multibyte_number<4> a_6{value};
+    multibyte_number<4> a_7{value};
+
+    const multibyte_number<4> result_1{result_shift_1};
+    const multibyte_number<4> result_2{result_shift_2};
+    const multibyte_number<4> result_3{result_shift_3};
+    const multibyte_number<4> result_4{result_shift_4};
+    const multibyte_number<4> result_5{result_shift_5};
+    const multibyte_number<4> result_6{result_shift_6};
+    const multibyte_number<4> result_7{result_shift_7};
+
+    a_1 <<= 1;
+    a_2 <<= 2;
+    a_3 <<= 3;
+    a_4 <<= 4;
+    a_5 <<= 5;
+    a_6 <<= 6;
+    a_7 <<= 7;
+
+    ASSERT_EQ(a_1, result_1);
+    ASSERT_EQ(a_2, result_2);
+    ASSERT_EQ(a_3, result_3);
+    ASSERT_EQ(a_4, result_4);
+    ASSERT_EQ(a_5, result_5);
+    ASSERT_EQ(a_6, result_6);
+    ASSERT_EQ(a_7, result_7);
 }
