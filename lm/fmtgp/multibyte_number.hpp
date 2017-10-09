@@ -29,7 +29,13 @@ class multibyte_number
 {
 public:
     using Byte = std::uint8_t;
+    static constexpr int BITS_PER_UNIT = (__CHAR_BIT__ * sizeof(Byte));
 private:
+    static constexpr std::size_t WORDS_NEEDED_FOR_NUMBER_OF_BITS(std::size_t n)
+    {
+        return (n / BITS_PER_UNIT + ((n % BITS_PER_UNIT == 0) ? 0 : 1 ));
+    }
+
     using Data = std::array<Byte, N>;
     using TwoBytes = std::uint16_t;
 
@@ -117,39 +123,102 @@ public:
         return *this;
     }
 
-    multibyte_number& operator<<=(const int n)
+    // multibyte_number& operator<<=(const int n)
+    // {
+    //     if (n <= 0)
+    //         return *this;
+
+    //     const auto byte_shift = n / 8;
+    //     const auto bit_shift = static_cast<Byte>(n % 8);
+
+    //     left_byte_shift(byte_shift);
+
+    //     if (bit_shift > Byte{0})
+    //     {
+    //         left_bit_shift(bit_shift);
+    //     }
+
+
+    //     return *this;
+    // }
+
+    // multibyte_number& operator>>=(const int n)
+    // {
+    //     if (n <= 0)
+    //         return *this;
+
+    //     const auto byte_shift = n / 8;
+    //     const auto bit_shift = static_cast<Byte>(n % 8);
+
+    //     right_byte_shift(byte_shift);
+
+    //     if (bit_shift > Byte{0})
+    //     {
+    //         right_bit_shift(bit_shift);
+    //     }
+
+    //     return *this;
+    // }
+
+    multibyte_number<N>& operator<<=(const int shift)
     {
-        if (n <= 0)
+        if (shift <= 0)
             return *this;
 
-        const auto byte_shift = n / 8;
-        const auto bit_shift = static_cast<Byte>(n % 8);
+        const int byte_shift = shift / BITS_PER_UNIT;
+        const int bit_shift  = shift % BITS_PER_UNIT;
 
-        left_byte_shift(byte_shift);
-
-        if (bit_shift > Byte{0})
+        if (bit_shift == 0)
         {
-            left_bit_shift(bit_shift);
+            for (auto n = N - 1; n >= byte_shift; --n)
+            {
+                value_[n] = value_[n - byte_shift];
+            }
+        }
+        else
+        {
+            const auto compliment_bit_shift = (BITS_PER_UNIT - bit_shift);
+            for (auto n = N - 1; n > byte_shift; --n)
+            {
+                value_[n] = static_cast<typename Data::value_type>(
+                    (value_[n - byte_shift] << bit_shift)
+                    | (value_[n - byte_shift - 1] >> compliment_bit_shift));
+            }
+            value_[byte_shift] = static_cast<typename Data::value_type>(value_[0] << bit_shift);
         }
 
-
+        std::fill(value_.begin(), value_.begin() + byte_shift, static_cast<Byte>(0));
         return *this;
     }
 
-    multibyte_number& operator>>=(const int n)
+    multibyte_number<N>& operator>>=(const int shift)
     {
-        if (n <= 0)
+        if (shift <= 0)
             return *this;
 
-        const auto byte_shift = n / 8;
-        const auto bit_shift = static_cast<Byte>(n % 8);
+        const auto byte_shift = shift / BITS_PER_UNIT;
+        const auto bit_shift  = shift % BITS_PER_UNIT;
+        const auto limit      = N - byte_shift - 1;
 
-        right_byte_shift(byte_shift);
-
-        if (bit_shift > Byte{0})
+        if (bit_shift == 0)
         {
-            right_bit_shift(bit_shift);
+            for (auto n = 0; n <= limit; ++n)
+            {
+                value_[n] = value_[n + byte_shift];
+            }
         }
+        else
+        {
+            const auto compliment_bit_shift = (BITS_PER_UNIT - bit_shift);
+            for (auto n = 0; n < limit; ++n)
+            {
+                value_[n] = static_cast<typename Data::value_type>(
+                    (value_[n + byte_shift] >> bit_shift)
+                    | (value_[n + byte_shift + 1] << compliment_bit_shift));
+            }
+            value_[limit] = static_cast<typename Data::value_type>(value_[N - 1] >> bit_shift);
+        }
+        std::fill(value_.begin() + limit + 1, value_.end(), static_cast<Byte>(0));
 
         return *this;
     }
