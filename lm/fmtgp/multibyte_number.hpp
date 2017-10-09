@@ -72,7 +72,6 @@ public:
             }
         }
     }
-    //multibyte_number(const std::string& text);
 
     multibyte_number(std::array<Byte, N> init)
         : value_{}
@@ -122,43 +121,6 @@ public:
 
         return *this;
     }
-
-    // multibyte_number& operator<<=(const int n)
-    // {
-    //     if (n <= 0)
-    //         return *this;
-
-    //     const auto byte_shift = n / 8;
-    //     const auto bit_shift = static_cast<Byte>(n % 8);
-
-    //     left_byte_shift(byte_shift);
-
-    //     if (bit_shift > Byte{0})
-    //     {
-    //         left_bit_shift(bit_shift);
-    //     }
-
-
-    //     return *this;
-    // }
-
-    // multibyte_number& operator>>=(const int n)
-    // {
-    //     if (n <= 0)
-    //         return *this;
-
-    //     const auto byte_shift = n / 8;
-    //     const auto bit_shift = static_cast<Byte>(n % 8);
-
-    //     right_byte_shift(byte_shift);
-
-    //     if (bit_shift > Byte{0})
-    //     {
-    //         right_bit_shift(bit_shift);
-    //     }
-
-    //     return *this;
-    // }
 
     multibyte_number<N>& operator<<=(const int shift)
     {
@@ -267,130 +229,6 @@ private:
         }
     }
 
-    void right_byte_shift(int byte_shift)
-    {
-        if (static_cast<typename Data::size_type>(byte_shift) >= value_.size())
-        {
-            std::fill(value_.begin(), value_.end(), Byte{});
-            return;
-        }
-
-        const auto pivot = value_.begin() + byte_shift;
-        const auto t = std::rotate(value_.begin(), pivot, value_.end());
-        std::fill(t, value_.end(), Byte{});
-    }
-
-    void right_bit_shift(Byte bit_shift)
-    {
-        auto carry = Byte{0};
-        std::for_each(value_.rbegin(), value_.rend(),
-                      [this, bit_shift, &carry](Byte& v)
-                      {
-                          std::tie(v, carry) = right_shift_with_carry(v, bit_shift, carry);
-                      });
-    }
-
-    std::tuple<Byte, Byte> right_shift_with_carry(Byte lhs, Byte n, Byte carry)
-    {
-        Converter conv;
-
-        if (endianness::big_endian())
-        {
-            conv.byte[1] = 0;
-            conv.byte[0] = lhs;
-        }
-        else
-        {
-            conv.byte[0] = 0;
-            conv.byte[1] = lhs;
-        }
-
-        conv.result = static_cast<TwoBytes>(conv.result >> n);
-
-        if (endianness::big_endian())
-        {
-            conv.byte[0] |= carry;
-            return std::make_tuple(conv.byte[0], conv.byte[1]);
-        }
-        else
-        {
-            conv.byte[1] |= carry;
-            return std::make_tuple(conv.byte[1], conv.byte[0]);
-        }
-    }
-
-    void left_byte_shift(int byte_shift)
-    {
-        if (static_cast<typename Data::size_type>(byte_shift) >= value_.size())
-        {
-            std::fill(value_.begin(), value_.end(), Byte{});
-            return;
-        }
-
-        auto pivot = value_.end() - byte_shift;
-
-        auto t = std::rotate(value_.begin(), pivot, value_.end());
-        std::fill(value_.begin(), t, Byte{});
-    }
-
-    void left_bit_shift(Byte bit_shift)
-    {
-        auto carry = Byte{0};
-        std::for_each(value_.begin(), value_.end(),
-                      [this, bit_shift, &carry](Byte& v)
-                      {
-                          std::cout << "carry is: " << static_cast<int>(carry) << '\n';
-                          std::tie(v, carry) = left_shift_with_carry(v, bit_shift, carry);
-                      });
-    }
-
-    std::tuple<Byte, Byte> left_shift_with_carry(Byte lhs, Byte n, Byte carry)
-    {
-        Converter conv;
-
-        if (endianness::big_endian())
-        {
-            conv.byte[0] = 0;
-            conv.byte[1] = lhs;
-        }
-        else
-        {
-            conv.byte[1] = 0;
-            conv.byte[0] = lhs;
-        }
-
-        std::cout << "before shift: " << static_cast<int>(conv.byte[0]) << ", " << static_cast<int>(conv.byte[1]) << '\n';
-        conv.result = static_cast<TwoBytes>(conv.result << n);
-        std::cout << "after shift: " << static_cast<int>(conv.byte[0]) << ", " << static_cast<int>(bit_reverse(conv.byte[1])) << '\n';
-
-        if (endianness::big_endian())
-        {
-            conv.byte[1] |= carry;
-            return std::make_tuple(conv.byte[1], conv.byte[0]);
-        }
-        else
-        {
-            conv.byte[1] = bit_reverse(conv.byte[1]);
-            conv.byte[1] |= carry;
-            return std::make_tuple(conv.byte[0], conv.byte[1]); //bit_reverse(conv.byte[1]));
-        }
-    }
-
-    Byte bit_reverse(Byte in_byte)
-    {
-        const std::bitset<8> in{in_byte};
-        std::bitset<8> rv{};
-
-        for (int i = 0; i < 8; ++i)
-        {
-            rv[i] = in[7 - i];
-        }
-
-        std::cout << "in: " << in << " , rv:" << rv << '\n';
-
-        return static_cast<Byte>(rv.to_ulong());
-    }
-
     Data value_;
 };
 
@@ -404,6 +242,22 @@ template <int N>
 std::ostream& operator<<(std::ostream& out, multibyte_number<N> v)
 {
     return out << v.str();
+}
+
+template <int N>
+multibyte_number<N> operator<<(const multibyte_number<N>& num, int shift)
+{
+    auto tmp{num};
+    tmp <<= shift;
+    return tmp;
+}
+
+template <int N>
+multibyte_number<N> operator>>(const multibyte_number<N>& num, int shift)
+{
+    auto tmp{num};
+    tmp >>= shift;
+    return tmp;
 }
 
 #endif // include guard
