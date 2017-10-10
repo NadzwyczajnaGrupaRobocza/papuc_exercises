@@ -122,6 +122,28 @@ public:
         return *this;
     }
 
+    multibyte_number& operator*=(const multibyte_number& rhs)
+    {
+        Byte carry = 0;
+        for (int i = 0; i < N; ++i)
+        {
+            std::tie(value_[i], carry) = mult_with_carry(value_[i], rhs.value_[i], carry);
+        }
+
+        return *this;
+    }
+
+    multibyte_number& operator*=(Byte rhs)
+    {
+        Byte carry = 0;
+        for (int i = 0; i < N; ++i)
+        {
+            std::tie(value_[i], carry) = mult_with_carry(value_[i], rhs, carry);
+        }
+
+        return *this;
+    }
+
     multibyte_number<N>& operator<<=(const int shift)
     {
         if (shift <= 0)
@@ -185,17 +207,6 @@ public:
         return *this;
     }
 
-    multibyte_number& operator*=(Byte rhs)
-    {
-        Byte carry = 0;
-        for (int i = 0; i < N; ++i)
-        {
-            std::tie(value_[i], carry) = mult_with_carry(value_[i], rhs, carry);
-        }
-
-        return *this;
-
-    }
 private:
     std::tuple<Byte, Byte> add_with_carry(Byte lhs, Byte rhs, Byte carry)
     {
@@ -239,9 +250,19 @@ bool operator==(const multibyte_number<N> lhs, const multibyte_number<N> rhs)
 }
 
 template <int N>
-std::ostream& operator<<(std::ostream& out, multibyte_number<N> v)
+multibyte_number<N> operator+(const multibyte_number<N>& lhs, const multibyte_number<N>& rhs)
 {
-    return out << v.str();
+    auto tmp{lhs};
+    tmp += rhs;
+    return tmp;
+}
+
+template <int N>
+multibyte_number<N> operator*(const multibyte_number<N>& lhs, const multibyte_number<N>& rhs)
+{
+    auto tmp{lhs};
+    tmp *= rhs;
+    return tmp;
 }
 
 template <int N>
@@ -258,6 +279,12 @@ multibyte_number<N> operator>>(const multibyte_number<N>& num, int shift)
     auto tmp{num};
     tmp >>= shift;
     return tmp;
+}
+
+template <int N>
+std::ostream& operator<<(std::ostream& out, multibyte_number<N> v)
+{
+    return out << v.str();
 }
 
 #endif // include guard

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "multibyte_number.hpp"
+#include "rsa.hpp"
 
 TEST(multibyte_number, utils_endianness_checker)
 {
@@ -206,4 +207,14 @@ TEST(multibyte_number, left_shift_works_on_bit_level__shifts_under_8_bits)
     ASSERT_EQ(a_5, result_5);
     ASSERT_EQ(a_6, result_6);
     ASSERT_EQ(a_7, result_7);
+}
+
+TEST(multibyte_number, interop_with_power_semigroup)
+{
+    multibyte_number<4> ten{0x0000000A};
+    multibyte_number<4> thousand{0x3E8};
+
+    auto result = power_semigroup(ten, 3, std::multiplies<multibyte_number<4>>{});
+
+    ASSERT_EQ(result, thousand);
 }

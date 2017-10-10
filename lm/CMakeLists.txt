@@ -12,8 +12,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   endif()
 endif()
 
-add_subdirectory(fmtgp)
-
 if(SFML_FOUND)
 add_subdirectory(game01)
 add_subdirectory(game02)
@@ -24,3 +22,7 @@ add_subdirectory(range-playground)
 
 add_subdirectory(chunk-eater)
 add_subdirectory(adapter-types)
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+add_subdirectory(fmtgp)
+endif()
