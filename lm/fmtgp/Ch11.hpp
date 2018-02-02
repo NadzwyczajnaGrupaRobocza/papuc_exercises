@@ -1,8 +1,10 @@
-#pragma once
+#ifndef PAPUC_LM_FMTGP_CH11
+#define PAPUC_LM_FMTGP_CH11 1
 
 #include <utility>
 #include <iterator>
 
+#include <iterator_concepts.hpp>
 #include "Ch04.hpp"
 
 namespace fmtgp
@@ -99,9 +101,7 @@ void rotate_cycle_from(It i, F from)
     *i = tmp;
 }
 
-#define RandomAccessIterator typename
-
-template <RandomAccessIterator It>
+template <PPC_RandomAccessIterator It>
 struct rotate_transform
 {
     DifferenceType<It> plus;
@@ -118,7 +118,7 @@ struct rotate_transform
     }
 };
 
-template <RandomAccessIterator It>
+template <PPC_RandomAccessIterator It>
 It rotate(It f, It m, It l, std::random_access_iterator_tag)
 {
     if (f == m) return l;
@@ -132,4 +132,51 @@ It rotate(It f, It m, It l, std::random_access_iterator_tag)
     return rotator.m1;
 }
 
+template <PPC_BidirectionalIterator It>
+std::pair<It, It> reverse_until(It f, It m, It l)
+{
+    while (f != m and m != l) std::swap(*f++, *--l);
+    return {f, l};
 }
+
+template <PPC_BidirectionalIterator It>
+void reverse(It f, It l, std::bidirectional_iterator_tag)
+{
+    while (f != l and f != --l)
+    {
+        std::swap(*f++, *l);
+    }
+}
+
+template <PPC_Iterator It>
+void reverse(It f, It l)
+{
+    fmtgp::reverse(f, l, typename std::iterator_traits<It>::iterator_category{});
+}
+
+template <PPC_BidirectionalIterator It>
+It rotate(It f, It m, It l, std::bidirectional_iterator_tag)
+{
+    fmtgp::reverse(f, m);
+    fmtgp::reverse(m, l);
+    auto p = reverse_until(f, m, l);
+    fmtgp::reverse(p.first, p.second);
+    if (m == p.first)
+    {
+        return p.second;
+    }
+    else
+    {
+        return p.first;
+    }
+}
+
+template <PPC_Iterator It>
+It rotate(It f, It m, It l)
+{
+    return fmtgp::rotate(f, m, l, typename std::iterator_traits<It>::iterator_category{});
+}
+
+}
+
+#endif // PAPUC_LM_FMTGP_CH11

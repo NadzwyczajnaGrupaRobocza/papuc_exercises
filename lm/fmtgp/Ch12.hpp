@@ -1,2 +1,6 @@
-int euclid_GCD(int a, int b);
-int stein_GCD(int m, int n);
+#ifndef PAPUC_LM_FMTGP_CH12
+#define PAPUC_LM_FMTGP_CH12 1
+
+#include "gcd.hpp"
+
+#endif // include guard

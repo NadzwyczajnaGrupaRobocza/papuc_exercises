@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PAPUC_LM_FMTGP_CH04
+#define PAPUC_LM_FMTGP_CH04 1
+
 #include <utility>
 
 namespace fmtgp
@@ -17,6 +19,7 @@ line_segment half(line_segment);
 
 line_segment gcm_remainder(line_segment, line_segment);
 
+#if defined(__cpp_concepts)
 // clang-format off
 template <typename T>
 concept bool IntegralType = requires(T x)
@@ -33,7 +36,12 @@ concept bool IntegralType = requires(T x)
     { x >= x } -> bool;
 
 };
+
 // clang-format on
+#else
+#define IntegralType typename
+#endif
+
 template <IntegralType T>
 T gcd(T a, T b)
 {
@@ -46,3 +54,5 @@ T gcd(T a, T b)
     return a;
 }
 }
+
+#endif // PAPUC_LM_FMTGP_CH04

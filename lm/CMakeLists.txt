@@ -9,7 +9,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "6.3")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts")
     message("We have shiny new compiler, we'll use some concepts")
-    add_subdirectory(fmtgp)
   endif()
 endif()
 
@@ -23,3 +22,7 @@ add_subdirectory(range-playground)
 
 add_subdirectory(chunk-eater)
 add_subdirectory(adapter-types)
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+add_subdirectory(fmtgp)
+endif()
